@@ -3,301 +3,331 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Hyyryn — The institutional standard for high-stakes services. Access elite professionals through a neutral, escrow-protected environment. No proof, no payout." />
   <title>Hyyryn — The Trust Protocol</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="src/css/styles.css" />
 </head>
 <body>
 
-  <!-- ======= NAVBAR ======= -->
+  <!-- ===================== NAVBAR ===================== -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <button class="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
+      <button class="hamburger" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
       <a href="#" class="nav-logo">
-        <div class="nav-logo-icon">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6L12 2z"/>
-          </svg>
-        </div>
-        <div class="nav-logo-text">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/>
+          <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="nav-logo-text">
           <span class="nav-logo-name">Hyyryn</span>
-          <span class="nav-logo-sub">— The Trust Protocol —</span>
-        </div>
+          <span class="nav-logo-sub">— THE TRUST PROTOCOL —</span>
+        </span>
       </a>
-      <a href="#access" class="btn-signin">Sign In</a>
+      <a href="#" class="btn-signin">Sign In</a>
     </div>
+
+    <!-- Mobile Menu -->
     <div class="mobile-menu">
-      <a href="#how-it-works">How It Works</a>
-      <a href="#categories">Services</a>
-      <a href="#protocol">Evidence Protocol</a>
-      <a href="#metrics">Performance</a>
-      <a href="#access">Get Access</a>
+      <a href="#categories">Service Categories</a>
+      <a href="#protocol">How It Works</a>
+      <a href="#services">Popular Services</a>
+      <a href="#sellers">Become a Seller</a>
+      <a href="#institutional">Enterprise</a>
+      <a href="#" class="mobile-signin">Sign In</a>
     </div>
   </nav>
 
-  <!-- ======= HERO ======= -->
-  <section class="hero" id="home">
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge fade-in">
-          <svg viewBox="0 0 24 24" stroke-width="2.5">
-            <path d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6L12 2z"/>
-          </svg>
-          Institutional-Grade Protection
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        INSTITUTIONAL-GRADE PROTECTION
+      </div>
+      <h1 class="hero-title">
+        The Future of<br>
+        <span class="hero-title-muted">Secured Services</span>
+      </h1>
+      <p class="hero-subtitle">
+        Access elite professionals through a neutral, escrow-protected environment.<br>
+        No proof, no payout.
+      </p>
+      <div class="hero-search">
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search secured services..." />
         </div>
-        <h1 class="fade-in fade-in-delay-1">
-          The Future of<br>
-          <span class="line-muted">Secured Services</span>
-        </h1>
-        <p class="hero-subtitle fade-in fade-in-delay-2">
-          Access elite professionals through a neutral, escrow-protected environment.<br>
-          No proof, no payout.
-        </p>
-        <div class="hero-search fade-in fade-in-delay-3">
-          <div class="search-icon">
-            <svg viewBox="0 0 24 24" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-            </svg>
-          </div>
-          <input type="text" placeholder="Search secured services..." aria-label="Search services" />
-          <button class="btn-search">Search</button>
-        </div>
+        <button class="btn-search">Search</button>
       </div>
     </div>
   </section>
 
-  <!-- ======= TRUST BAR ======= -->
-  <div class="trust-bar">
+  <!-- ===================== CATEGORIES ===================== -->
+  <section class="section-categories" id="categories">
     <div class="container">
-      <div class="trust-bar-inner">
-        <div class="trust-item fade-in">
-          <div class="trust-icon purple">
-            <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <div>
-            <div class="trust-value">5–8%</div>
-            <div class="trust-label">Platform Fee</div>
-          </div>
+      <div class="section-header">
+        <div class="section-label">
+          <span class="label-line"></span>
+          HIGH-VALUE VERTICALS
         </div>
-        <div class="trust-item fade-in fade-in-delay-1">
-          <div class="trust-icon green">
-            <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="trust-value">24–72h</div>
-            <div class="trust-label">Review Window</div>
-          </div>
+        <div class="section-title-row">
+          <h2>Institutional Service Tiers</h2>
+          <a href="#" class="link-explore">Explore all categories —</a>
         </div>
-        <div class="trust-item fade-in fade-in-delay-2">
-          <div class="trust-icon amber">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div>
-            <div class="trust-value">£750+</div>
-            <div class="trust-label">Min. Verification</div>
-          </div>
-        </div>
-        <div class="trust-item fade-in fade-in-delay-3">
-          <div class="trust-icon purple">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div>
-            <div class="trust-value">UK / USA</div>
-            <div class="trust-label">Active Markets</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======= SERVICE CATEGORIES ======= -->
-  <section class="categories" id="categories">
-    <div class="container">
-      <div class="section-header fade-in">
-        <div class="section-tag">Service Categories</div>
-        <h2 class="section-title">Engineered for<br><span style="color:var(--accent-purple-soft)">High-Stakes Environments</span></h2>
-        <p class="section-subtitle">Every category is governed by Hyyryn's evidence-first protocol. Capital is held until proof is verified.</p>
       </div>
       <div class="categories-grid">
         <div class="cat-card fade-in">
-          <div class="cat-icon purple">
-            <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v5"/><circle cx="14" cy="17" r="3"/><circle cx="4.5" cy="17" r="2.5"/></svg>
+          <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80&auto=format&fit=crop" alt="Plumbing" loading="lazy" />
+          <div class="cat-card-overlay">
+            <span class="cat-card-type">— EMERGENCY &amp; REPAIRS</span>
+            <span class="cat-card-name">Plumbing</span>
           </div>
-          <div class="cat-title">Vehicle &amp; Mobility</div>
-          <p class="cat-desc">Security deposits held in impartial escrow. Multi-modal condition evidence protects both parties from wrongful damage claims.</p>
-          <span class="cat-badge">Supercar Rentals · Logistics</span>
         </div>
-        <div class="cat-card fade-in fade-in-delay-1">
-          <div class="cat-icon amber">
-            <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <div class="cat-card fade-in">
+          <img src="https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=600&q=80&auto=format&fit=crop" alt="Electrical" loading="lazy" />
+          <div class="cat-card-overlay">
+            <span class="cat-card-type">— INSTALLATION &amp; MAINTENANCE</span>
+            <span class="cat-card-name">Electrical</span>
           </div>
-          <div class="cat-title">Skilled Technical Trades</div>
-          <p class="cat-desc">Milestone-based capital release upon visual proof of completion. Guaranteed payment for specialist expertise.</p>
-          <span class="cat-badge">Mechanics · Electrical · Plumbing</span>
         </div>
-        <div class="cat-card fade-in fade-in-delay-2">
-          <div class="cat-icon teal">
-            <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+        <div class="cat-card fade-in">
+          <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&q=80&auto=format&fit=crop" alt="Painting" loading="lazy" />
+          <div class="cat-card-overlay">
+            <span class="cat-card-type">— INTERIOR DESIGN</span>
+            <span class="cat-card-name">Painting</span>
           </div>
-          <div class="cat-title">Property Infrastructure</div>
-          <p class="cat-desc">Large-scale projects broken into evidence-milestones. Guaranteed liquidity for professional contractors at every stage.</p>
-          <span class="cat-badge">Renovation · Structural · Interior</span>
         </div>
-        <div class="cat-card fade-in fade-in-delay-1">
-          <div class="cat-icon green">
-            <svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <div class="cat-card fade-in">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80&auto=format&fit=crop" alt="Construction" loading="lazy" />
+          <div class="cat-card-overlay">
+            <span class="cat-card-type">— BUILDING &amp; RENOVATION</span>
+            <span class="cat-card-name">Construction</span>
           </div>
-          <div class="cat-title">Short-Term Rentals</div>
-          <p class="cat-desc">Full escrow coverage for rental deposits. Evidence protocol eliminates dispute risk for landlords and tenants alike.</p>
-          <span class="cat-badge">Residential · Commercial · Event</span>
-        </div>
-        <div class="cat-card fade-in fade-in-delay-2">
-          <div class="cat-icon blue">
-            <svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-          </div>
-          <div class="cat-title">Specialist Services</div>
-          <p class="cat-desc">High-value consulting and specialist work protected end-to-end. Deliverable-based release ensures every engagement is evidence-backed.</p>
-          <span class="cat-badge">Consulting · Legal · Technical</span>
-        </div>
-        <div class="cat-card fade-in fade-in-delay-3">
-          <div class="cat-icon rose">
-            <svg viewBox="0 0 24 24" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          </div>
-          <div class="cat-title">Enterprise Procurement</div>
-          <p class="cat-desc">Institutional-grade settlement for B2B transactions. Multi-party escrow with full audit trail and compliance reporting.</p>
-          <span class="cat-badge">B2B · Procurement · Compliance</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ======= HOW IT WORKS ======= -->
-  <section class="how-it-works" id="how-it-works">
+  <!-- ===================== TRUST PROTOCOL ===================== -->
+  <section class="section-trust" id="protocol">
     <div class="container">
-      <div class="section-header center fade-in">
-        <div class="section-tag">Finality Protocol</div>
-        <h2 class="section-title">How <span style="color:var(--accent-purple-soft)">Hyyryn</span> Works</h2>
-        <p class="section-subtitle">Four deterministic steps that guarantee fair outcomes for buyers and sellers on every transaction.</p>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card fade-in">
-          <div class="step-num">01</div>
-          <div class="step-icon">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <div class="trust-grid">
+        <div class="trust-card fade-in">
+          <div class="trust-card-header">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="trust-code">VAL-01</span>
           </div>
-          <div class="step-title">Initiate</div>
-          <p class="step-desc">Seller defines transaction terms and required evidence. Buyer authenticates and locks capital into the escrow vault.</p>
-          <span class="step-tag">Initiation</span>
+          <h3 class="trust-title">PROOF OF QUALITY</h3>
+          <p class="trust-desc">Every service is delivered with cryptographic evidence of completion to ensure finality.</p>
         </div>
-        <div class="step-card fade-in fade-in-delay-1">
-          <div class="step-num">02</div>
-          <div class="step-icon">
-            <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <div class="trust-card trust-card--active fade-in">
+          <div class="trust-card-header">
+            <div class="trust-icon trust-icon--active">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <span class="trust-code">ESC-02</span>
           </div>
-          <div class="step-title">Evidence</div>
-          <p class="step-desc">Both parties submit timestamped, verifiable proof — photos, video, documentation. Stored immutably in the protocol ledger.</p>
-          <span class="step-tag">Verification</span>
+          <h3 class="trust-title trust-title--active">SECURED PAYOUTS</h3>
+          <p class="trust-desc">Capital is held in neutral escrow layers. No manual intervention unless protocol is breached.</p>
+          <div class="trust-sys-check">&gt;_ SYS_CHECK_PASSED</div>
         </div>
-        <div class="step-card fade-in fade-in-delay-2">
-          <div class="step-num">03</div>
-          <div class="step-icon">
-            <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <div class="trust-card fade-in">
+          <div class="trust-card-header">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <span class="trust-code">EVO-03</span>
           </div>
-          <div class="step-title">Review</div>
-          <p class="step-desc">A 24–72 hour window allows both parties to assess submitted evidence. Disputes can be raised within this period.</p>
-          <span class="step-tag">Review</span>
+          <h3 class="trust-title">EVIDENCE-BASED</h3>
+          <p class="trust-desc">Timestamped metadata and spatial verification protect both transacting parties.</p>
         </div>
-        <div class="step-card fade-in fade-in-delay-3">
-          <div class="step-num">04</div>
-          <div class="step-icon">
-            <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <div class="trust-card fade-in">
+          <div class="trust-card-header">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span class="trust-code">VET-04</span>
           </div>
-          <div class="step-title">Settle</div>
-          <p class="step-desc">Capital released upon mutual confirmation or automatic expiry. Hyyryn's neutral layer arbitrates any disputes raised.</p>
-          <span class="step-tag">Settlement</span>
+          <h3 class="trust-title">VERIFIED NODES</h3>
+          <p class="trust-desc">High-value transactions are exclusively routed through Level 4 verified professionals.</p>
+        </div>
+        <div class="trust-card fade-in">
+          <div class="trust-card-header">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="trust-code">SUP-05</span>
+          </div>
+          <h3 class="trust-title">PROTOCOL SUPPORT</h3>
+          <p class="trust-desc">Automated dispute resolution layers with human arbitrator overrides for edge cases.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ======= EVIDENCE PROTOCOL ======= -->
-  <section class="protocol" id="protocol">
+  <!-- ===================== POPULAR SERVICES ===================== -->
+  <section class="section-services" id="services">
     <div class="container">
-      <div class="protocol-inner">
-        <div class="protocol-visual fade-in">
-          <div class="evidence-list">
-            <div class="evidence-item">
-              <div class="ev-check done">
-                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <span class="ev-text">Pre-condition photo evidence submitted</span>
-              <span class="ev-stamp">Verified</span>
-            </div>
-            <div class="evidence-item">
-              <div class="ev-check done">
-                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <span class="ev-text">Timestamped video walkthrough logged</span>
-              <span class="ev-stamp">Verified</span>
-            </div>
-            <div class="evidence-item">
-              <div class="ev-check done">
-                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <span class="ev-text">Identity verification documents confirmed</span>
-              <span class="ev-stamp">Verified</span>
-            </div>
-            <div class="evidence-item">
-              <div class="ev-check pending">
-                <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-              </div>
-              <span class="ev-text">Post-completion milestone evidence pending</span>
-              <span class="ev-stamp" style="color:var(--accent-purple-soft);background:var(--accent-purple-dim)">Awaiting</span>
-            </div>
-            <div class="evidence-item" style="border-color:rgba(91,63,248,0.2)">
-              <div class="ev-check pending">
-                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <span class="ev-text">Capital held in escrow — <strong style="color:var(--text-primary)">£3,500</strong></span>
-              <span class="ev-stamp" style="color:var(--accent-purple-soft);background:var(--accent-purple-dim)">Locked</span>
-            </div>
+      <div class="section-header">
+        <div class="section-label-light">PROTOCOL HIGH-PERFORMANCE</div>
+        <div class="section-title-row">
+          <h2 class="dark-heading">Most popular services</h2>
+          <div class="services-nav">
+            <button class="nav-arrow" aria-label="Previous">&lt;</button>
+            <button class="nav-arrow" aria-label="Next">&gt;</button>
+            <a href="#" class="btn-explore-services">Explore All Services →</a>
           </div>
         </div>
-        <div class="protocol-content fade-in fade-in-delay-1">
-          <div class="section-tag">Evidence-First</div>
-          <h2 class="section-title">No proof.<br>No payout.</h2>
-          <p class="section-subtitle" style="margin-bottom:36px">Hyyryn's protocol eliminates information asymmetry. Every settlement is governed by immutable, timestamped evidence — not trust alone.</p>
-          <div class="protocol-rules">
-            <div class="rule-item">
-              <div class="rule-icon">
-                <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="services-carousel">
+        <div class="service-card fade-in">
+          <div class="service-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&q=80&auto=format&fit=crop" alt="Plumbing" loading="lazy" />
+            <button class="btn-heart" aria-label="Save">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=500&q=80&auto=format&fit=crop" alt="Electrical" loading="lazy" />
+            <button class="btn-heart" aria-label="Save">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80&auto=format&fit=crop" alt="Painting" loading="lazy" />
+            <button class="btn-heart" aria-label="Save">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=80&auto=format&fit=crop" alt="Construction" loading="lazy" />
+            <button class="btn-heart" aria-label="Save">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SELLER CTA ===================== -->
+  <section class="section-seller" id="sellers">
+    <div class="container">
+      <div class="seller-badge">
+        <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        SUPPLIER INTEGRATION LAYER
+      </div>
+      <h2 class="seller-title">
+        Ready to Accept <span class="seller-title-accent">Protected<br>Payments?</span>
+      </h2>
+      <p class="seller-subtitle">
+        Join a network of quality-focused professionals who leverage our "No<br>
+        Proof, No Payout" protocol to guarantee settlement finality.
+      </p>
+      <div class="seller-ctas">
+        <a href="mailto:hello@hyyryn.com?subject=Seller%20Account%20Request" class="btn-seller-primary">CREATE SELLER ACCOUNT →</a>
+        <a href="mailto:hello@hyyryn.com?subject=Selling%20Enquiry" class="btn-seller-secondary">LEARN ABOUT SELLING</a>
+      </div>
+      <div class="seller-stats">
+        <div class="seller-stat">
+          <div class="seller-stat-icon seller-stat-icon--lock">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="seller-stat-value">£750+</div>
+          <div class="seller-stat-label">KYC THRESHOLD REQUIREMENT</div>
+        </div>
+        <div class="seller-stat">
+          <div class="seller-stat-icon seller-stat-icon--pulse">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="seller-stat-value seller-stat-value--green">5-8%</div>
+          <div class="seller-stat-label">PROTOCOL FEE MARGIN</div>
+        </div>
+        <div class="seller-stat">
+          <div class="seller-stat-icon seller-stat-icon--term">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <div class="seller-stat-value seller-stat-value--amber">24-72h</div>
+          <div class="seller-stat-label">SETTLEMENT FINALITY WINDOW</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INSTITUTIONAL ===================== -->
+  <section class="section-institutional" id="institutional">
+    <div class="institutional-ticker">
+      <div class="ticker-content">
+        <span>Evidence-Based Escrow Protocol</span>
+        <span class="ticker-sep">·</span>
+        <span>THE GLOBAL "NO PROOF, NO PAYOUT" STANDARD</span>
+        <span class="ticker-sep">·</span>
+        <span>STATUS: <span class="ticker-dot">●</span> OPERATIONAL</span>
+        <span class="ticker-sep">·</span>
+        <span>NETWORK: SECURED V4.0</span>
+        <span class="ticker-sep">·</span>
+        <span>Evidence-Based Escrow Protocol</span>
+        <span class="ticker-sep">·</span>
+        <span>THE GLOBAL "NO PROOF, NO PAYOUT" STANDARD</span>
+        <span class="ticker-sep">·</span>
+        <span>STATUS: <span class="ticker-dot">●</span> OPERATIONAL</span>
+        <span class="ticker-sep">·</span>
+        <span>NETWORK: SECURED V4.0</span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="institutional-grid">
+        <div class="institutional-left fade-in">
+          <div class="institutional-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            HYYRYN INSTITUTIONAL
+          </div>
+          <h2 class="institutional-title">The institutional standard<br>for service procurement</h2>
+          <p class="institutional-desc">Deploy our trust protocol across your entire organization. Centralized management for decentralized trust.</p>
+          <div class="institutional-features">
+            <div class="inst-feature">
+              <div class="inst-feature-icon inst-feature-icon--blue">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
               </div>
               <div>
-                <div class="rule-title">Immutable Evidence Ledger</div>
-                <p class="rule-desc">All submitted evidence is cryptographically timestamped and stored. Neither party can alter records after submission.</p>
+                <div class="inst-feature-title">Talent Curators</div>
+                <div class="inst-feature-desc">Top-tier placement in institutional discovery.</div>
               </div>
             </div>
-            <div class="rule-item">
-              <div class="rule-icon">
-                <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <div class="inst-feature">
+              <div class="inst-feature-icon inst-feature-icon--green">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
               </div>
               <div>
-                <div class="rule-title">Time-Locked Review Window</div>
-                <p class="rule-desc">A structured 24–72 hour window ensures both parties have time to raise disputes before capital is released.</p>
+                <div class="inst-feature-title">Risk Mitigation</div>
+                <div class="inst-feature-desc">Industry-leading rates for verified professionals.</div>
               </div>
             </div>
-            <div class="rule-item">
-              <div class="rule-icon">
-                <svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              </div>
+          </div>
+        </div>
+        <div class="institutional-right fade-in">
+          <div class="institutional-img-wrap">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80&auto=format&fit=crop" alt="Institutional office" loading="lazy" />
+            <div class="inst-verified-badge">
+              <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <div>
-                <div class="rule-title">Neutral Capital Settlement</div>
-                <p class="rule-desc">Hyyryn holds all funds in trust and releases only upon verifiable evidence — never on self-reported claims alone.</p>
+                <div class="inst-verified-title">Protocol Verified</div>
+                <div class="inst-verified-sub">SYSTEM OPERATIONAL</div>
               </div>
             </div>
           </div>
@@ -306,146 +336,102 @@
     </div>
   </section>
 
-  <!-- ======= METRICS ======= -->
-  <section class="metrics" id="metrics">
+  <!-- ===================== CTA ===================== -->
+  <section class="section-cta" id="access">
     <div class="container">
-      <div class="section-header center fade-in">
-        <div class="section-tag">Protocol Performance</div>
-        <h2 class="section-title">Built on <span style="color:var(--accent-purple-soft)">Verified Results</span></h2>
-      </div>
-      <div class="metrics-grid">
-        <div class="metric-card featured fade-in">
-          <div class="metric-tag">Neutrality Rate</div>
-          <div class="metric-value"><span data-target="99.4" data-suffix="%">99.4%</span></div>
-          <div class="metric-label">Across all settled transactions</div>
-          <p class="metric-desc">Hyyryn's evidence-first protocol ensures neither party can exploit information asymmetry. Every settlement is backed by immutable proof and neutral arbitration.</p>
-        </div>
-        <div class="metric-card fade-in fade-in-delay-1">
-          <div class="metric-tag">Dispute Rate</div>
-          <div class="metric-value" style="font-size:42px"><span data-target="0.2" data-suffix="%">0.2%</span></div>
-          <div class="metric-label" style="margin-top:8px">Industry-leading outcome</div>
-          <p class="metric-desc" style="margin-top:14px">Mandatory evidence submission before capital release removes the incentive for bad-faith disputes.</p>
-        </div>
-        <div class="metric-card fade-in fade-in-delay-2">
-          <div class="metric-tag">Settlement Speed</div>
-          <div class="metric-value" style="font-size:42px">24h</div>
-          <div class="metric-label" style="margin-top:8px">Average settlement time</div>
-          <p class="metric-desc" style="margin-top:14px">Most transactions settle within 24 hours of evidence submission, without sacrificing security or legal standing.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======= CTA ======= -->
-  <section class="cta-section" id="access">
-    <div class="cta-glow"></div>
-    <div class="container">
-      <h2 class="fade-in">Ready to protect<br><span style="color:var(--accent-purple-soft)">your next transaction?</span></h2>
-      <p class="fade-in fade-in-delay-1">Join professionals and businesses using Hyyryn's trust protocol for high-value deals across the UK and USA.</p>
-      <div class="cta-buttons fade-in fade-in-delay-2">
-        <a href="mailto:hello@hyyryn.com?subject=Hyyryn%20Access%20Request" class="btn-primary">
-          Get Protected
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div class="cta-inner fade-in">
+        <a href="mailto:hello@hyyryn.com?subject=Hyyryn%20Institutional%20Onboarding" class="btn-cta-main">
+          Initiate Institutional Onboarding →
         </a>
-        <a href="#how-it-works" class="btn-ghost">Learn the Protocol</a>
       </div>
     </div>
   </section>
 
-  <!-- ======= FOOTER ======= -->
-  <footer>
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
     <div class="container">
-      <div class="footer-grid">
+      <div class="footer-main">
         <div class="footer-brand">
-          <div class="footer-logo">
-            <div class="footer-logo-icon">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6L12 2z"/>
-              </svg>
-            </div>
-            <span class="footer-logo-name">Hyyryn</span>
-          </div>
-          <p class="footer-tagline">The institutional standard for high-stakes services and rentals. Governed by the "No Proof. No Payout." protocol.</p>
-          <div class="network-status">
-            <span class="status-label">Network Status &nbsp;</span>
-            <div class="status-dot"></div>
-            <span>&nbsp;System Active</span>
+          <a href="#" class="footer-logo">
+            <svg width="32" height="32" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>HYYRYN</span>
+          </a>
+          <p class="footer-brand-desc">
+            The institutional standard for high-stakes services and rentals. Governed by the "No Proof, No Payout" protocol.
+          </p>
+          <div class="footer-status">
+            <span class="status-label">NETWORK STATUS</span>
+            <span class="status-value"><span class="status-dot"></span>SYSTEM ACTIVE</span>
           </div>
         </div>
-        <div class="footer-col">
-          <h5>Discovery</h5>
-          <ul>
-            <li><a href="#categories">Service Search</a></li>
-            <li><a href="#categories">Categories</a></li>
-            <li><a href="#protocol">Verified Nodes</a></li>
-            <li><a href="#protocol">Protocol Ledger</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Protocol</h5>
-          <ul>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#protocol">Evidence Rules</a></li>
-            <li><a href="#metrics">Legal Framework</a></li>
-            <li><a href="#access">Support Hub</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Partners</h5>
-          <ul>
-            <li><a href="#access">Become a Seller</a></li>
-            <li><a href="#access">Buyer Account</a></li>
-            <li><a href="#access">Institutional Pro</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Institutional</h5>
-          <ul>
-            <li><a href="#access">Hyyryn Pro</a></li>
-            <li><a href="#metrics">Compliance</a></li>
-            <li><a href="#">About Hyyryn</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>DISCOVERY</h4>
+            <a href="#">Service Search</a>
+            <a href="#">Categories</a>
+            <a href="#">Verified Nodes</a>
+            <a href="#">Protocol Ledger</a>
+          </div>
+          <div class="footer-col">
+            <h4>PROTOCOL</h4>
+            <a href="#">How It Works</a>
+            <a href="#">Evidence Rules</a>
+            <a href="#">Legal Framework</a>
+            <a href="#">Support Hub</a>
+          </div>
+          <div class="footer-col">
+            <h4>PARTNERS</h4>
+            <a href="#">Become a Seller</a>
+            <a href="#">Buyer Account</a>
+            <a href="#">Institutional Pro</a>
+          </div>
+          <div class="footer-col">
+            <h4>INSTITUTIONAL</h4>
+            <a href="#">Hyyryn Pro</a>
+            <a href="#">Compliance</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container">
-      <div class="compliance-row">
+
+      <div class="footer-compliance">
         <div class="compliance-badge">
-          <span class="compliance-id">ISO</span>
-          <span class="compliance-text">9001 Certified</span>
+          <span class="badge-label">ISO</span>
+          <span class="badge-text">9001 CERTIFIED</span>
         </div>
         <div class="compliance-badge">
-          <span class="compliance-id">PCI</span>
-          <span class="compliance-text">DSS Compliant</span>
+          <span class="badge-label">PCI</span>
+          <span class="badge-text">DSS COMPLIANT</span>
         </div>
         <div class="compliance-badge">
-          <span class="compliance-id">AML</span>
-          <span class="compliance-text">Verified System</span>
+          <span class="badge-label">AML</span>
+          <span class="badge-text">VERIFIED SYSTEM</span>
         </div>
         <div class="compliance-badge">
-          <span class="compliance-id">GDPR</span>
-          <span class="compliance-text">Data Protected</span>
+          <span class="badge-label">GDPR</span>
+          <span class="badge-text">DATA PROTECTED</span>
         </div>
       </div>
-    </div>
-    <div class="container">
+
       <div class="footer-bottom">
-        <p>© 2026 Hyyryn — HypeBox Ltd.</p>
         <div class="footer-legal">
-          <a href="#">Terms</a><span>·</span>
-          <a href="#">Privacy</a><span>·</span>
-          <a href="#">Cookies</a>
+          <span>© HYYRYN LTD. 2026</span>
+          <a href="#">TERMS</a>
+          <a href="#">PRIVACY</a>
+          <a href="#">COOKIES</a>
         </div>
-        <div class="social-links">
-          <a href="#" class="social-link" aria-label="X / Twitter">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M4 4l16 16M4 20L20 4"/></svg>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter/X">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </a>
-          <a href="#" class="social-link" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <a href="#" aria-label="TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.73a4.85 4.85 0 0 1-1-.04z"/></svg>
           </a>
-          <a href="#" class="social-link" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           </a>
         </div>
       </div>
