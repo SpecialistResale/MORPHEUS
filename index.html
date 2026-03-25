@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hyyryn secures capital in escrow until both parties provide verifiable evidence. The institutional trust protocol for high-value transactions." />
+  <title>Hyyryn — Trust Protocol for Transactions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/css/styles.css" />
+  <style>
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in:nth-child(2) { transition-delay: 0.1s; }
+    .fade-in:nth-child(3) { transition-delay: 0.2s; }
+    .fade-in:nth-child(4) { transition-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6L12 2z"/>
+          </svg>
+        </div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">Hyyryn</span>
+          <span class="nav-logo-sub">Trust Protocol</span>
+        </div>
+      </a>
+      <div class="nav-right">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <a href="#access" class="btn-access">Access Hub</a>
+        <button class="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu">
+      <a href="#protocol">Protocol</a>
+      <a href="#verticals">Use Cases</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#access">Access Hub</a>
+    </div>
+  </nav>
+
+  <!-- ======= HERO ======= -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge fade-in">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6L12 2z"/></svg>
+          Institutional Evidence-Based Escrow Protocol V4.0
+        </div>
+        <h1 class="fade-in">
+          Secure settlements.<br>
+          <span class="accent">Executed only with proof.</span>
+        </h1>
+        <p class="hero-subtitle fade-in">
+          Hyyryn secures capital in escrow until both parties provide verifiable evidence.
+          For rentals, skilled trades, and property services where <strong>trust is deterministic</strong> and evidence is essential.
+        </p>
+        <div class="hero-ctas fade-in">
+          <a href="#access" class="btn-primary">
+            Protect a Transaction
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#protocol" class="btn-ghost">
+            View Protocol Logic
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= STATS BAR ======= -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item fade-in">
+          <div class="stat-icon purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="stat-value"><span data-target="6.5" data-prefix="" data-suffix="%">5-8%</span></div>
+            <div class="stat-label">Platform Fee — Based on Transaction Volume</div>
+          </div>
+        </div>
+        <div class="stat-item fade-in">
+          <div class="stat-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="stat-value">24–72h</div>
+            <div class="stat-label">Review Window — Rapid Settlement Finality</div>
+          </div>
+        </div>
+        <div class="stat-item fade-in">
+          <div class="stat-icon amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="stat-value">£750+</div>
+            <div class="stat-label">Verification — Mandatory ID Confirmation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= PROTOCOL ARCHITECTURE ======= -->
+  <section class="protocol" id="protocol">
+    <div class="container">
+      <div class="protocol-header fade-in">
+        <div class="label-tag" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Protocol Architecture
+        </div>
+        <h2>The Hyyryn <span class="accent">Trust Protocol</span></h2>
+        <p>An institutional, evidence-driven settlement process that eliminates counterparty risk in high-value transactions.</p>
+      </div>
+      <div class="protocol-steps">
+        <div class="protocol-step fade-in">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Contract Initialization</h4>
+            <p>Seller creates a transaction node with specified evidence requirements. Buyer authenticates and commits capital into the escrow vault.</p>
+            <span class="step-tag">Initiation</span>
+          </div>
+        </div>
+        <div class="protocol-step fade-in">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Evidence Submission</h4>
+            <p>Both parties upload verifiable proof of condition, delivery, or completion. Multi-modal evidence is timestamped and stored immutably.</p>
+            <span class="step-tag">Verification</span>
+          </div>
+        </div>
+        <div class="protocol-step fade-in">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Review Window</h4>
+            <p>A 24–72 hour review period allows both parties to assess submitted evidence before settlement is triggered. Disputes can be raised within this window.</p>
+            <span class="step-tag">Review</span>
+          </div>
+        </div>
+        <div class="protocol-step fade-in">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Settlement Execution</h4>
+            <p>Upon mutual confirmation or automatic expiry, capital is released to the seller. Dispute resolution is handled by Hyyryn's neutral arbitration layer.</p>
+            <span class="step-tag">Settlement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= OPERATIONAL VERTICALS ======= -->
+  <section class="verticals" id="verticals">
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px; margin-bottom:64px;">
+        <div class="verticals-header fade-in" style="margin-bottom:0">
+          <div class="label-tag" style="margin-bottom:16px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            Operational Verticals
+          </div>
+          <h2>Engineered for<br><span class="accent">High-Stakes Environments</span></h2>
+          <p>The Hyyryn protocol excels where visual evidence is objective, transaction values are significant, and trust requires structural enforcement.</p>
+        </div>
+        <div class="deployment-badge fade-in">
+          <span>Protocol Capacity</span>
+          <span style="font-size:18px; font-weight:800;">Active Deployment</span>
+          <div class="ready-dot">Ready for UK/USA Markets</div>
+        </div>
+      </div>
+      <div class="verticals-grid">
+        <!-- Vehicle & Mobility -->
+        <div class="vertical-card fade-in">
+          <div class="card-body">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v5"/><circle cx="14" cy="17" r="3"/><circle cx="4.5" cy="17" r="2.5"/><path d="M14 7h-4"/></svg>
+            </div>
+            <h3>Vehicle &amp; Mobility Assets</h3>
+            <p>Security deposits held in impartial escrow. Multi-modal condition evidence protects both parties from wrongful damage claims.</p>
+            <div class="ops-label">Supported Operations</div>
+            <div class="ops-list">
+              <div class="ops-item">Supercar Rentals <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="ops-item">Specialist Logistics <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="ops-item">Short-term Luxury Hire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-stat">99.4% Neutrality</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+        </div>
+        <!-- Skilled Trades -->
+        <div class="vertical-card fade-in">
+          <div class="card-body">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <h3>Skilled Technical Trades</h3>
+            <p>Milestone-based capital release upon visual proof of technical completion. Guarantees payment for specialized expertise.</p>
+            <div class="ops-label">Supported Operations</div>
+            <div class="ops-list">
+              <div class="ops-item">Precision Mechanics <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="ops-item">Specialist Electrical <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="ops-item">Industrial Plumbing <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-stat">0.2% Dispute Rate</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+        </div>
+        <!-- Property Infrastructure -->
+        <div class="vertical-card fade-in">
+          <div class="card-body">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <h3>Property Infrastructure</h3>
+            <p>Large-scale enhancement projects decentralized into evidence-milestones. Guaranteed liquidity for professional contractors.</p>
+            <div class="ops-label">Supported Operations</div>
+            <div class="ops-list">
+              <div class="ops-item">Architectural Reno <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="ops-item">Structural Overhaul <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+              <div class="ops-item">Interior Curation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-stat">Fast Settlement</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= HOW IT WORKS ======= -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="label-tag" style="margin-bottom:16px; justify-content:center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Finality Protocol
+        </div>
+        <h2>How <span class="accent">Hyyryn</span> Works</h2>
+        <p>Four deterministic steps that guarantee fair outcomes for both buyers and sellers.</p>
+      </div>
+      <div class="flow-grid">
+        <div class="flow-step fade-in">
+          <div class="flow-number">1</div>
+          <h4>Initiate</h4>
+          <p>Seller defines transaction terms and required evidence. Buyer locks capital in escrow.</p>
+        </div>
+        <div class="flow-step fade-in">
+          <div class="flow-number">2</div>
+          <h4>Evidence</h4>
+          <p>Both parties submit timestamped, verifiable proof — photos, videos, documentation.</p>
+        </div>
+        <div class="flow-step fade-in">
+          <div class="flow-number">3</div>
+          <h4>Review</h4>
+          <p>24–72h window for assessment. Either party can raise a dispute within this period.</p>
+        </div>
+        <div class="flow-step fade-in">
+          <div class="flow-number">4</div>
+          <h4>Settle</h4>
+          <p>Capital released upon confirmation. Hyyryn neutrally arbitrates any disputes raised.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= TRUST METRICS ======= -->
+  <section class="trust-metrics" id="metrics">
+    <div class="container">
+      <div class="section-header fade-in" style="margin-bottom:48px">
+        <div class="label-tag" style="margin-bottom:16px; justify-content:center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Protocol Performance
+        </div>
+        <h2>Built on <span class="accent">Verified Results</span></h2>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card featured fade-in">
+          <div>
+            <div class="metric-value"><span data-target="99.4" data-suffix="%">99.4%</span></div>
+            <div class="metric-label">Neutrality Rate — across all settled transactions</div>
+          </div>
+          <div>
+            <h3>Institutional-grade neutrality</h3>
+            <p>Hyyryn's evidence-first protocol ensures neither party can exploit information asymmetry. Every settlement is backed by immutable proof.</p>
+          </div>
+        </div>
+        <div class="metric-card fade-in">
+          <div class="metric-value" style="font-size:40px"><span data-target="0.2" data-suffix="%">0.2%</span></div>
+          <div class="metric-label" style="margin-top:8px">Dispute Rate</div>
+          <p style="margin-top:16px; font-size:14px; color:var(--text-secondary);">Industry-leading dispute resolution rate, enabled by mandatory evidence submission before capital release.</p>
+        </div>
+        <div class="metric-card fade-in">
+          <div class="metric-value" style="font-size:40px">24h</div>
+          <div class="metric-label" style="margin-top:8px">Average Settlement</div>
+          <p style="margin-top:16px; font-size:14px; color:var(--text-secondary);">Most transactions settle within 24 hours of evidence submission, keeping deals moving without sacrificing security.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= CTA ======= -->
+  <section class="cta-section" id="access">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2>Ready to <span class="accent">protect</span><br>your next transaction?</h2>
+        <p>Join the businesses and professionals using Hyyryn's trust protocol for high-value deals.</p>
+      </div>
+      <div class="cta-buttons fade-in">
+        <a href="#" class="btn-primary">
+          Get Started
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#protocol" class="btn-ghost">Learn the Protocol</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo" style="display:inline-flex">
+            <div class="nav-logo-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6L12 2z"/>
+              </svg>
+            </div>
+            <div class="nav-logo-text">
+              <span class="nav-logo-name">Hyyryn</span>
+              <span class="nav-logo-sub">Trust Protocol</span>
+            </div>
+          </a>
+          <p>The institutional escrow and settlement protocol for high-value transactions. Capital secured until proof is provided.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Protocol</h5>
+          <ul>
+            <li><a href="#protocol">Architecture</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#verticals">Use Cases</a></li>
+            <li><a href="#metrics">Performance</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#">Access Hub</a></li>
+            <li><a href="#">Buyer Dashboard</a></li>
+            <li><a href="#">Seller Dashboard</a></li>
+            <li><a href="#">Marketplace</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">About Hyyryn</a></li>
+            <li><a href="#">Legal Framework</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Hyyryn — HypeBox Ltd. Institutional Evidence-Based Escrow Protocol V4.0</p>
+        <div class="footer-flags">
+          <span class="flag-badge">🇬🇧 UK</span>
+          <span class="flag-badge">🇺🇸 USA</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/js/main.js"></script>
+</body>
+</html>
