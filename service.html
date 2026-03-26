@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyyryn — Asset Deployment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #F9FAFB;
+      --bg-card:  #FFFFFF;
+      --accent:   #5B3FF8;
+      --green:    #10B981;
+      --amber:    #F59E0B;
+      --blue:     #3B82F6;
+      --red:      #EF4444;
+      --purple:   #8B5CF6;
+      --navy:     #0F172A;
+      --text:     #0F172A;
+      --text-mid: #475569;
+      --muted:    #94A3B8;
+      --border:   #E2E8F0;
+      --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius:   12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Protocol Top Bar ── */
+    .protocol-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+      background: var(--navy);
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      transition: transform .3s ease;
+    }
+    .protocol-bar.hidden { transform: translateY(-100%); }
+    .protocol-bar-left { display: flex; align-items: center; gap: 24px; }
+    .btn-exit {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.8); font-family: var(--font);
+      font-size: 12px; font-weight: 700;
+      padding: 7px 14px; border-radius: 7px;
+      cursor: pointer; transition: all .2s; text-decoration: none;
+    }
+    .btn-exit:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .bar-breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.3); }
+    .bar-breadcrumb svg { opacity: .4; }
+    .bar-breadcrumb span { color: rgba(255,255,255,.5); }
+    .bar-breadcrumb .current { color: var(--accent); font-weight: 700; }
+    .bar-right { display: flex; align-items: center; gap: 10px; }
+    .protocol-secured-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
+      color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 6px 14px; border-radius: 8px;
+    }
+    .dot-pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+    .bar-icon-btn { width: 34px; height: 34px; border-radius: 7px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); cursor: pointer; transition: background .2s; }
+    .bar-icon-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+    /* ── Page ── */
+    .page { padding-top: 56px; }
+
+    /* ── Main Layout ── */
+    .main-layout { display: grid; grid-template-columns: 1fr 360px; gap: 0; min-height: calc(100vh - 56px); }
+
+    /* ── Left ── */
+    .left-col { padding: 36px 48px 60px; border-right: 1px solid var(--border); }
+
+    /* Image gallery */
+    .hero-img {
+      position: relative; border-radius: 16px; overflow: hidden;
+      margin-bottom: 14px; background: #1a1a2e;
+    }
+    .hero-img img { width: 100%; height: 420px; object-fit: cover; display: block; }
+    .hero-img-placeholder { width: 100%; height: 420px; display: flex; align-items: center; justify-content: center; font-size: 80px; background: linear-gradient(135deg, #1a1a2e, #2d1b69); }
+    .condition-tag {
+      position: absolute; bottom: 18px; left: 18px;
+      background: rgba(0,0,0,.75); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+      padding: 8px 14px; border-radius: 8px;
+    }
+    .thumb-row { display: flex; gap: 10px; margin-bottom: 28px; }
+    .thumb {
+      width: 90px; height: 68px; border-radius: 10px; overflow: hidden;
+      border: 2px solid transparent; cursor: pointer; transition: border-color .2s;
+      flex-shrink: 0; background: #1a1a2e; display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .thumb.active { border-color: var(--accent); }
+    .thumb:hover { border-color: rgba(91,63,248,.4); }
+
+    /* Provider badges */
+    .listing-badges { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .badge-pro {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--navy); color: #fff;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.8px;
+      padding: 7px 14px; border-radius: 8px;
+    }
+    .badge-pro svg { color: var(--amber); }
+    .badge-location { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+
+    /* Big title */
+    .listing-title { font-size: 42px; font-weight: 900; color: var(--navy); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 24px; }
+    .listing-title span { color: var(--accent); }
+
+    /* 3-feature row */
+    .feature-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px;
+    }
+    .feature-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .fi--grey { background: #F1F5F9; }
+    .fi--green { background: #ECFDF5; color: var(--green); }
+    .fi--dark { background: var(--navy); color: #fff; }
+    .feature-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 5px; }
+    .feature-title { font-size: 14px; font-weight: 800; color: var(--navy); line-height: 1.35; }
+
+    /* Governance block */
+    .governance-block {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px; padding: 24px;
+      margin-bottom: 24px;
+    }
+    .gov-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+    .governance-text { font-size: 14px; font-weight: 500; color: var(--text-mid); line-height: 1.7; }
+
+    /* Specs grid */
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; }
+    .spec-block-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+    .spec-item { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 12px; font-size: 14px; font-weight: 600; color: var(--navy); }
+    .spec-check { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+    .spec-link { color: var(--accent); display: flex; align-items: center; gap: 6px; }
+    .spec-link svg { flex-shrink: 0; }
+
+    /* Reviews */
+    .review-section-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .review-section-label span { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); }
+    .review-rating { display: inline-flex; align-items: center; gap: 6px; color: var(--amber); font-size: 13px; font-weight: 800; }
+    .review-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .review-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .reviewer { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .reviewer-avatar { width: 36px; height: 36px; border-radius: 8px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .reviewer-id { font-size: 13px; font-weight: 800; color: var(--navy); }
+    .reviewer-date { font-size: 11px; color: var(--muted); }
+    .review-stars { color: var(--amber); font-size: 13px; margin-bottom: 6px; }
+    .review-text { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+
+    /* ── Right sticky col ── */
+    .right-col { padding: 28px 32px; position: sticky; top: 56px; height: fit-content; }
+
+    /* Pricing card */
+    .price-card {
+      background: var(--navy); border-radius: 16px;
+      padding: 24px; margin-bottom: 14px;
+    }
+    .price-card-label { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: rgba(255,255,255,.4); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+    .price-card-label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
+    .price-big { font-size: 52px; font-weight: 900; color: #fff; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
+    .price-per { font-size: 12px; color: rgba(255,255,255,.4); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    /* Booking fields */
+    .booking-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px; margin-bottom: 14px;
+    }
+    .field-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .field-input {
+      display: flex; align-items: center; gap: 10px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 12px 14px; margin-bottom: 16px;
+      font-size: 14px; font-weight: 600; color: var(--text-mid);
+      cursor: pointer; transition: border-color .2s;
+    }
+    .field-input:hover { border-color: var(--accent); }
+    .field-input input {
+      background: none; border: none; outline: none;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      color: var(--text-mid); width: 100%; cursor: pointer;
+    }
+    .field-select-wrap { position: relative; margin-bottom: 20px; }
+    .field-select {
+      width: 100%; padding: 12px 36px 12px 14px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      color: var(--text-mid); background: #fff;
+      appearance: none; cursor: pointer; outline: none;
+      transition: border-color .2s;
+    }
+    .field-select:focus { border-color: var(--accent); }
+    .field-select-wrap svg { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+
+    /* Line items */
+    .line-items { border-top: 1px solid var(--border); padding-top: 16px; }
+    .line-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
+    .line-item-label { color: var(--muted); font-weight: 600; letter-spacing: 0.3px; }
+    .line-item-val { font-weight: 700; color: var(--text-mid); }
+    .line-total { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1.5px solid var(--border); font-weight: 800; }
+    .line-total-label { font-size: 12px; letter-spacing: 1px; color: var(--navy); }
+    .line-total-val { font-size: 22px; color: var(--accent); letter-spacing: -0.5px; }
+
+    /* CTA buttons */
+    .btn-deploy {
+      width: 100%; padding: 16px;
+      background: var(--navy); border: none; border-radius: 12px;
+      font-family: var(--font); font-size: 14px; font-weight: 900; letter-spacing: 1px;
+      color: #fff; cursor: pointer; transition: background .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .btn-deploy:hover { background: #1E293B; }
+    .escrow-row {
+      display: flex; align-items: center; gap: 10px;
+      background: #F8FAFC; border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px;
+      font-size: 12px; font-weight: 700; color: var(--text-mid);
+      margin-bottom: 14px;
+    }
+    .escrow-row svg { color: var(--green); flex-shrink: 0; }
+
+    /* Provider card */
+    .provider-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 22px;
+    }
+    .prov-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .prov-avatar-big {
+      width: 56px; height: 56px; border-radius: 12px;
+      background: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 900; color: #fff; flex-shrink: 0;
+      position: relative;
+    }
+    .prov-verified-dot {
+      position: absolute; bottom: -4px; right: -4px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--green); border: 2px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prov-name { font-size: 16px; font-weight: 900; color: var(--navy); margin-bottom: 3px; }
+    .prov-role { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.5px; }
+    .prov-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .pstat { background: #F8FAFC; border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+    .pstat-num { font-size: 22px; font-weight: 900; color: var(--navy); letter-spacing: -0.5px; }
+    .pstat-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--muted); margin-top: 3px; }
+    .prov-tags { display: flex; flex-direction: column; gap: 7px; }
+    .prov-tag { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text-mid); }
+    .prov-tag svg { color: var(--green); flex-shrink: 0; }
+    .prov-tag--accent { color: var(--accent); }
+    .prov-tag--accent svg { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PROTOCOL TOP BAR ═══ -->
+<div class="protocol-bar" id="protocolBar">
+  <div class="protocol-bar-left">
+    <a href="/search" class="btn-exit">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Exit Protocol
+    </a>
+    <div class="bar-breadcrumb">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <span>Hyyryn</span>
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span>Discovery Engine</span>
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="current">ASSET DEPLOYMENT</span>
+    </div>
+  </div>
+  <div class="bar-right">
+    <div class="protocol-secured-badge">
+      <div class="dot-pulse"></div>
+      Protocol Secured Connection
+    </div>
+    <div class="bar-icon-btn">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </div>
+    <div class="bar-icon-btn">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="main-layout">
+
+    <!-- ═══ LEFT COL ═══ -->
+    <div class="left-col">
+
+      <!-- Image gallery -->
+      <div class="hero-img">
+        <div class="hero-img-placeholder">🚗</div>
+        <div class="condition-tag">CONDITION LOG: SECURED EVIDENCE</div>
+      </div>
+      <div class="thumb-row">
+        <div class="thumb active">🌆</div>
+        <div class="thumb">🚘</div>
+        <div class="thumb">🏎️</div>
+        <div class="thumb">⭐</div>
+        <div class="thumb">👤</div>
+      </div>
+
+      <!-- Badges -->
+      <div class="listing-badges">
+        <div class="badge-pro">
+          <svg width="13" height="13" fill="var(--amber)" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          VERIFIED INSTITUTIONAL PRO
+        </div>
+        <div class="badge-location">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          LONDON REGIONAL CLUSTER
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="listing-title">
+        Luxury Vehicle<br>
+        Rental <span>Mercedes S-Class</span>
+      </div>
+
+      <!-- 3 feature cards -->
+      <div class="feature-row">
+        <div class="feature-card">
+          <div class="feature-icon fi--grey">
+            <svg width="22" height="22" fill="none" stroke="#94A3B8" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="feature-label">ESCROW PROTOCOL</div>
+          <div class="feature-title">Payout Released Only via Visual Evidence Verification</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi--green">
+            <svg width="22" height="22" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="feature-label">EVIDENCE MATRIX</div>
+          <div class="feature-title">Mandatory 4K Visual Condition Reports Required</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi--dark">
+            <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="feature-label">RESOLUTION LOG</div>
+          <div class="feature-title">Fast-Track Arbitration via Protocol Governance</div>
+        </div>
+      </div>
+
+      <!-- Governance summary -->
+      <div class="governance-block">
+        <div class="gov-label">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          EXECUTIVE GOVERNANCE SUMMARY
+        </div>
+        <div class="governance-text">
+          Experience institutional-grade luxury with our pristine Mercedes S-Class deployment. This asset is maintained under strict protocol standards, ensuring maximum reliability for high-stakes operations. All handovers are governed by Hyyryn's "No Proof, No Payout" security layer, protecting both provider and client integrity.
+        </div>
+      </div>
+
+      <!-- Specs grid -->
+      <div class="specs-grid">
+        <div>
+          <div class="spec-block-label">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            INCLUDED PROTOCOL ASSETS
+          </div>
+          <div class="spec-item"><span class="spec-check"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Tier 1 Insurance Coverage</div>
+          <div class="spec-item"><span class="spec-check"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>24/7 Global Field Assistance</div>
+          <div class="spec-item"><span class="spec-check"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Secured GPS Navigation Layer</div>
+        </div>
+        <div>
+          <div class="spec-block-label">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            TECHNICAL DEPLOYMENT SPECS
+          </div>
+          <div class="spec-item"><span class="spec-link"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>Institutional Audio Environment</div>
+          <div class="spec-item"><span class="spec-link"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>Professional Chauffeur Node</div>
+          <div class="spec-item"><span class="spec-link"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>Regional Delivery Protocol</div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="review-section-label">
+        <span>TRANSACTION INTEGRITY LOG</span>
+        <div class="review-rating">
+          ★ 4.9 Protocol Rating
+        </div>
+      </div>
+      <div class="review-cards">
+        <div class="review-card">
+          <div class="reviewer">
+            <div class="reviewer-avatar">US</div>
+            <div>
+              <div class="reviewer-id">Secured Node #4822</div>
+              <div class="reviewer-date">Contract Verified Jan 2026</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">Flawless execution. Evidence package was submitted within 30 minutes of handover. Protocol governed every stage — no ambiguity, no disputes.</div>
+        </div>
+        <div class="review-card">
+          <div class="reviewer">
+            <div class="reviewer-avatar">US</div>
+            <div>
+              <div class="reviewer-id">Secured Node #4823</div>
+              <div class="reviewer-date">Contract Verified Jan 2026</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">Second deployment with this provider. Escrow released same day as evidence cleared. Institutional standard throughout the entire cycle.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ RIGHT COL ═══ -->
+    <div class="right-col">
+
+      <!-- Pricing card -->
+      <div class="price-card">
+        <div class="price-card-label">CONTRACT RATE PROTOCOL</div>
+        <div class="price-big">£250</div>
+        <div class="price-per">/ Deployment Cycle</div>
+      </div>
+
+      <!-- Booking fields -->
+      <div class="booking-card">
+        <div class="field-label">ENGAGEMENT START DATE</div>
+        <div class="field-input">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <input type="text" placeholder="dd/mm/yyyy" />
+        </div>
+
+        <div class="field-label">OPERATIONAL CYCLES</div>
+        <div class="field-select-wrap">
+          <select class="field-select">
+            <option>01 Cycle (24h Window)</option>
+            <option>02 Cycles (48h Window)</option>
+            <option>03 Cycles (72h Window)</option>
+            <option>07 Cycles (Weekly)</option>
+          </select>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+
+        <div class="line-items">
+          <div class="line-item">
+            <span class="line-item-label">BASE CALCULATION</span>
+            <span class="line-item-val">£250.00</span>
+          </div>
+          <div class="line-item">
+            <span class="line-item-label">PROTOCOL LAYER FEE</span>
+            <span class="line-item-val">£25.00</span>
+          </div>
+          <div class="line-item">
+            <span class="line-item-label">PLATFORM SECURITY (3%)</span>
+            <span class="line-item-val">£7.50</span>
+          </div>
+          <div class="line-total">
+            <span class="line-total-label">ENGAGEMENT TOTAL</span>
+            <span class="line-total-val">£282.50</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deploy button -->
+      <button class="btn-deploy">
+        INITIATE DEPLOYMENT
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </button>
+
+      <!-- Escrow info -->
+      <div class="escrow-row">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Active Escrow Protection Secured
+      </div>
+
+      <!-- Provider card -->
+      <div class="provider-card">
+        <div class="prov-head">
+          <div class="prov-avatar-big">
+            JD
+            <div class="prov-verified-dot">
+              <svg width="10" height="10" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div>
+            <div class="prov-name">James Davidson</div>
+            <div class="prov-role">PROTOCOL VERIFIED NODE</div>
+          </div>
+        </div>
+        <div class="prov-stats">
+          <div class="pstat">
+            <div class="pstat-num">4.9</div>
+            <div class="pstat-label">TRUST SCORE</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-num">245</div>
+            <div class="pstat-label">OPS FINALIZED</div>
+          </div>
+        </div>
+        <div class="prov-tags">
+          <div class="prov-tag">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Tier 04 Institutional Node
+          </div>
+          <div class="prov-tag">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Biometric Identity Verified
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const bar = document.getElementById('protocolBar');
+    const y = window.scrollY;
+    if (y > lastY && y > 60) { bar.classList.add('hidden'); } else { bar.classList.remove('hidden'); }
+    lastY = y;
+  });
+
+  // Thumbnail switching
+  document.querySelectorAll('.thumb').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyyryn — Explore the Institutional Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #F9FAFB;
+      --bg-card:  #FFFFFF;
+      --accent:   #5B3FF8;
+      --green:    #10B981;
+      --amber:    #F59E0B;
+      --blue:     #3B82F6;
+      --red:      #EF4444;
+      --purple:   #8B5CF6;
+      --navy:     #0F172A;
+      --text:     #0F172A;
+      --text-mid: #475569;
+      --muted:    #94A3B8;
+      --border:   #E2E8F0;
+      --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius:   12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Navbar ── */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: #fff; border-bottom: 1px solid rgba(0,0,0,.06); height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; transition: transform .3s ease; }
+    .navbar.hidden { transform: translateY(-100%); }
+    .navbar.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,.07); }
+    .ham-trigger { width: 38px; height: 38px; border-radius: 8px; background: none; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: background .2s; }
+    .ham-trigger:hover { background: #F1F5F9; }
+    .ham-trigger span { display: block; width: 18px; height: 2px; background: var(--navy); border-radius: 2px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-logo-name { font-size: 18px; font-weight: 700; color: var(--navy); letter-spacing: -.3px; line-height: 1; }
+    .nav-logo-sub { font-size: 9px; font-weight: 500; color: #6B7280; letter-spacing: 1.5px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-icon-btn { position: relative; width: 38px; height: 38px; border-radius: 8px; background: none; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; color: var(--text-mid); text-decoration: none; }
+    .nav-icon-btn:hover { background: #F1F5F9; }
+    .nav-badge { position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px; border-radius: 100px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 800; padding: 0 4px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+    .nav-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; cursor: pointer; }
+
+    /* ── Page ── */
+    .page { padding-top: 68px; }
+
+    /* ── Dark Hero ── */
+    .hero {
+      background: linear-gradient(160deg, #0A0D1A 0%, #0F172A 55%, #12183A 100%);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -80px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(91,63,248,.12) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: 20%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(59,130,246,.08) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+
+    /* Top bar */
+    .hero-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px 0;
+      position: relative; z-index: 2;
+    }
+    .btn-return {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.75);
+      font-family: var(--font);
+      font-size: 12px; font-weight: 700;
+      padding: 9px 16px; border-radius: 8px;
+      cursor: pointer; transition: all .2s;
+      text-decoration: none;
+    }
+    .btn-return:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .hero-breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,.3);
+    }
+    .hero-breadcrumb span { color: rgba(255,255,255,.6); }
+    .hero-breadcrumb .current { color: var(--accent); }
+    .hero-breadcrumb svg { opacity: .4; }
+    .btn-institutional {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(91,63,248,.15);
+      border: 1px solid rgba(91,63,248,.3);
+      color: rgba(167,139,250,1);
+      font-family: var(--font);
+      font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 9px 16px; border-radius: 8px;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-institutional:hover { background: rgba(91,63,248,.22); }
+
+    /* Hero content */
+    .hero-content { padding: 32px 48px 36px; position: relative; z-index: 2; }
+    .hero-title { font-size: 36px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 28px; line-height: 1.1; }
+    .hero-title span { color: var(--accent); }
+
+    /* Search bar */
+    .search-bar {
+      display: flex; align-items: center; gap: 0;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      overflow: hidden;
+      max-width: 900px;
+      margin-bottom: 32px;
+    }
+    .search-main {
+      flex: 1;
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 20px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .search-main svg { color: rgba(255,255,255,.4); flex-shrink: 0; }
+    .search-main input {
+      background: none; border: none; outline: none;
+      font-family: var(--font); font-size: 15px; font-weight: 500;
+      color: #fff; width: 100%; height: 56px;
+    }
+    .search-main input::placeholder { color: rgba(255,255,255,.3); }
+    .search-location {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px; min-width: 200px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .search-location svg { color: rgba(255,255,255,.4); flex-shrink: 0; }
+    .search-location input {
+      background: none; border: none; outline: none;
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      color: #fff; width: 100%; height: 56px;
+    }
+    .search-location input::placeholder { color: rgba(255,255,255,.3); }
+    .search-config {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 20px; height: 56px;
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6);
+      cursor: pointer; transition: color .2s;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .search-config:hover { color: #fff; }
+    .btn-search {
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent); border: none;
+      color: #fff; font-family: var(--font);
+      font-size: 14px; font-weight: 800; letter-spacing: 0.3px;
+      padding: 0 28px; height: 56px; cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-search:hover { background: #4A30E0; }
+
+    /* Stats bar */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 900px;
+    }
+    .stat-item {
+      padding: 18px 24px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.3); margin-bottom: 6px; }
+    .stat-item-val { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.5px; line-height: 1; }
+    .stat-item-val span { font-size: 13px; font-weight: 700; color: var(--green); margin-left: 6px; }
+    .stat-item-val .bars { display: inline-flex; gap: 2px; vertical-align: middle; margin-left: 6px; }
+    .stat-item-val .bars i { display: inline-block; width: 3px; border-radius: 1px; background: var(--accent); }
+    .stat-item-val .lightning { display: inline-flex; align-items: center; margin-left: 4px; color: var(--amber); }
+
+    /* ── Main Layout ── */
+    .main-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; padding: 28px 48px; align-items: start; }
+
+    /* ── Filter Panel ── */
+    .filter-panel {
+      background: var(--navy);
+      border-radius: 16px;
+      overflow: hidden;
+      position: sticky; top: 88px;
+    }
+
+    /* Tabs */
+    .ftabs { display: flex; padding: 12px; gap: 4px; background: #161D2E; }
+    .ftab {
+      flex: 1; padding: 9px 0; text-align: center;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+      border-radius: 8px; cursor: pointer; border: none;
+      font-family: var(--font);
+      color: rgba(255,255,255,.4);
+      background: transparent;
+      transition: all .2s;
+    }
+    .ftab.active { background: var(--accent); color: #fff; }
+    .ftab:not(.active):hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); }
+
+    /* Filter sections */
+    .filter-section { padding: 20px 20px 0; }
+    .filter-section-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.25); margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+    .filter-reset { font-size: 11px; font-weight: 700; color: var(--accent); cursor: pointer; letter-spacing: 0; }
+    .filter-check { display: flex; align-items: center; gap: 10px; padding: 9px 0; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .filter-check:last-child { border-bottom: none; }
+    .filter-check input[type="checkbox"] { width: 16px; height: 16px; border-radius: 4px; accent-color: var(--accent); cursor: pointer; }
+    .filter-check label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.75); cursor: pointer; }
+
+    .filter-separator { height: 1px; background: rgba(255,255,255,.06); margin: 16px 0 0; }
+
+    /* Budget dropdown */
+    .filter-select-wrap { position: relative; margin-bottom: 16px; }
+    .filter-select {
+      width: 100%; padding: 11px 36px 11px 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      font-family: var(--font); font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.75);
+      appearance: none; cursor: pointer; outline: none;
+    }
+    .filter-select-wrap::after { content: ''; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid rgba(255,255,255,.4); pointer-events: none; }
+
+    /* Toggle */
+    .filter-toggle { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,.06); }
+    .filter-toggle-label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.75); }
+    .toggle-switch { position: relative; width: 36px; height: 20px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; background: var(--accent); border-radius: 100px; cursor: pointer; }
+    .toggle-slider::before { content: ''; position: absolute; width: 14px; height: 14px; background: #fff; border-radius: 50%; top: 3px; right: 3px; transition: transform .2s; }
+
+    /* ── Results ── */
+    .results-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 0 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .results-showing { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
+    .results-showing strong { color: var(--navy); }
+    .sort-row { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--muted); }
+    .sort-select { background: none; border: none; font-family: var(--font); font-size: 11px; font-weight: 700; color: var(--accent); cursor: pointer; outline: none; }
+
+    /* Result card */
+    .result-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      transition: box-shadow .2s, border-color .2s;
+      cursor: pointer;
+    }
+    .result-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,.08); border-color: rgba(91,63,248,.2); }
+
+    /* Image side */
+    .card-img { position: relative; overflow: hidden; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; min-height: 220px; display: block; }
+    .card-img-placeholder {
+      width: 100%; min-height: 220px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+    }
+    .card-tag {
+      position: absolute; top: 14px; left: 14px;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.8px;
+      padding: 5px 10px; border-radius: 6px;
+    }
+    .tag--supply { background: var(--accent); color: #fff; }
+    .tag--demand { background: var(--amber); color: #fff; }
+    .card-tag2 {
+      position: absolute; top: 44px; left: 14px;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700;
+      padding: 4px 10px; border-radius: 6px;
+      background: rgba(255,255,255,.15); color: #fff;
+      backdrop-filter: blur(4px);
+    }
+    .card-tag2 svg { opacity: .9; }
+
+    /* Detail side */
+    .card-detail { padding: 22px 24px; display: flex; flex-direction: column; }
+    .card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .card-meta-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      color: var(--accent); }
+    .card-meta-sep { color: var(--muted); font-size: 11px; }
+    .card-meta-tier { font-size: 11px; font-weight: 700; color: var(--muted); }
+    .card-icons { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+    .card-icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); cursor: pointer; transition: all .2s; }
+    .card-icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .card-icon-btn.dark { background: var(--navy); border-color: var(--navy); color: #fff; }
+    .card-title { font-size: 20px; font-weight: 900; color: var(--navy); letter-spacing: -0.3px; margin-bottom: 14px; line-height: 1.3; }
+    .card-provider { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .provider-avatar { width: 36px; height: 36px; border-radius: 8px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .provider-name { font-size: 13px; font-weight: 800; color: var(--navy); }
+    .provider-role { font-size: 11px; color: var(--muted); font-weight: 500; }
+    .provider-verified { color: var(--green); }
+    .provider-stats { margin-left: 24px; display: flex; gap: 24px; }
+    .pstat-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; }
+    .pstat-val { font-size: 13px; font-weight: 800; color: var(--navy); display: flex; align-items: center; gap: 4px; }
+    .star { color: var(--amber); }
+
+    /* Evidence row */
+    .evidence-row {
+      display: flex; align-items: center; gap: 12px;
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+    }
+    .evidence-row svg { color: var(--accent); flex-shrink: 0; }
+    .evidence-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--muted); }
+    .evidence-text { font-size: 12px; font-weight: 700; color: var(--navy); }
+    .escrow-badge {
+      margin-left: auto; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #ECFDF5; border: 1px solid #A7F3D0;
+      color: var(--green); font-size: 11px; font-weight: 700;
+      padding: 5px 12px; border-radius: 100px;
+    }
+
+    /* CTA row */
+    .cta-row { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+    .cta-price { flex: 1; }
+    .cta-price-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+    .cta-price-val { font-size: 24px; font-weight: 900; color: var(--navy); letter-spacing: -0.5px; }
+    .cta-price-per { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+    .btn-review {
+      padding: 11px 20px; border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: none;
+      font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+      color: var(--navy); cursor: pointer; transition: all .2s;
+    }
+    .btn-review:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-initiate {
+      padding: 11px 22px; border-radius: 10px;
+      border: none; background: var(--navy);
+      font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+      color: #fff; cursor: pointer; transition: background .2s;
+    }
+    .btn-initiate:hover { background: #1E293B; }
+
+    /* ── Hamburger slide-out ── */
+    .ham-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 999; opacity: 0; pointer-events: none; transition: opacity .25s; backdrop-filter: blur(4px); }
+    .ham-overlay.open { opacity: 1; pointer-events: all; }
+    .ham-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 300px; background: #0F1525; border-left: 1px solid rgba(255,255,255,.07); z-index: 1000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .28s cubic-bezier(.4,0,.2,1); overflow-y: auto; }
+    .ham-panel.open { transform: translateX(0); }
+    .ham-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ham-user { display: flex; align-items: center; gap: 12px; }
+    .ham-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .ham-uname { font-size: 14px; font-weight: 800; color: #fff; }
+    .ham-urole { font-size: 11px; color: #8B5CF6; font-weight: 600; margin-top: 1px; }
+    .ham-close { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.06); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); transition: background .2s; }
+    .ham-close:hover { background: rgba(255,255,255,.1); }
+    .ham-section { padding: 14px 20px 4px; }
+    .ham-section-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); }
+    .ham-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.65); cursor: pointer; transition: all .2s; text-decoration: none; }
+    .ham-item:hover { background: rgba(255,255,255,.04); color: #fff; }
+    .ham-item--red { color: rgba(239,68,68,.8); }
+    .ham-item--red:hover { background: rgba(239,68,68,.08); color: var(--red); }
+    .ham-badge { margin-left: auto; min-width: 20px; height: 20px; background: var(--accent); border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; padding: 0 5px; }
+    .ham-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: rgba(255,255,255,.25); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HAMBURGER SLIDE-OUT ═══ -->
+<div class="ham-overlay" id="hamOverlay" onclick="closeHam()"></div>
+<div class="ham-panel" id="hamPanel">
+  <div class="ham-top">
+    <div class="ham-user">
+      <div class="ham-avatar">J</div>
+      <div>
+        <div class="ham-uname">James Davidson</div>
+        <div class="ham-urole">Protocol Verified Node</div>
+      </div>
+    </div>
+    <button class="ham-close" onclick="closeHam()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="ham-section"><div class="ham-section-label">NAVIGATION</div></div>
+  <a href="/" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <a href="/buyer-dashboard" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+  <a href="/search" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Discovery Engine</a>
+  <a href="/favourites" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved Services<span class="ham-badge" style="background:#F59E0B">12</span></a>
+  <div class="ham-section"><div class="ham-section-label">COMMUNICATION</div></div>
+  <a href="/messages" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages<span class="ham-badge">3</span></a>
+  <div class="ham-section"><div class="ham-section-label">ACCOUNT</div></div>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Settings</div>
+  <div class="ham-item ham-item--red" style="margin-top:4px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</div>
+  <div class="ham-footer"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Protected by Hyyryn Trust Protocol</div>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <button class="ham-trigger" onclick="openHam()"><span></span><span></span><span></span></button>
+  <a href="/" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="nav-logo-name">Hyyryn</div><div class="nav-logo-sub">— THE TRUST PROTOCOL —</div></div>
+  </a>
+  <div class="nav-right">
+    <a href="/messages" class="nav-icon-btn"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-badge">3</span></a>
+    <div class="nav-avatar">J</div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ═══ DARK HERO ═══ -->
+  <div class="hero">
+
+    <!-- Top bar -->
+    <div class="hero-top">
+      <a href="/" class="btn-return">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Return to Discovery
+      </a>
+      <div class="hero-breadcrumb">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>Hyyryn</span>
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Discovery Engine</span>
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span class="current">EXPLORE MARKET</span>
+      </div>
+      <button class="btn-institutional">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Institutional Discovery
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <div class="hero-title">Explore the <span>Institutional Market</span></div>
+
+      <!-- Search bar -->
+      <div class="search-bar">
+        <div class="search-main">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search for high-stakes services or requests..." />
+        </div>
+        <div class="search-location">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <input type="text" placeholder="Region / City" />
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </div>
+        <div class="search-config">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Protocol Config
+        </div>
+        <button class="btn-search">Search</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-item-label">ACTIVE SUPPLY</div>
+          <div class="stat-item-val">1,402 <span>+4.2%</span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item-label">OPEN REQUESTS</div>
+          <div class="stat-item-val">482 <span>+12%</span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item-label">NETWORK HEALTH</div>
+          <div class="stat-item-val">99.8%
+            <span class="bars">
+              <i style="height:8px;background:#5B3FF8"></i>
+              <i style="height:12px;background:#5B3FF8"></i>
+              <i style="height:16px;background:#5B3FF8"></i>
+            </span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-item-label">AVG PAYOUT LAG</div>
+          <div class="stat-item-val">4.9s
+            <span class="lightning"><svg width="14" height="14" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN LAYOUT ═══ -->
+  <div class="main-layout">
+
+    <!-- FILTER PANEL -->
+    <div class="filter-panel">
+      <div class="ftabs">
+        <button class="ftab active" onclick="setTab(this,'ALL')">ALL</button>
+        <button class="ftab" onclick="setTab(this,'SUPPLY')">SUPPLY</button>
+        <button class="ftab" onclick="setTab(this,'DEMAND')">DEMAND</button>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-section-label">
+          <span><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-right:5px"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>PROTOCOL FILTERS</span>
+          <span class="filter-reset">RESET</span>
+        </div>
+      </div>
+
+      <div class="filter-section" style="padding-bottom:16px">
+        <div class="filter-section-label">GLOBAL CLASSIFICATION</div>
+        <div class="filter-check"><input type="checkbox" id="f1"><label for="f1">Vehicle Rentals</label></div>
+        <div class="filter-check"><input type="checkbox" id="f2"><label for="f2">Property Services</label></div>
+        <div class="filter-check"><input type="checkbox" id="f3"><label for="f3">Skilled Trades</label></div>
+        <div class="filter-check"><input type="checkbox" id="f4"><label for="f4">High-Value Services</label></div>
+      </div>
+
+      <div class="filter-separator"></div>
+      <div class="filter-section" style="padding-top:16px;padding-bottom:16px">
+        <div class="filter-section-label">BUDGET THRESHOLD</div>
+        <div class="filter-select-wrap">
+          <select class="filter-select"><option>All Prices</option><option>Under £500</option><option>£500–£2,000</option><option>£2,000–£10,000</option><option>£10,000+</option></select>
+        </div>
+      </div>
+
+      <div class="filter-toggle">
+        <div class="filter-toggle-label">
+          <svg width="14" height="14" fill="none" stroke="rgba(91,63,248,1)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Verified Pros Only</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div>
+      <div class="results-header">
+        <div class="results-showing">SHOWING <strong>ACTIVE CONTRACTS</strong></div>
+        <div class="sort-row">
+          SORT BY:
+          <select class="sort-select"><option>PROTOCOL RELEVANCE</option><option>PRICE: LOW–HIGH</option><option>PRICE: HIGH–LOW</option><option>TRUST TIER</option><option>NEWEST</option></select>
+        </div>
+      </div>
+
+      <!-- Card 1 — Supply Node / Trending -->
+      <div class="result-card" onclick="window.location='/service'">
+        <div class="card-img" style="background:linear-gradient(135deg,#1a1a2e,#2d1b69)">
+          <div class="card-img-placeholder">🚗</div>
+          <span class="card-tag tag--supply">SUPPLY NODE</span>
+          <span class="card-tag2" style="top:44px">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            TRENDING
+          </span>
+        </div>
+        <div class="card-detail">
+          <div class="card-meta">
+            <div class="card-meta-badge">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              PROTOCOL SECURED
+            </div>
+            <span class="card-meta-sep">|</span>
+            <span class="card-meta-tier">TRUST TIER 03</span>
+            <div class="card-icons">
+              <div class="card-icon-btn"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              <div class="card-icon-btn dark"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            </div>
+          </div>
+          <div class="card-title">Luxury Vehicle Rental — Mercedes S-Class</div>
+          <div class="card-provider">
+            <div class="provider-avatar">JD</div>
+            <div>
+              <div class="provider-name">James Davidson <span class="provider-verified"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+              <div class="provider-role">Active Provider</div>
+            </div>
+            <div class="provider-stats">
+              <div><div class="pstat-label">PERFORMANCE</div><div class="pstat-val"><span class="star">★</span> 4.9 <span style="color:var(--muted);font-weight:500">(127)</span></div></div>
+              <div><div class="pstat-label">DEPLOYMENT</div><div class="pstat-val"><svg width="13" height="13" fill="none" stroke="var(--muted)" stroke-width="2" viewBox="0 0 24 24" style="margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> London, UK</div></div>
+            </div>
+          </div>
+          <div class="evidence-row">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="evidence-label">EVIDENCE PROTOCOL ACTIVE</div>
+              <div class="evidence-text">REQUIRED: GPS LOCATION SYNC · SITE EXIT PHOTO</div>
+            </div>
+            <div class="escrow-badge"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ESCROW SECURE</div>
+          </div>
+          <div class="cta-row">
+            <div class="cta-price">
+              <div class="cta-price-label">CONTRACT INITIATION VALUE</div>
+              <div class="cta-price-val">£250</div>
+              <div class="cta-price-per">/ Day Deployment</div>
+            </div>
+            <button class="btn-review">Review Terms</button>
+            <button class="btn-initiate">Initiate Protocol</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 — Market Demand -->
+      <div class="result-card">
+        <div class="card-img" style="background:linear-gradient(135deg,#0f2027,#203a43)">
+          <div class="card-img-placeholder">🏗️</div>
+          <span class="card-tag tag--demand">MARKET DEMAND</span>
+        </div>
+        <div class="card-detail">
+          <div class="card-meta">
+            <div class="card-meta-badge">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              PROTOCOL SECURED
+            </div>
+            <span class="card-meta-sep">|</span>
+            <span class="card-meta-tier">TRUST TIER 02</span>
+            <div class="card-icons">
+              <div class="card-icon-btn"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              <div class="card-icon-btn dark"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            </div>
+          </div>
+          <div class="card-title">Heavy Lifting Crane Service Required — 500 Ton</div>
+          <div class="card-provider">
+            <div class="provider-avatar" style="background:#1E3A5F;color:#93C5FD">GEC</div>
+            <div>
+              <div class="provider-name">Global Energy Corp <span class="provider-verified"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+              <div class="provider-role">Active Provider</div>
+            </div>
+            <div class="provider-stats">
+              <div><div class="pstat-label">PERFORMANCE</div><div class="pstat-val"><span class="star">★</span> 5.0 <span style="color:var(--muted);font-weight:500">(12)</span></div></div>
+              <div><div class="pstat-label">DEPLOYMENT</div><div class="pstat-val"><svg width="13" height="13" fill="none" stroke="var(--muted)" stroke-width="2" viewBox="0 0 24 24" style="margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Manchester, UK</div></div>
+            </div>
+          </div>
+          <div class="evidence-row">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="evidence-label">EVIDENCE PROTOCOL ACTIVE</div>
+              <div class="evidence-text">REQUIRED: WEIGHT SENSOR LOGS · 4K VIDEO FOOTAGE</div>
+            </div>
+            <div class="escrow-badge"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ESCROW SECURE</div>
+          </div>
+          <div class="cta-row">
+            <div class="cta-price">
+              <div class="cta-price-label">CONTRACT INITIATION VALUE</div>
+              <div class="cta-price-val">£1,250</div>
+              <div class="cta-price-per">/ Day Deployment</div>
+            </div>
+            <button class="btn-review">Review Terms</button>
+            <button class="btn-initiate">Initiate Protocol</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 — Supply / Trending -->
+      <div class="result-card">
+        <div class="card-img" style="background:linear-gradient(135deg,#0d1b2a,#1b3050)">
+          <div class="card-img-placeholder">⛵</div>
+          <span class="card-tag tag--supply">SUPPLY NODE</span>
+          <span class="card-tag2" style="top:44px">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            TRENDING
+          </span>
+        </div>
+        <div class="card-detail">
+          <div class="card-meta">
+            <div class="card-meta-badge">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              PROTOCOL SECURED
+            </div>
+            <span class="card-meta-sep">|</span>
+            <span class="card-meta-tier">TRUST TIER 03</span>
+            <div class="card-icons">
+              <div class="card-icon-btn"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              <div class="card-icon-btn dark"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            </div>
+          </div>
+          <div class="card-title">Professional Yacht Charter — 50ft Luxury</div>
+          <div class="card-provider">
+            <div class="provider-avatar" style="background:#0F2D4A;color:#93C5FD">MC</div>
+            <div>
+              <div class="provider-name">Marina Charters <span class="provider-verified"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+              <div class="provider-role">Active Provider</div>
+            </div>
+            <div class="provider-stats">
+              <div><div class="pstat-label">PERFORMANCE</div><div class="pstat-val"><span class="star">★</span> 5.0 <span style="color:var(--muted);font-weight:500">(45)</span></div></div>
+              <div><div class="pstat-label">DEPLOYMENT</div><div class="pstat-val"><svg width="13" height="13" fill="none" stroke="var(--muted)" stroke-width="2" viewBox="0 0 24 24" style="margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Southampton, UK</div></div>
+            </div>
+          </div>
+          <div class="evidence-row">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="evidence-label">EVIDENCE PROTOCOL ACTIVE</div>
+              <div class="evidence-text">REQUIRED: SEAL HASH VERIFICATION · BIOMETRIC SIGNATURE</div>
+            </div>
+            <div class="escrow-badge"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ESCROW SECURE</div>
+          </div>
+          <div class="cta-row">
+            <div class="cta-price">
+              <div class="cta-price-label">CONTRACT INITIATION VALUE</div>
+              <div class="cta-price-val">£2,500</div>
+              <div class="cta-price-per">/ Day Deployment</div>
+            </div>
+            <button class="btn-review">Review Terms</button>
+            <button class="btn-initiate">Initiate Protocol</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 — Market Demand -->
+      <div class="result-card">
+        <div class="card-img" style="background:linear-gradient(135deg,#1a1a1a,#2d2d2d)">
+          <div class="card-img-placeholder">🚙</div>
+          <span class="card-tag tag--demand">MARKET DEMAND</span>
+        </div>
+        <div class="card-detail">
+          <div class="card-meta">
+            <div class="card-meta-badge">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              PROTOCOL SECURED
+            </div>
+            <span class="card-meta-sep">|</span>
+            <span class="card-meta-tier">TRUST TIER 02</span>
+            <div class="card-icons">
+              <div class="card-icon-btn"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              <div class="card-icon-btn dark"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            </div>
+          </div>
+          <div class="card-title">Secure Data Center Transit Needed</div>
+          <div class="card-provider">
+            <div class="provider-avatar" style="background:#1F2937;color:#9CA3AF">ST</div>
+            <div>
+              <div class="provider-name">Sentinel Tech <span class="provider-verified"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+              <div class="provider-role">Active Provider</div>
+            </div>
+            <div class="provider-stats">
+              <div><div class="pstat-label">PERFORMANCE</div><div class="pstat-val"><span class="star">★</span> 4.8 <span style="color:var(--muted);font-weight:500">(24)</span></div></div>
+              <div><div class="pstat-label">DEPLOYMENT</div><div class="pstat-val"><svg width="13" height="13" fill="none" stroke="var(--muted)" stroke-width="2" viewBox="0 0 24 24" style="margin-right:3px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> London, UK</div></div>
+            </div>
+          </div>
+          <div class="evidence-row">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div>
+              <div class="evidence-label">EVIDENCE PROTOCOL ACTIVE</div>
+              <div class="evidence-text">REQUIRED: ESCORT DASHCAM · REAL-TIME TELEMETRY</div>
+            </div>
+            <div class="escrow-badge"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ESCROW SECURE</div>
+          </div>
+          <div class="cta-row">
+            <div class="cta-price">
+              <div class="cta-price-label">CONTRACT INITIATION VALUE</div>
+              <div class="cta-price-val">£5,000</div>
+              <div class="cta-price-per">/ Transit Deployment</div>
+            </div>
+            <button class="btn-review">Review Terms</button>
+            <button class="btn-initiate">Initiate Protocol</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function openHam() { document.getElementById('hamOverlay').classList.add('open'); document.getElementById('hamPanel').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeHam() { document.getElementById('hamOverlay').classList.remove('open'); document.getElementById('hamPanel').classList.remove('open'); document.body.style.overflow=''; }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeHam(); });
+
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    const y = window.scrollY;
+    if (y > lastY && y > 80) { nav.classList.add('hidden'); } else { nav.classList.remove('hidden'); }
+    nav.classList.toggle('scrolled', y > 10);
+    lastY = y;
+  });
+
+  function setTab(el, val) {
+    document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>

@@ -10,9 +10,8 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:       #0D0F1A;
-      --bg-card:  #111827;
-      --bg-card2: #161D2E;
+      --bg:       #F9FAFB;
+      --bg-card:  #FFFFFF;
       --accent:   #5B3FF8;
       --green:    #10B981;
       --amber:    #F59E0B;
@@ -20,82 +19,50 @@
       --teal:     #14B8A6;
       --red:      #EF4444;
       --purple:   #8B5CF6;
+      --navy:     #0F172A;
+      --text:     #0F172A;
+      --text-mid: #475569;
+      --muted:    #94A3B8;
+      --border:   #E2E8F0;
       --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --border:   rgba(255,255,255,0.07);
       --radius:   12px;
     }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: var(--bg); color: #fff; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
     a { text-decoration: none; color: inherit; }
 
-    /* ── Sidebar ── */
-    .layout { display: flex; min-height: 100vh; }
-    .sidebar {
-      width: 220px;
-      background: #0A0C17;
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 24px 0;
-      flex-shrink: 0;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-    }
-    .sidebar-logo {
-      display: flex; align-items: center; gap: 10px;
-      padding: 0 20px 28px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .sidebar-logo-icon {
-      width: 32px; height: 32px;
-      background: var(--accent);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sidebar-logo-name { font-size: 14px; font-weight: 900; letter-spacing: 1.5px; color: #fff; }
-    .nav-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 11px 20px;
-      font-size: 13px; font-weight: 600;
-      color: rgba(255,255,255,.45);
-      cursor: pointer;
-      transition: all .2s;
-      border-left: 3px solid transparent;
-    }
-    .nav-item:hover { color: rgba(255,255,255,.8); background: rgba(255,255,255,.04); }
-    .nav-item.active { color: #fff; background: rgba(91,63,248,.1); border-left-color: var(--accent); }
-    .nav-item svg { flex-shrink: 0; opacity: .7; }
-    .nav-item.active svg { opacity: 1; }
-    .nav-section { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); padding: 16px 20px 6px; }
-    .sidebar-bottom { margin-top: auto; padding: 20px; border-top: 1px solid var(--border); }
-    .sidebar-profile { display: flex; align-items: center; gap: 10px; }
-    .sidebar-avatar {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: linear-gradient(135deg, #14B8A6, #3B82F6);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700;
-    }
-    .sidebar-name { font-size: 12px; font-weight: 700; color: #fff; }
-    .sidebar-role { font-size: 10px; color: var(--teal); font-weight: 600; }
+    /* ── Navbar ── */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: #fff; border-bottom: 1px solid rgba(0,0,0,.06); height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; transition: transform .3s ease; }
+    .navbar.hidden { transform: translateY(-100%); }
+    .navbar.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,.07); }
+    .ham-trigger { width: 38px; height: 38px; border-radius: 8px; background: none; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: background .2s; }
+    .ham-trigger:hover { background: #F1F5F9; }
+    .ham-trigger span { display: block; width: 18px; height: 2px; background: var(--navy); border-radius: 2px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-logo-name { font-size: 18px; font-weight: 700; color: var(--navy); letter-spacing: -.3px; line-height: 1; }
+    .nav-logo-sub { font-size: 9px; font-weight: 500; color: #6B7280; letter-spacing: 1.5px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-icon-btn { position: relative; width: 38px; height: 38px; border-radius: 8px; background: none; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; color: var(--text-mid); text-decoration: none; }
+    .nav-icon-btn:hover { background: #F1F5F9; }
+    .nav-badge { position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px; border-radius: 100px; background: var(--blue); color: #fff; font-size: 9px; font-weight: 800; padding: 0 4px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+    .nav-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; cursor: pointer; }
 
-    /* ── Main ── */
-    .main { flex: 1; margin-left: 220px; }
+    /* ── Page ── */
+    .page { padding-top: 68px; }
 
     /* ── Buyer Header ── */
     .buyer-header {
       background: linear-gradient(135deg, #0F2040 0%, #0F172A 40%, #1a2540 100%);
-      padding: 28px 32px 0;
+      padding: 36px 48px 0;
       position: relative;
       overflow: hidden;
-      border-bottom: 1px solid rgba(59,130,246,.15);
     }
     .buyer-header::before {
       content: '';
       position: absolute;
       top: -80px; right: -60px;
       width: 320px; height: 320px;
-      background: radial-gradient(circle, rgba(59,130,246,.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(59,130,246,.14) 0%, transparent 70%);
       border-radius: 50%;
     }
     .buyer-header::after {
@@ -103,7 +70,7 @@
       position: absolute;
       bottom: -40px; left: 30%;
       width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(20,184,166,.07) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(20,184,166,.08) 0%, transparent 70%);
       border-radius: 50%;
     }
     .buyer-header-top {
@@ -145,34 +112,33 @@
 
     /* Protocol bar */
     .protocol-bar {
-      display: flex; align-items: center; gap: 0;
-      margin-top: 20px;
+      display: flex; align-items: center;
+      margin-top: 24px;
       border-top: 1px solid rgba(59,130,246,.12);
-      background: rgba(0,0,0,.15);
+      background: rgba(0,0,0,.12);
       position: relative; z-index: 1;
     }
     .protocol-item {
       display: flex; align-items: center; gap: 8px;
       padding: 14px 22px;
       font-size: 12px; font-weight: 700;
-      color: rgba(255,255,255,.65);
-      border-right: 1px solid rgba(255,255,255,.06);
+      color: rgba(255,255,255,.55);
+      border-right: 1px solid rgba(255,255,255,.05);
     }
-    .protocol-item svg { flex-shrink: 0; }
     .protocol-item--active { color: #93C5FD; }
     .protocol-view-all {
       margin-left: auto;
       display: flex; align-items: center; gap: 6px;
       padding: 14px 22px;
-      font-size: 12px; font-weight: 700; color: rgba(255,255,255,.4);
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,.35);
       cursor: pointer;
     }
 
     /* ── Content ── */
-    .content { padding: 28px 32px; }
+    .content { padding: 28px 48px; }
 
-    /* ── Stat cards grid ── */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+    /* ── Stat cards ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
     .stat-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -181,26 +147,19 @@
     }
     .stat-card--capital {
       background: linear-gradient(135deg, #0F2D4A 0%, #1E3A5F 100%);
-      border-color: rgba(59,130,246,.25);
+      border-color: rgba(59,130,246,.3);
     }
-    .stat-card-top {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .stat-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .stat-icon--blue   { background: rgba(59,130,246,.2); color: var(--blue); }
-    .stat-icon--green  { background: rgba(16,185,129,.2); color: var(--green); }
-    .stat-icon--amber  { background: rgba(245,158,11,.2); color: var(--amber); }
-    .stat-icon--teal   { background: rgba(20,184,166,.2); color: var(--teal); }
-    .stat-icon--capital{ background: rgba(59,130,246,.2); color: #93C5FD; }
-    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.45); margin-bottom: 6px; }
+    .stat-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .si--blue   { background: #EFF6FF; color: var(--blue); }
+    .si--green  { background: #ECFDF5; color: var(--green); }
+    .si--amber  { background: #FFFBEB; color: var(--amber); }
+    .si--cap    { background: rgba(59,130,246,.2); color: #93C5FD; }
+    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
     .stat-card--capital .stat-label { color: rgba(147,197,253,.7); }
-    .stat-value { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
-    .stat-sub { font-size: 11px; color: rgba(255,255,255,.45); font-weight: 500; }
+    .stat-value { font-size: 28px; font-weight: 900; color: var(--navy); letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
+    .stat-card--capital .stat-value { color: #fff; }
+    .stat-sub { font-size: 11px; color: var(--muted); font-weight: 500; }
     .stat-card--capital .stat-sub { color: rgba(147,197,253,.65); }
     .stat-sub--green { color: var(--green) !important; font-weight: 600; }
     .stat-sub--amber { color: var(--amber) !important; font-weight: 600; }
@@ -208,274 +167,154 @@
     /* ── Two-column layout ── */
     .two-col { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
 
-    /* ── Ledger card ── */
-    .ledger-card {
+    /* ── Card base ── */
+    .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
+      margin-bottom: 16px;
     }
-    .card-header {
+    .card:last-child { margin-bottom: 0; }
+    .card-head {
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 24px;
       border-bottom: 1px solid var(--border);
     }
-    .card-title { font-size: 14px; font-weight: 800; color: #fff; letter-spacing: 0.2px; }
-    .card-subtitle { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 2px; }
-    .card-action {
-      font-size: 12px; font-weight: 700; color: var(--blue);
-      cursor: pointer; opacity: .8;
-    }
-    .card-action:hover { opacity: 1; }
+    .card-title { font-size: 14px; font-weight: 800; color: var(--navy); }
+    .card-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .card-action { font-size: 12px; font-weight: 700; color: var(--blue); cursor: pointer; }
     .filter-tabs { display: flex; gap: 4px; }
     .filter-tab {
       font-size: 11px; font-weight: 700;
       padding: 6px 14px; border-radius: 8px;
       cursor: pointer; border: none;
       background: transparent;
-      color: rgba(255,255,255,.4);
+      color: var(--muted);
       font-family: var(--font);
       transition: all .2s;
     }
-    .filter-tab.active { background: rgba(59,130,246,.15); color: var(--blue); }
+    .filter-tab.active { background: #EFF6FF; color: var(--blue); }
 
     /* ── Agreement rows ── */
     .agreement-row {
       display: flex; align-items: stretch;
-      padding: 0;
       border-bottom: 1px solid var(--border);
       transition: background .2s;
       cursor: pointer;
     }
     .agreement-row:last-child { border-bottom: none; }
-    .agreement-row:hover { background: rgba(255,255,255,.02); }
-    .agr-stripe { width: 4px; flex-shrink: 0; border-radius: 0; }
-    .agr-stripe--green  { background: var(--green); }
-    .agr-stripe--blue   { background: var(--blue); }
-    .agr-stripe--amber  { background: var(--amber); }
-    .agr-stripe--red    { background: var(--red); }
+    .agreement-row:hover { background: #F8FAFC; }
+    .agr-stripe { width: 4px; flex-shrink: 0; }
+    .agr-stripe--blue  { background: var(--blue); }
+    .agr-stripe--green { background: var(--green); }
+    .agr-stripe--amber { background: var(--amber); }
     .agr-body { flex: 1; padding: 20px 22px; }
     .agr-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
     .agr-left { display: flex; align-items: center; gap: 14px; }
-    .agr-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800;
-      flex-shrink: 0;
-    }
-    .agr-avatar--blue   { background: rgba(59,130,246,.2); color: #93C5FD; }
-    .agr-avatar--green  { background: rgba(16,185,129,.2); color: var(--green); }
-    .agr-avatar--amber  { background: rgba(245,158,11,.2); color: var(--amber); }
-    .agr-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 3px; }
-    .agr-provider { font-size: 12px; color: rgba(255,255,255,.45); }
+    .agr-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+    .agr-avatar--blue  { background: #EFF6FF; color: var(--blue); }
+    .agr-avatar--green { background: #ECFDF5; color: var(--green); }
+    .agr-avatar--amber { background: #FFFBEB; color: var(--amber); }
+    .agr-title { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+    .agr-provider { font-size: 12px; color: var(--muted); }
     .agr-right { text-align: right; }
-    .agr-amount { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
+    .agr-amount { font-size: 20px; font-weight: 900; color: var(--navy); letter-spacing: -0.5px; }
     .agr-status {
       display: inline-flex; align-items: center; gap: 5px;
       font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
       padding: 4px 10px; border-radius: 100px;
       margin-top: 5px;
     }
-    .agr-status--wip    { background: rgba(59,130,246,.15); color: #93C5FD; border: 1px solid rgba(59,130,246,.25); }
-    .agr-status--sync   { background: rgba(16,185,129,.12); color: var(--green); border: 1px solid rgba(16,185,129,.25); }
-    .agr-status--dispute{ background: rgba(239,68,68,.12); color: #FCA5A5; border: 1px solid rgba(239,68,68,.25); }
+    .agr-status--wip    { background: #EFF6FF; color: var(--blue); border: 1px solid #BFDBFE; }
+    .agr-status--sync   { background: #ECFDF5; color: var(--green); border: 1px solid #A7F3D0; }
+    .agr-status--dispute{ background: #FEF3C7; color: #B45309; border: 1px solid #FDE68A; }
 
     /* Progress tracker */
     .progress-tracker { display: flex; align-items: center; gap: 0; margin-top: 4px; }
-    .prog-step {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 700;
-      color: rgba(255,255,255,.3);
-      letter-spacing: 0.3px;
-    }
-    .prog-step.done { color: rgba(255,255,255,.7); }
-    .prog-step.current { color: #fff; }
-    .prog-dot {
-      width: 18px; height: 18px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      background: rgba(255,255,255,.08);
-      border: 2px solid rgba(255,255,255,.12);
-    }
-    .prog-dot.done {
-      background: var(--green);
-      border-color: var(--green);
-    }
-    .prog-dot.current {
-      background: var(--blue);
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(59,130,246,.2);
-    }
-    .prog-dot.dispute {
-      background: var(--red);
-      border-color: var(--red);
-    }
-    .prog-line { flex: 1; height: 2px; background: rgba(255,255,255,.08); min-width: 20px; max-width: 40px; }
+    .prog-step { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.3px; }
+    .prog-step.done { color: var(--green); }
+    .prog-step.current--blue { color: var(--blue); }
+    .prog-step.current--amber { color: #B45309; }
+    .prog-dot { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #F1F5F9; border: 2px solid var(--border); }
+    .prog-dot.done { background: var(--green); border-color: var(--green); }
+    .prog-dot.current--blue { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
+    .prog-dot.current--amber { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,158,11,.15); }
+    .prog-line { flex: 1; height: 2px; background: var(--border); min-width: 20px; max-width: 40px; }
     .prog-line.done { background: var(--green); }
-    .prog-line.partial { background: linear-gradient(90deg, var(--blue) 0%, rgba(255,255,255,.08) 100%); }
 
-    /* ── Protocol Services sidebar ── */
+    /* ── Services sidebar column ── */
     .services-col { display: flex; flex-direction: column; gap: 14px; }
+
+    /* Trust score card */
+    .trust-card {
+      background: linear-gradient(135deg, rgba(91,63,248,.06) 0%, rgba(59,130,246,.04) 100%);
+      border: 1px solid rgba(91,63,248,.15);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .trust-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .trust-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(91,63,248,.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .trust-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+    .trust-sub { font-size: 11px; color: var(--muted); }
+    .trust-score-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 10px; }
+    .trust-score { font-size: 36px; font-weight: 900; color: var(--navy); letter-spacing: -1.5px; line-height: 1; }
+    .trust-score-max { font-size: 14px; color: var(--muted); margin-bottom: 3px; }
+    .trust-bar-bg { height: 6px; background: var(--border); border-radius: 100px; margin-bottom: 10px; }
+    .trust-bar-fill { height: 6px; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--blue)); width: 82%; }
+    .trust-tier {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(91,63,248,.1); color: var(--accent);
+      border: 1px solid rgba(91,63,248,.2);
+      font-size: 10px; font-weight: 800; letter-spacing: 1px;
+      padding: 5px 12px; border-radius: 100px;
+    }
+
+    /* Protocol services card */
     .services-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
     }
-    .services-header {
-      padding: 18px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-    .services-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 2px; }
-    .services-subtitle { font-size: 11px; color: rgba(255,255,255,.35); }
-    .service-item {
-      display: flex; align-items: center; gap: 14px;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background .2s;
-    }
+    .services-header { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+    .services-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+    .services-subtitle { font-size: 11px; color: var(--muted); }
+    .service-item { display: flex; align-items: center; gap: 14px; padding: 15px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .2s; }
     .service-item:last-child { border-bottom: none; }
-    .service-item:hover { background: rgba(255,255,255,.03); }
-    .service-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .service-icon--blue   { background: rgba(59,130,246,.15); color: var(--blue); }
-    .service-icon--green  { background: rgba(16,185,129,.15); color: var(--green); }
-    .service-icon--amber  { background: rgba(245,158,11,.15); color: var(--amber); }
-    .service-icon--purple { background: rgba(139,92,246,.15); color: var(--purple); }
-    .service-icon--red    { background: rgba(239,68,68,.15); color: var(--red); }
-    .service-name { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px; }
-    .service-desc { font-size: 11px; color: rgba(255,255,255,.35); }
-    .service-arrow { margin-left: auto; color: rgba(255,255,255,.2); flex-shrink: 0; }
+    .service-item:hover { background: #F8FAFC; }
+    .service-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .si-blue   { background: #EFF6FF; color: var(--blue); }
+    .si-green  { background: #ECFDF5; color: var(--green); }
+    .si-amber  { background: #FFFBEB; color: var(--amber); }
+    .si-purple { background: #F5F3FF; color: var(--accent); }
+    .service-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+    .service-desc { font-size: 11px; color: var(--muted); }
+    .service-arrow { margin-left: auto; color: var(--muted); flex-shrink: 0; }
 
-    /* Trust score card */
-    .trust-card {
-      background: linear-gradient(135deg, rgba(91,63,248,.12) 0%, rgba(59,130,246,.08) 100%);
-      border: 1px solid rgba(91,63,248,.2);
-      border-radius: var(--radius);
-      padding: 22px;
-    }
-    .trust-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .trust-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: rgba(91,63,248,.2);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .trust-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 2px; }
-    .trust-sub { font-size: 11px; color: rgba(255,255,255,.4); }
-    .trust-score-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 10px; }
-    .trust-score { font-size: 36px; font-weight: 900; color: #fff; letter-spacing: -1.5px; line-height: 1; }
-    .trust-score-max { font-size: 14px; color: rgba(255,255,255,.35); margin-bottom: 3px; }
-    .trust-bar-bg { height: 6px; background: rgba(255,255,255,.08); border-radius: 100px; margin-bottom: 10px; }
-    .trust-bar-fill { height: 6px; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--blue)); width: 82%; }
-    .trust-tier {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(91,63,248,.2); color: rgba(167,139,250,1);
-      border: 1px solid rgba(91,63,248,.3);
-      font-size: 10px; font-weight: 800; letter-spacing: 1px;
-      padding: 5px 12px; border-radius: 100px;
-    }
-
-    /* Hamburger menu overlay */
-    .ham-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.5);
-      z-index: 999;
-      opacity: 0; pointer-events: none;
-      transition: opacity .25s;
-      backdrop-filter: blur(4px);
-    }
+    /* ── Hamburger slide-out ── */
+    .ham-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 999; opacity: 0; pointer-events: none; transition: opacity .25s; backdrop-filter: blur(4px); }
     .ham-overlay.open { opacity: 1; pointer-events: all; }
-    .ham-panel {
-      position: fixed;
-      top: 0; right: 0; bottom: 0;
-      width: 300px;
-      background: #0F1525;
-      border-left: 1px solid rgba(255,255,255,.08);
-      z-index: 1000;
-      display: flex; flex-direction: column;
-      transform: translateX(100%);
-      transition: transform .28s cubic-bezier(.4,0,.2,1);
-      overflow-y: auto;
-    }
+    .ham-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 300px; background: #0F1525; border-left: 1px solid rgba(255,255,255,.07); z-index: 1000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .28s cubic-bezier(.4,0,.2,1); overflow-y: auto; }
     .ham-panel.open { transform: translateX(0); }
-    .ham-top {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 20px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
+    .ham-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,.07); }
     .ham-user { display: flex; align-items: center; gap: 12px; }
-    .ham-avatar {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: linear-gradient(135deg, #14B8A6, #3B82F6);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; font-weight: 800; color: #fff;
-      flex-shrink: 0;
-    }
+    .ham-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; color: #fff; flex-shrink: 0; }
     .ham-uname { font-size: 14px; font-weight: 800; color: #fff; }
     .ham-urole { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 1px; }
-    .ham-close {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: rgba(255,255,255,.06);
-      border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,.6);
-      transition: background .2s;
-    }
+    .ham-close { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.06); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); transition: background .2s; }
     .ham-close:hover { background: rgba(255,255,255,.1); }
     .ham-section { padding: 14px 20px 4px; }
     .ham-section-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); }
-    .ham-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 11px 20px;
-      font-size: 13px; font-weight: 600;
-      color: rgba(255,255,255,.65);
-      cursor: pointer;
-      transition: all .2s;
-      border-radius: 0;
-    }
+    .ham-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.65); cursor: pointer; transition: all .2s; text-decoration: none; }
     .ham-item:hover { background: rgba(255,255,255,.04); color: #fff; }
-    .ham-item--highlight { background: rgba(91,63,248,.12); color: var(--purple); }
-    .ham-item--highlight:hover { background: rgba(91,63,248,.18); color: var(--purple); }
+    .ham-item--highlight { background: rgba(59,130,246,.12); color: #93C5FD; }
+    .ham-item--highlight:hover { background: rgba(59,130,246,.18); color: #93C5FD; }
     .ham-item--red { color: rgba(239,68,68,.8); }
     .ham-item--red:hover { background: rgba(239,68,68,.08); color: var(--red); }
-    .ham-badge {
-      margin-left: auto;
-      min-width: 20px; height: 20px;
-      background: var(--accent);
-      border-radius: 100px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 800; color: #fff;
-      padding: 0 5px;
-    }
+    .ham-badge { margin-left: auto; min-width: 20px; height: 20px; background: var(--blue); border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; padding: 0 5px; }
     .ham-badge--amber { background: var(--amber); }
-    .ham-footer {
-      margin-top: auto;
-      padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,.07);
-      display: flex; align-items: center; gap: 8px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-      color: rgba(255,255,255,.25);
-    }
-
-    /* Hamburger button in top area (visible on mobile-ish, or always for demo) */
-    .ham-btn {
-      display: flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer;
-      color: rgba(255,255,255,.7);
-      transition: all .2s;
-      position: relative; z-index: 1;
-    }
-    .ham-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
-    .ham-btn-wrap { display: flex; align-items: center; gap: 12px; }
+    .ham-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: rgba(255,255,255,.25); }
   </style>
 </head>
 <body>
@@ -514,13 +353,13 @@
   <div class="ham-item">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     My Agreements
-    <span class="ham-badge" style="background:#14B8A6">03</span>
+    <span class="ham-badge" style="background:var(--teal)">03</span>
   </div>
-  <div class="ham-item">
+  <a href="/favourites" class="ham-item">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    Favourites
+    Saved Services
     <span class="ham-badge ham-badge--amber">12</span>
-  </div>
+  </a>
 
   <div class="ham-section"><div class="ham-section-label">COMMUNICATION</div></div>
   <a href="/messages" class="ham-item">
@@ -536,16 +375,17 @@
 
   <div class="ham-section"><div class="ham-section-label">TRUST & SAFETY</div></div>
   <div class="ham-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    Resolution Center
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Governance Review
+    <span class="ham-badge" style="background:#F59E0B">01</span>
   </div>
   <div class="ham-item">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    Trust Protocol
+    Evidence Review
   </div>
   <div class="ham-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-    Trust Tier
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Resolution Centre
   </div>
 
   <div class="ham-section"><div class="ham-section-label">ACCOUNT</div></div>
@@ -556,20 +396,6 @@
   <div class="ham-item">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
     Billing
-  </div>
-  <div class="ham-item" style="color:#FBBF24">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-    Upgrade to Pro
-  </div>
-
-  <div class="ham-section"><div class="ham-section-label">HELP & SUPPORT</div></div>
-  <div class="ham-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    Help Center
-  </div>
-  <div class="ham-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-    Documentation
   </div>
 
   <div class="ham-item ham-item--red" style="margin-top:4px">
@@ -583,442 +409,343 @@
   </div>
 </div>
 
-<!-- ═══ LAYOUT ═══ -->
-<div class="layout">
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <button class="ham-trigger" onclick="openHam()"><span></span><span></span><span></span></button>
+  <a href="/" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="nav-logo-name">Hyyryn</div><div class="nav-logo-sub">— THE TRUST PROTOCOL —</div></div>
+  </a>
+  <div class="nav-right">
+    <a href="/messages" class="nav-icon-btn">
+      <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="nav-badge">3</span>
+    </a>
+    <div class="nav-avatar">D</div>
+  </div>
+</nav>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z" fill="#fff"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      </div>
-      <span class="sidebar-logo-name">HYYRYN</span>
-    </div>
+<div class="page">
 
-    <div class="nav-section">OVERVIEW</div>
-    <a href="/buyer-dashboard" class="nav-item active">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Dashboard
-    </a>
-    <a class="nav-item" href="#">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      My Agreements
-    </a>
-    <a class="nav-item" href="/messages">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      Messages
-    </a>
-
-    <div class="nav-section">MANAGE</div>
-    <a class="nav-item" href="#">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Governance Review
-    </a>
-    <a class="nav-item" href="#">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-      Evidence Review
-    </a>
-    <a class="nav-item" href="/favourites">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      Saved Services
-    </a>
-
-    <div class="nav-section">TRUST & SAFETY</div>
-    <a class="nav-item" href="#">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Trust Protocol
-    </a>
-    <a class="nav-item" href="#">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-      Resolution Centre
-    </a>
-
-    <div class="sidebar-bottom">
-      <div class="sidebar-profile">
-        <div class="sidebar-avatar">D</div>
+  <!-- ═══ BUYER HEADER ═══ -->
+  <div class="buyer-header">
+    <div class="buyer-header-top">
+      <div class="buyer-header-left">
+        <div class="buyer-icon-box">
+          <svg width="26" height="26" fill="none" stroke="#93C5FD" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
         <div>
-          <div class="sidebar-name">David Clarke</div>
-          <div class="sidebar-role">Buyer</div>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- BUYER HEADER -->
-    <div class="buyer-header">
-      <div class="buyer-header-top">
-        <div class="buyer-header-left">
-          <div class="buyer-icon-box">
-            <svg width="26" height="26" fill="none" stroke="#93C5FD" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <div class="buyer-title-row">
+            <span class="buyer-page-title">Buyer Dashboard</span>
+            <span class="buyer-badge">
+              <svg width="10" height="10" fill="#93C5FD" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              TRUST PROTECTED
+            </span>
           </div>
-          <div>
-            <div class="buyer-title-row">
-              <span class="buyer-page-title">Buyer Dashboard</span>
-              <span class="buyer-badge">
-                <svg width="10" height="10" fill="#93C5FD" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                TRUST PROTECTED
-              </span>
-            </div>
-            <div class="buyer-subtitle">Welcome back, David — your agreements are secured by Hyyryn Protocol</div>
-          </div>
-        </div>
-        <div class="ham-btn-wrap">
-          <button class="btn-find-service">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            Find a Service
-          </button>
-          <button class="ham-btn" onclick="openHam()">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
+          <div class="buyer-subtitle">Welcome back, David — your agreements are secured by Hyyryn Protocol</div>
         </div>
       </div>
-
-      <!-- Protocol bar -->
-      <div class="protocol-bar">
-        <div class="protocol-item protocol-item--active">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Escrow Secured
-        </div>
-        <div class="protocol-item">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          Evidence Verified
-        </div>
-        <div class="protocol-item">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          01 Under Review
-        </div>
-        <div class="protocol-view-all">
-          View All Protocols
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-      </div>
+      <button class="btn-find-service">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Find a Service
+      </button>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
+    <!-- Protocol bar -->
+    <div class="protocol-bar">
+      <div class="protocol-item protocol-item--active">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Escrow Secured
+      </div>
+      <div class="protocol-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Evidence Verified
+      </div>
+      <div class="protocol-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        01 Under Review
+      </div>
+      <div class="protocol-view-all">
+        View All
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+  </div>
 
-      <!-- STAT CARDS -->
-      <div class="stats-grid">
+  <!-- ═══ CONTENT ═══ -->
+  <div class="content">
 
-        <!-- Deployed Agreements -->
-        <div class="stat-card">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--blue">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <svg class="stat-arrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </div>
-          <div class="stat-label">DEPLOYED AGREEMENTS</div>
-          <div class="stat-value">03</div>
-          <div class="stat-sub stat-sub--green">↑ 1 this month</div>
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div class="stat-icon si--blue"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span style="font-size:11px;font-weight:700;color:var(--muted)">ACTIVE</span>
         </div>
-
-        <!-- Finalized Protocols -->
-        <div class="stat-card">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--green">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            </div>
-            <svg class="stat-arrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </div>
-          <div class="stat-label">FINALIZED PROTOCOLS</div>
-          <div class="stat-value">12</div>
-          <div class="stat-sub stat-sub--green">↑ 3 this quarter</div>
+        <div class="stat-label">DEPLOYED AGREEMENTS</div>
+        <div class="stat-value">03</div>
+        <div class="stat-sub">Across all protocols</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div class="stat-icon si--green"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <svg width="16" height="16" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
         </div>
-
-        <!-- Governance Review -->
-        <div class="stat-card">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--amber">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            </div>
-            <svg width="18" height="18" fill="none" stroke="rgba(245,158,11,.6)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          </div>
-          <div class="stat-label">GOVERNANCE REVIEW</div>
-          <div class="stat-value">01</div>
-          <div class="stat-sub stat-sub--amber">Action required</div>
+        <div class="stat-label">FINALIZED PROTOCOLS</div>
+        <div class="stat-value">12</div>
+        <div class="stat-sub stat-sub--green">+2 this month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-top">
+          <div class="stat-icon si--amber"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <span style="font-size:11px;font-weight:700;color:var(--amber)">REVIEW</span>
         </div>
-
-        <!-- Committed Capital -->
-        <div class="stat-card stat-card--capital">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--capital">
-              <svg width="18" height="18" fill="none" stroke="#93C5FD" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
-            <svg width="18" height="18" fill="none" stroke="rgba(147,197,253,.6)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div class="stat-label">COMMITTED CAPITAL</div>
-          <div class="stat-value">£3,240</div>
-          <div class="stat-sub">Held in escrow — secured</div>
+        <div class="stat-label">GOVERNANCE REVIEW</div>
+        <div class="stat-value">01</div>
+        <div class="stat-sub stat-sub--amber">Action required</div>
+      </div>
+      <div class="stat-card stat-card--capital">
+        <div class="stat-card-top">
+          <div class="stat-icon si--cap"><svg width="18" height="18" fill="none" stroke="#93C5FD" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         </div>
+        <div class="stat-label">COMMITTED CAPITAL</div>
+        <div class="stat-value">£3,240</div>
+        <div class="stat-sub">Held in escrow</div>
+      </div>
+    </div>
 
-      </div><!-- /stats-grid -->
+    <!-- TWO COLUMN -->
+    <div class="two-col">
 
-      <!-- TWO COLUMN: Ledger + Services -->
-      <div class="two-col">
-
-        <!-- LIVE DEPLOYMENT LEDGER -->
-        <div class="ledger-card">
-          <div class="card-header">
+      <!-- LEFT: Ledger -->
+      <div>
+        <div class="card">
+          <div class="card-head">
             <div>
               <div class="card-title">Live Deployment Ledger</div>
-              <div class="card-subtitle">Active escrow agreements & protocol status</div>
+              <div class="card-sub">Real-time status of your active agreements</div>
             </div>
             <div class="filter-tabs">
               <button class="filter-tab active">All</button>
-              <button class="filter-tab" onclick="setTab(this,'Active')">Active</button>
-              <button class="filter-tab" onclick="setTab(this,'Review')">Review</button>
+              <button class="filter-tab">Active</button>
+              <button class="filter-tab">Disputes</button>
             </div>
           </div>
 
-          <!-- Agreement 1: Emergency Boiler Repair — Work In Progress -->
+          <!-- Agreement 1 — WIP -->
           <div class="agreement-row">
             <div class="agr-stripe agr-stripe--blue"></div>
             <div class="agr-body">
               <div class="agr-top">
                 <div class="agr-left">
-                  <div class="agr-avatar agr-avatar--blue">JM</div>
+                  <div class="agr-avatar agr-avatar--blue">EB</div>
                   <div>
                     <div class="agr-title">Emergency Boiler Repair</div>
-                    <div class="agr-provider">Provider: John Matthews Plumbing · ID #HYY-4821</div>
+                    <div class="agr-provider">HeatPro Services · AGR-0041</div>
                   </div>
                 </div>
                 <div class="agr-right">
-                  <div class="agr-amount">£450</div>
+                  <div class="agr-amount">£420</div>
                   <div><span class="agr-status agr-status--wip">
-                    <svg width="7" height="7" fill="#93C5FD" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
-                    Work In Progress
+                    <svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                    WORK IN PROGRESS
                   </span></div>
                 </div>
               </div>
               <div class="progress-tracker">
                 <div class="prog-step done">
-                  <div class="prog-dot done">
-                    <svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
+                  <div class="prog-dot done"><svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                   Settled
                 </div>
                 <div class="prog-line done"></div>
-                <div class="prog-step current">
-                  <div class="prog-dot current">
-                    <svg width="9" height="9" fill="#fff" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5"/></svg>
-                  </div>
+                <div class="prog-step current--blue">
+                  <div class="prog-dot current--blue"><svg width="9" height="9" fill="#fff" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg></div>
                   Deployed
                 </div>
-                <div class="prog-line partial"></div>
+                <div class="prog-line"></div>
                 <div class="prog-step">
-                  <div class="prog-dot">
-                    <svg width="9" height="9" fill="#fff" opacity=".3" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5"/></svg>
-                  </div>
+                  <div class="prog-dot"></div>
                   Review
                 </div>
                 <div class="prog-line"></div>
                 <div class="prog-step">
-                  <div class="prog-dot">
-                    <svg width="9" height="9" fill="#fff" opacity=".3" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5"/></svg>
-                  </div>
+                  <div class="prog-dot"></div>
                   Finalized
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Agreement 2: Full House Rewiring — Evidence Synchronized -->
+          <!-- Agreement 2 — Evidence Sync -->
           <div class="agreement-row">
             <div class="agr-stripe agr-stripe--green"></div>
             <div class="agr-body">
               <div class="agr-top">
                 <div class="agr-left">
-                  <div class="agr-avatar agr-avatar--green">SE</div>
+                  <div class="agr-avatar agr-avatar--green">HE</div>
                   <div>
                     <div class="agr-title">Full House Rewiring</div>
-                    <div class="agr-provider">Provider: Swift Electrical Ltd · ID #HYY-3907</div>
+                    <div class="agr-provider">Precision Electrical · AGR-0038</div>
                   </div>
                 </div>
                 <div class="agr-right">
-                  <div class="agr-amount">£2,800</div>
+                  <div class="agr-amount">£3,500</div>
                   <div><span class="agr-status agr-status--sync">
-                    <svg width="7" height="7" fill="var(--green)" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
-                    Evidence Synchronized
+                    <svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                    EVIDENCE SYNC
                   </span></div>
                 </div>
               </div>
               <div class="progress-tracker">
                 <div class="prog-step done">
-                  <div class="prog-dot done">
-                    <svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
+                  <div class="prog-dot done"><svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                   Settled
                 </div>
                 <div class="prog-line done"></div>
                 <div class="prog-step done">
-                  <div class="prog-dot done">
-                    <svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
+                  <div class="prog-dot done"><svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                   Deployed
                 </div>
                 <div class="prog-line done"></div>
-                <div class="prog-step current">
-                  <div class="prog-dot current">
-                    <svg width="9" height="9" fill="#fff" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5"/></svg>
-                  </div>
+                <div class="prog-step done">
+                  <div class="prog-dot done"><svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                   Review
                 </div>
                 <div class="prog-line"></div>
                 <div class="prog-step">
-                  <div class="prog-dot">
-                    <svg width="9" height="9" fill="#fff" opacity=".3" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5"/></svg>
-                  </div>
+                  <div class="prog-dot"></div>
                   Finalized
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Agreement 3: Deep Carpet Cleaning — Under Dispute -->
+          <!-- Agreement 3 — Dispute -->
           <div class="agreement-row">
             <div class="agr-stripe agr-stripe--amber"></div>
             <div class="agr-body">
               <div class="agr-top">
                 <div class="agr-left">
-                  <div class="agr-avatar agr-avatar--amber">CC</div>
+                  <div class="agr-avatar agr-avatar--amber">DC</div>
                   <div>
                     <div class="agr-title">Deep Carpet Cleaning</div>
-                    <div class="agr-provider">Provider: CleanCo Services · ID #HYY-5114</div>
+                    <div class="agr-provider">CleanZone Pro · AGR-0035</div>
                   </div>
                 </div>
                 <div class="agr-right">
-                  <div class="agr-amount">£180</div>
+                  <div class="agr-amount">£320</div>
                   <div><span class="agr-status agr-status--dispute">
-                    <svg width="7" height="7" fill="#FCA5A5" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
-                    Under Dispute
+                    <svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                    GOVERNANCE REVIEW
                   </span></div>
                 </div>
               </div>
               <div class="progress-tracker">
                 <div class="prog-step done">
-                  <div class="prog-dot done">
-                    <svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
+                  <div class="prog-dot done"><svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                   Settled
                 </div>
                 <div class="prog-line done"></div>
                 <div class="prog-step done">
-                  <div class="prog-dot done">
-                    <svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                  </div>
+                  <div class="prog-dot done"><svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                   Deployed
                 </div>
-                <div class="prog-line" style="background:var(--red); opacity:.4;"></div>
-                <div class="prog-step" style="color:#FCA5A5">
-                  <div class="prog-dot dispute">
-                    <svg width="9" height="9" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  </div>
-                  Dispute
+                <div class="prog-line"></div>
+                <div class="prog-step current--amber">
+                  <div class="prog-dot current--amber"><svg width="9" height="9" fill="#fff" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg></div>
+                  Review
                 </div>
                 <div class="prog-line"></div>
                 <div class="prog-step">
-                  <div class="prog-dot">
-                    <svg width="9" height="9" fill="#fff" opacity=".3" viewBox="0 0 8 8"><circle cx="4" cy="4" r="2.5"/></svg>
-                  </div>
+                  <div class="prog-dot"></div>
                   Finalized
                 </div>
               </div>
             </div>
           </div>
 
-        </div><!-- /ledger-card -->
+        </div>
+      </div>
 
-        <!-- PROTOCOL SERVICES SIDEBAR -->
-        <div class="services-col">
+      <!-- RIGHT: Protocol Services -->
+      <div class="services-col">
 
-          <!-- Trust Score -->
-          <div class="trust-card">
-            <div class="trust-header">
-              <div class="trust-icon">
-                <svg width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div>
-                <div class="trust-title">Buyer Trust Score</div>
-                <div class="trust-sub">Based on 12 completed protocols</div>
-              </div>
+        <!-- Trust Score -->
+        <div class="trust-card">
+          <div class="trust-header">
+            <div class="trust-icon">
+              <svg width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <div class="trust-score-row">
-              <span class="trust-score">82</span>
-              <span class="trust-score-max">/100</span>
-            </div>
-            <div class="trust-bar-bg"><div class="trust-bar-fill"></div></div>
-            <span class="trust-tier">
-              <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              TIER 2 — VERIFIED
-            </span>
-          </div>
-
-          <!-- Protocol Services -->
-          <div class="services-card">
-            <div class="services-header">
-              <div class="services-title">Protocol Services</div>
-              <div class="services-subtitle">Buyer tools &amp; dispute support</div>
-            </div>
-            <div class="service-item">
-              <div class="service-icon service-icon--blue">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div>
-                <div class="service-name">Escrow Integrity</div>
-                <div class="service-desc">View funds &amp; release status</div>
-              </div>
-              <div class="service-arrow">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-              </div>
-            </div>
-            <div class="service-item">
-              <div class="service-icon service-icon--green">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-              </div>
-              <div>
-                <div class="service-name">Verification Portal</div>
-                <div class="service-desc">Review provider evidence</div>
-              </div>
-              <div class="service-arrow">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-              </div>
-            </div>
-            <div class="service-item">
-              <div class="service-icon service-icon--amber">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-              </div>
-              <div>
-                <div class="service-name">Resolution Centre</div>
-                <div class="service-desc">Open or track disputes</div>
-              </div>
-              <div class="service-arrow">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-              </div>
-            </div>
-            <div class="service-item">
-              <div class="service-icon service-icon--purple">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              </div>
-              <div>
-                <div class="service-name">Help &amp; Support</div>
-                <div class="service-desc">Guidance for buyers</div>
-              </div>
-              <div class="service-arrow">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-              </div>
+            <div>
+              <div class="trust-title">Buyer Trust Score</div>
+              <div class="trust-sub">Verified via Hyyryn Protocol</div>
             </div>
           </div>
+          <div class="trust-score-row">
+            <div class="trust-score">82</div>
+            <div class="trust-score-max">/100</div>
+          </div>
+          <div class="trust-bar-bg">
+            <div class="trust-bar-fill"></div>
+          </div>
+          <div class="trust-tier">
+            <svg width="10" height="10" fill="var(--accent)" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            TIER 2 VERIFIED
+          </div>
+        </div>
 
-        </div><!-- /services-col -->
+        <!-- Protocol Services -->
+        <div class="services-card">
+          <div class="services-header">
+            <div class="services-title">Protocol Services</div>
+            <div class="services-subtitle">Trust infrastructure for your agreements</div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon si-blue">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="service-name">Escrow Integrity</div>
+              <div class="service-desc">Capital protection active</div>
+            </div>
+            <div class="service-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon si-green">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div>
+              <div class="service-name">Verification Portal</div>
+              <div class="service-desc">Evidence submitted &amp; logged</div>
+            </div>
+            <div class="service-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon si-amber">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <div class="service-name">Resolution Centre</div>
+              <div class="service-desc">1 open governance case</div>
+            </div>
+            <div class="service-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon si-purple">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <div class="service-name">Help &amp; Support</div>
+              <div class="service-desc">24/7 protocol assistance</div>
+            </div>
+            <div class="service-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
 
-      </div><!-- /two-col -->
-    </div><!-- /content -->
-  </main>
-</div><!-- /layout -->
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   function openHam() {
@@ -1033,10 +760,14 @@
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHam(); });
 
-  function setTab(el, label) {
-    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-  }
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    const y = window.scrollY;
+    if (y > lastY && y > 80) { nav.classList.add('hidden'); } else { nav.classList.remove('hidden'); }
+    nav.classList.toggle('scrolled', y > 10);
+    lastY = y;
+  });
 </script>
 </body>
 </html>
