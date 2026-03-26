@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Hyyryn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #0F172A;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .navbar-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .navbar-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            line-height: 1.1;
+        }
+
+        .navbar-logo-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            color: #5B3FF8;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav {
+            display: none;
+            list-style: none;
+            gap: 32px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav.active {
+            display: flex;
+        }
+
+        .navbar-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-nav a:hover {
+            color: #0F172A;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .navbar-login {
+            text-decoration: none;
+            color: #5B3FF8;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .navbar-login:hover {
+            background: #F3F0FF;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+        }
+
+        /* Content */
+        .content-wrapper {
+            margin-top: 68px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 48px;
+            padding: 48px 24px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-title {
+            grid-column: 1 / -1;
+            margin-bottom: 32px;
+        }
+
+        .page-title h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #0F172A;
+        }
+
+        .page-meta {
+            font-size: 14px;
+            color: #94A3B8;
+        }
+
+        /* Sidebar TOC */
+        .toc-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .toc-nav {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .toc-nav h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #0F172A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .toc-nav ul {
+            list-style: none;
+        }
+
+        .toc-nav li {
+            margin-bottom: 12px;
+        }
+
+        .toc-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 500;
+            display: block;
+            padding: 6px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+        }
+
+        .toc-nav a:hover {
+            color: #5B3FF8;
+        }
+
+        .toc-nav a.active {
+            color: #5B3FF8;
+            border-left-color: #5B3FF8;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .content-section {
+            margin-bottom: 48px;
+        }
+
+        .content-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 16px;
+            padding-top: 24px;
+            margin-top: -24px;
+        }
+
+        .content-section p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .content-section li {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #5B3FF8;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .toc-sidebar {
+                position: static;
+            }
+
+            .toc-nav {
+                display: flex;
+                gap: 16px;
+                padding: 16px;
+                overflow-x: auto;
+            }
+
+            .toc-nav ul {
+                display: flex;
+                gap: 12px;
+            }
+
+            .toc-nav li {
+                margin-bottom: 0;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-hamburger {
+                display: block;
+            }
+
+            .content-wrapper {
+                padding: 24px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .toc-nav {
+                flex-wrap: wrap;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="navbar-hamburger" onclick="toggleMenu()">☰</button>
+        <a href="/" class="navbar-logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#5B3FF8"/>
+            </svg>
+            <div class="navbar-logo-text">
+                Hyyryn
+                <div class="navbar-logo-subtext">THE TRUST PROTOCOL</div>
+            </div>
+        </a>
+        <ul class="navbar-nav" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/how-it-works">How It Works</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <div class="navbar-right">
+            <a href="/login" class="navbar-login">Log In</a>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="page-title">
+            <h1>Privacy Policy</h1>
+            <div class="page-meta">Last updated: March 2026</div>
+        </div>
+
+        <!-- Sidebar TOC -->
+        <aside class="toc-sidebar">
+            <nav class="toc-nav">
+                <h3>Contents</h3>
+                <ul>
+                    <li><a href="#collect">Information We Collect</a></li>
+                    <li><a href="#use">How We Use Your Information</a></li>
+                    <li><a href="#sharing">Sharing Your Information</a></li>
+                    <li><a href="#cookies">Cookies & Tracking</a></li>
+                    <li><a href="#rights">Your Rights</a></li>
+                    <li><a href="#retention">Data Retention</a></li>
+                    <li><a href="#security">Security</a></li>
+                    <li><a href="#contact-us">Contact Us</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="content-section" id="collect">
+                <h2>1. Information We Collect</h2>
+                <p>We collect various types of information to provide and improve the Hyyryn platform. This includes account information (name, email address, phone number, address), transaction data (service descriptions, pricing, payment history, completion status), profile information (professional background, qualifications, certificates, portfolio), verification information (identity documents, background check results, references), communication data (messages between users, support inquiries), device information (IP address, browser type, device model, operating system), and usage analytics (pages visited, features used, time spent on platform). Some information is collected directly when you provide it, while other information is collected automatically when you use the platform through cookies and tracking technologies. We also collect information from third-party sources, including background check providers and payment processors, to verify identity and process payments securely.</p>
+            </section>
+
+            <section class="content-section" id="use">
+                <h2>2. How We Use Your Information</h2>
+                <p>Hyyryn uses your information for essential platform functions and service improvements. We use account and profile information to create and maintain your account, display your profile to other users, and enable communication. Transaction data is used to process payments, manage escrow, resolve disputes, and provide transaction history. Verification information is used to confirm identity, screen for fraud, and maintain platform integrity. Device and usage information helps us optimize the platform, improve user experience, troubleshoot technical issues, and conduct research. We also use your information to send important notifications about transactions, account changes, platform updates, and promotional emails (which you can opt out of). We analyze aggregated usage patterns to identify trends and improve features, but this analysis does not personally identify you. Communication data is retained for dispute resolution and customer service improvement. All data processing is conducted lawfully and in accordance with GDPR and UK data protection regulations.</p>
+            </section>
+
+            <section class="content-section" id="sharing">
+                <h2>3. Sharing Your Information</h2>
+                <p>Hyyryn shares certain information with other users and third parties as necessary to operate the platform. When you post a service request or listing, your profile information and service details are visible to other users. When you complete a transaction, relevant information is shared with the other party (Buyer or Pro). Payment processors and financial institutions receive transaction and account information to process payments and manage escrow. Background check providers receive identity information to verify credentials. Legal authorities may receive information if required by law or court order. Service providers (hosting, analytics, support) may access data to provide technical services, but they are bound by data protection agreements. Hyyryn does not sell personal data to third parties for marketing purposes. We never share sensitive data (passwords, payment card details) with other users. You can control certain sharing settings through your account preferences. Hyyryn aims to minimize data sharing while maintaining platform functionality.</p>
+            </section>
+
+            <section class="content-section" id="cookies">
+                <h2>4. Cookies & Tracking</h2>
+                <p>Hyyryn uses cookies and similar technologies to enhance your experience and analyze platform usage. Essential cookies are necessary for platform functionality, including authentication and session management. These cookies are not optional and are used regardless of consent. Performance cookies collect information about how users interact with the platform, including page load times, error frequencies, and feature usage. These help us optimize performance and identify issues. Analytics cookies track user behavior using tools such as Google Analytics to understand traffic patterns and improve content. Preference cookies remember your settings and choices to personalize your experience. Marketing cookies (if you consent) track your activity to show relevant advertisements. You can control cookie settings through your browser preferences, but disabling essential cookies may prevent the platform from functioning. Some third-party services may set cookies on the Hyyryn platform. By using Hyyryn, you consent to our use of essential and performance cookies unless you adjust your browser settings.</p>
+            </section>
+
+            <section class="content-section" id="rights">
+                <h2>5. Your Rights</h2>
+                <p>Under UK GDPR and the Data Protection Act 2018, you have the following rights regarding your personal data. You have the right to access all personal data we hold about you by submitting a Data Subject Access Request (DSAR). You have the right to correct inaccurate or incomplete information. You have the right to erasure (the right to be forgotten) under certain circumstances, though we may retain data if required by law. You have the right to restrict our processing of your data if you believe it is inaccurate or processed unlawfully. You have the right to data portability, meaning you can request a copy of your data in a structured, portable format. You have the right to object to marketing communications, and you can opt out of promotional emails at any time. You have the right to lodge a complaint with the Information Commissioner's Office (ICO) if you believe your rights have been violated. To exercise any of these rights, contact our data protection officer at data@hyyryn.com with your request and proof of identity. We will respond within 30 days. Some rights may be limited if necessary to comply with legal obligations or protect the platform.</p>
+            </section>
+
+            <section class="content-section" id="retention">
+                <h2>6. Data Retention</h2>
+                <p>Hyyryn retains personal data only as long as necessary to provide services and comply with legal obligations. Account information is retained while your account is active and for a reasonable period afterward (typically 2 years) to respond to inquiries and resolve disputes. Transaction data is retained for the duration of the transaction plus 7 years for tax and regulatory compliance. Verification information is retained for 3 years after Pro status ends to prevent re-registration of banned users. Communication logs are retained for 3 years for dispute resolution and customer service quality assurance. Payment information is retained only as long as necessary for transaction processing and is deleted according to payment processor retention policies. Device and usage analytics are typically retained for 12 months in identifiable form and then aggregated or deleted. Identity documents used for verification are deleted after 90 days unless a dispute requires retention. If your account is closed, we delete personal data within 90 days except where retention is legally required. You can request deletion of certain data, subject to legal obligations.</p>
+            </section>
+
+            <section class="content-section" id="security">
+                <h2>7. Security</h2>
+                <p>Hyyryn employs industry-standard security measures to protect your personal data from unauthorized access, alteration, disclosure, or destruction. All data transmission uses SSL/TLS encryption, ensuring information is scrambled in transit. Passwords are hashed and salted using secure algorithms so they cannot be recovered even by Hyyryn staff. Payment information is handled by PCI-DSS compliant processors and never stored on our servers. Escrow funds are held in segregated, secure accounts managed by licensed financial institutions. Access to personal data is restricted to authorized staff who require it for their roles, and all staff receive data protection training. We conduct regular security audits and penetration testing to identify and fix vulnerabilities. Data is backed up regularly and stored securely. We have incident response procedures to address security breaches promptly. If a security incident occurs, affected users are notified within 72 hours as required by GDPR. Despite these precautions, no online system is completely secure, and you use Hyyryn at your own risk.</p>
+            </section>
+
+            <section class="content-section" id="contact-us">
+                <h2>8. Contact Us</h2>
+                <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection Officer at data@hyyryn.com or by post at: Hyyryn Ltd, Data Protection Officer, 14 Brick Lane, London, E1 6PU, United Kingdom. For GDPR-related concerns, you can also lodge a complaint with the Information Commissioner's Office (ICO), the independent authority for data protection in the UK. ICO contact: Information Commissioner's Office, Wycliffe House, Water Lane, Wilmslow, Cheshire, SK9 5AF, or visit ico.org.uk. We will respond to data protection inquiries within 30 days. For general support and privacy questions, email hello@hyyryn.com. This Privacy Policy is compliant with UK GDPR, the Data Protection Act 2018, and other applicable UK data protection law. We may update this policy periodically to reflect changes in our practices or legal requirements. We will notify you of significant changes by email or by posting an updated policy on the platform.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/search">Search</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/contact">Contact</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+            </div>
+            <div class="footer-copyright">© 2026 Hyyryn Ltd. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Simple TOC active state
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.toc-nav a');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

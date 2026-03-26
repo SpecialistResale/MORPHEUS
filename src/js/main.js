@@ -67,10 +67,7 @@ const initSearch = () => {
 
   searchBtn.addEventListener('click', () => {
     const query = searchInput.value.trim();
-    if (query) {
-      const categories = document.getElementById('categories');
-      if (categories) categories.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.location.href = query ? `/search?q=${encodeURIComponent(query)}` : '/search';
   });
 
   searchInput.addEventListener('keydown', (e) => {
@@ -119,13 +116,15 @@ const initCounters = () => {
   document.querySelectorAll('[data-target]').forEach(el => observer.observe(el));
 };
 
-// --- Category card hover pulse ---
+// --- Category cards → search, Listing cards → service ---
 const initCards = () => {
   document.querySelectorAll('.cat-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const section = document.getElementById('access');
-      if (section) section.scrollIntoView({ behavior: 'smooth' });
-    });
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => { window.location.href = '/search'; });
+  });
+  document.querySelectorAll('.listing-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => { window.location.href = '/service'; });
   });
 };
 

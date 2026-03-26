@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Submit Evidence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+        }
+
+        /* Protocol Bar */
+        .protocol-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .protocol-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .protocol-back {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .protocol-breadcrumb {
+            font-size: 12px;
+            color: #CBD5E1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .protocol-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .protocol-badge {
+            background-color: #10B981;
+            color: #FFFFFF;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Page Content */
+        .page-content {
+            margin-top: 56px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 32px;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .tx-badge {
+            background-color: #E2E8F0;
+            color: #0F172A;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .deadline-warning {
+            background-color: #FEF3C7;
+            border: 1px solid #F59E0B;
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #92400E;
+        }
+
+        .deadline-warning .icon {
+            font-size: 16px;
+        }
+
+        .countdown {
+            font-weight: 600;
+            color: #F59E0B;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            background-color: #FFFFFF;
+            border: 2px dashed #E2E8F0;
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            margin-bottom: 32px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .upload-zone:hover {
+            border-color: #5B3FF8;
+            background-color: #F3F0FF;
+        }
+
+        .upload-zone.dragover {
+            border-color: #5B3FF8;
+            background-color: #F3F0FF;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .upload-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtitle {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        .upload-formats {
+            font-size: 12px;
+            color: #94A3B8;
+            margin-bottom: 16px;
+        }
+
+        .browse-btn {
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .browse-btn:hover {
+            background-color: #4C2FC7;
+        }
+
+        /* Category Cards Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .category-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .category-card:hover {
+            border-color: #5B3FF8;
+            box-shadow: 0 4px 12px rgba(91, 63, 248, 0.1);
+        }
+
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .category-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .category-desc {
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        .category-upload-btn {
+            background-color: transparent;
+            border: 1px solid #E2E8F0;
+            color: #5B3FF8;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .category-upload-btn:hover {
+            border-color: #5B3FF8;
+            background-color: #F3F0FF;
+        }
+
+        /* Submitted Evidence */
+        .evidence-section {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .evidence-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #F9FAFB;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .evidence-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .evidence-icon {
+            font-size: 18px;
+        }
+
+        .evidence-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .evidence-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #0F172A;
+        }
+
+        .evidence-size {
+            font-size: 11px;
+            color: #94A3B8;
+        }
+
+        .evidence-badge {
+            background-color: #D1FAE5;
+            color: #065F46;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .evidence-badge.review {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        /* Guidelines Accordion */
+        .accordion {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-btn {
+            background: none;
+            border: none;
+            width: 100%;
+            padding: 16px 24px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #0F172A;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .accordion-btn:hover {
+            background-color: #F9FAFB;
+        }
+
+        .accordion-btn.active {
+            background-color: #F3F0FF;
+            color: #5B3FF8;
+        }
+
+        .accordion-icon {
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .accordion-btn.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 24px 16px 24px;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        /* Bottom Actions */
+        .bottom-actions {
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .btn-primary {
+            background-color: #8B5CF6;
+            color: #FFFFFF;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #7C3AED;
+        }
+
+        .btn-secondary {
+            background: none;
+            border: 1px solid #5B3FF8;
+            color: #5B3FF8;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F3F0FF;
+        }
+
+        .btn-secondary a {
+            text-decoration: none;
+            color: #5B3FF8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Protocol Bar -->
+    <div class="protocol-bar">
+        <div class="protocol-left">
+            <button class="protocol-back" onclick="window.location.href='/transaction'">←</button>
+            <div class="protocol-breadcrumb">
+                TX-2847 <span>›</span> Evidence
+            </div>
+        </div>
+        <div class="protocol-right">
+            <div class="protocol-badge">
+                <div class="pulse-dot"></div>
+                PROTOCOL ACTIVE
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-top">
+                <h1 class="page-title">Submit Transaction Evidence</h1>
+                <span class="tx-badge">TX-2847</span>
+            </div>
+            <div class="deadline-warning">
+                <span class="icon">⏱️</span>
+                <span>Evidence window closes in <span class="countdown">5 days 14:32:08</span></span>
+            </div>
+        </div>
+
+        <!-- Upload Drop Zone -->
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">☁️</div>
+            <div class="upload-title">Drag & drop files or click to browse</div>
+            <div class="upload-subtitle">Upload your evidence to support your case</div>
+            <div class="upload-formats">Supported: JPG, PNG, MP4, PDF, DOC — Max 50MB per file</div>
+            <button class="browse-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+            <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileSelect(event)">
+        </div>
+
+        <!-- Category Cards -->
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">📸</div>
+                <div class="category-name">Photos</div>
+                <div class="category-desc">Upload photos of completed or uncompleted work</div>
+                <button class="category-upload-btn" onclick="document.getElementById('fileInput').click()">Upload</button>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">🎬</div>
+                <div class="category-name">Videos</div>
+                <div class="category-desc">Submit video evidence of work progress or completion</div>
+                <button class="category-upload-btn" onclick="document.getElementById('fileInput').click()">Upload</button>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">📄</div>
+                <div class="category-name">Documents</div>
+                <div class="category-desc">Upload contracts, quotes, invoices, or other documents</div>
+                <button class="category-upload-btn" onclick="document.getElementById('fileInput').click()">Upload</button>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">💬</div>
+                <div class="category-name">Communications</div>
+                <div class="category-desc">Screenshots of messages or agreements related to work</div>
+                <button class="category-upload-btn" onclick="document.getElementById('fileInput').click()">Upload</button>
+            </div>
+        </div>
+
+        <!-- Submitted Evidence -->
+        <div class="evidence-section">
+            <div class="section-title">Already Submitted Evidence (2 items)</div>
+            
+            <div class="evidence-item">
+                <div class="evidence-item-left">
+                    <div class="evidence-icon">📸</div>
+                    <div class="evidence-info">
+                        <div class="evidence-name">photo_evidence_001.jpg</div>
+                        <div class="evidence-size">2.4 MB</div>
+                    </div>
+                </div>
+                <div class="evidence-badge">
+                    ✓ Submitted
+                </div>
+            </div>
+
+            <div class="evidence-item">
+                <div class="evidence-item-left">
+                    <div class="evidence-icon">📄</div>
+                    <div class="evidence-info">
+                        <div class="evidence-name">agreement_contract.pdf</div>
+                        <div class="evidence-size">1.1 MB</div>
+                    </div>
+                </div>
+                <div class="evidence-badge review">
+                    🟡 Under Review
+                </div>
+            </div>
+        </div>
+
+        <!-- Guidelines Accordion -->
+        <div class="accordion" style="margin-bottom: 32px;">
+            <div class="section-title" style="padding: 16px 24px; margin: 0; background-color: #F9FAFB; border-bottom: 1px solid #E2E8F0;">What counts as valid evidence?</div>
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(event)">
+                    What types of files are accepted?
+                    <span class="accordion-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    We accept photos (JPG, PNG), videos (MP4), documents (PDF, DOC, DOCX), and screenshots (PNG). Each file must be under 50MB. Submit as much relevant evidence as needed to support your case — more evidence strengthens your position in disputes.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(event)">
+                    How many files can I submit?
+                    <span class="accordion-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    There is no limit on the number of files you can upload. You can submit multiple photos, videos, and documents. We recommend organizing your evidence by category (photos, documents, communications) for clarity during review.
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button class="accordion-btn" onclick="toggleAccordion(event)">
+                    Will the other party see my evidence?
+                    <span class="accordion-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    During the dispute resolution process, a Hyyryn mediator will review all evidence from both parties. The other party may see relevant portions of your evidence if it becomes part of the mediation. Frivolous or irrelevant evidence may be excluded. Be thorough but professional in your submissions.
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="bottom-actions">
+            <button class="btn-primary" onclick="submitEvidence()">Submit Evidence Package</button>
+            <button class="btn-secondary" onclick="window.location.href='/transaction'">Return to Transaction</button>
+        </div>
+    </div>
+
+    <script>
+        const uploadZone = document.getElementById('uploadZone');
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFileSelect(e);
+        });
+
+        function handleFileSelect(e) {
+            const files = e.dataTransfer?.files || e.target.files;
+            if (files.length > 0) {
+                alert(`Selected ${files.length} file(s) for upload`);
+            }
+        }
+
+        function toggleAccordion(event) {
+            const btn = event.target.closest('.accordion-btn');
+            const content = btn.nextElementSibling;
+
+            document.querySelectorAll('.accordion-btn').forEach(b => {
+                if (b !== btn) {
+                    b.classList.remove('active');
+                    b.nextElementSibling.classList.remove('active');
+                }
+            });
+
+            btn.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        function submitEvidence() {
+            alert('Evidence package submitted successfully. A Hyyryn mediator will review it within 4 hours.');
+        }
+    </script>
+</body>
+</html>

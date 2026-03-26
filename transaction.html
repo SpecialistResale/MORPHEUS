@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Transaction Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .ham-trigger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #0F172A;
+            padding: 8px;
+        }
+
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #0F172A;
+        }
+
+        .logo-shield {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            color: #5B3FF8;
+            letter-spacing: 1px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #0F172A;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .nav-icon:hover {
+            background-color: #CBD5E1;
+        }
+
+        /* Ham Menu */
+        .ham-menu {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 350px;
+            height: 100vh;
+            background-color: #FFFFFF;
+            padding-top: 88px;
+            padding-left: 24px;
+            padding-right: 24px;
+            transition: left 0.3s ease;
+            z-index: 99;
+            border-right: 1px solid #E2E8F0;
+        }
+
+        .ham-menu.active {
+            left: 0;
+        }
+
+        .ham-menu a {
+            display: block;
+            padding: 12px 0;
+            text-decoration: none;
+            color: #0F172A;
+            font-weight: 500;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .ham-menu a:hover {
+            color: #5B3FF8;
+        }
+
+        .ham-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.3);
+            display: none;
+            z-index: 98;
+        }
+
+        .ham-overlay.active {
+            display: block;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 68px;
+            background: linear-gradient(135deg, #0F2040 0%, #0F172A 100%);
+            color: #FFFFFF;
+            padding: 36px 48px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #94A3B8;
+            margin-bottom: 16px;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background-color: #10B981;
+            color: #FFFFFF;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: #10B981;
+        }
+
+        /* Main Content */
+        .container {
+            padding: 36px 48px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #0F172A;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 40px;
+            width: 2px;
+            height: 40px;
+            background-color: #E2E8F0;
+        }
+
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .timeline-dot.complete {
+            background-color: #10B981;
+        }
+
+        .timeline-dot.active {
+            background-color: #3B82F6;
+        }
+
+        .timeline-dot.pending {
+            background-color: #D1D5DB;
+        }
+
+        .timeline-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #0F172A;
+        }
+
+        /* Evidence */
+        .evidence-item {
+            background-color: #F9FAFB;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .evidence-name {
+            font-weight: 500;
+            font-size: 14px;
+            color: #0F172A;
+        }
+
+        .evidence-date {
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .evidence-badge {
+            background-color: #ECFDF5;
+            color: #10B981;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #4C2FD9;
+        }
+
+        .btn-danger {
+            background-color: #EF4444;
+            color: #FFFFFF;
+        }
+
+        .btn-danger:hover {
+            background-color: #DC2626;
+        }
+
+        .btn-secondary {
+            background-color: #F9FAFB;
+            color: #0F172A;
+            border: 1px solid #E2E8F0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F3F4F6;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: #5B3FF8;
+            padding: 0;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Dispute Card */
+        .dispute-card {
+            background-color: #FFFBEB;
+            border: 1px solid #FCD34D;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .dispute-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dispute-text {
+            font-size: 13px;
+            color: #B45309;
+            margin-bottom: 16px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Amount Card */
+        .amount-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .amount-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #10B981;
+            margin-bottom: 16px;
+        }
+
+        .amount-label {
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .breakdown {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .breakdown-amount {
+            color: #0F172A;
+            font-weight: 600;
+        }
+
+        .badge-escrow {
+            background-color: #10B981;
+            color: #FFFFFF;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 16px;
+            display: inline-block;
+        }
+
+        /* Provider Card */
+        .provider-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .provider-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .provider-info {
+            flex: 1;
+        }
+
+        .provider-name {
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .provider-rating {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .badge-verified {
+            background-color: #ECFDF5;
+            color: #10B981;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .provider-action {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .provider-action .btn {
+            width: 100%;
+        }
+
+        /* Completion Section */
+        .completion-section {
+            background-color: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 36px;
+        }
+
+        .completion-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #065F46;
+            margin-bottom: 16px;
+        }
+
+        .completion-section .btn {
+            width: 100%;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0F172A;
+            color: #94A3B8;
+            padding: 48px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .footer-links {
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            margin: 0 16px;
+        }
+
+        .footer-links a:hover {
+            color: #E2E8F0;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <button class="ham-trigger" onclick="toggleMenu()">☰</button>
+        </div>
+        <div class="navbar-center">
+            <a href="/" class="logo">
+                <svg class="logo-shield" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2L3 6.5V13C3 20.5 14 26 14 26S25 20.5 25 13V6.5L14 2Z" fill="#5B3FF8"/>
+                    <path d="M10.5 14L12.5 16L17.5 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div>
+                    <div class="logo-text">Hyyryn</div>
+                    <div class="logo-subtext">— THE TRUST PROTOCOL —</div>
+                </div>
+            </a>
+        </div>
+        <div class="navbar-right">
+            <a href="/notifications" class="nav-icon">🔔</a>
+            <a href="/messages" class="nav-icon">💬</a>
+            <a href="/profile" class="nav-icon">JD</a>
+        </div>
+    </nav>
+
+    <!-- Ham Menu -->
+    <div class="ham-overlay" id="hamOverlay" onclick="toggleMenu()"></div>
+    <div class="ham-menu" id="hamMenu">
+        <a href="/">Home</a>
+        <a href="/buyer-dashboard">Buyer Dashboard</a>
+        <a href="/pro-dashboard">Pro Dashboard</a>
+        <a href="/messages">Messages</a>
+        <a href="/favourites">Favourites</a>
+        <a href="/notifications">Notifications</a>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="breadcrumb">Transactions > TX-2847</div>
+        <div class="header-title">Emergency Plumbing — Full Installation</div>
+        <div class="header-meta">
+            <span class="badge badge-active">ACTIVE</span>
+            <span class="amount">£1,250</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Column -->
+        <div>
+            <!-- Timeline Card -->
+            <div class="card">
+                <div class="card-title">Transaction Timeline</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot complete">✓</div>
+                        <div class="timeline-text">Payment Secured</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot complete">✓</div>
+                        <div class="timeline-text">Work Initiated</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot active"></div>
+                        <div class="timeline-text">Work In Progress</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot pending"></div>
+                        <div class="timeline-text">Work Completed</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot pending"></div>
+                        <div class="timeline-text">Payment Released</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evidence Card -->
+            <div class="card">
+                <div class="card-title">Evidence</div>
+                <div class="evidence-item">
+                    <div>
+                        <div class="evidence-name">installation_photo_01.jpg</div>
+                        <div class="evidence-date">March 24, 2026</div>
+                    </div>
+                    <div class="evidence-badge">Submitted</div>
+                </div>
+                <div class="evidence-item">
+                    <div>
+                        <div class="evidence-name">work_invoice.pdf</div>
+                        <div class="evidence-date">March 24, 2026</div>
+                    </div>
+                    <div class="evidence-badge">Submitted</div>
+                </div>
+                <a href="/evidence" class="btn btn-secondary" style="width: 100%; justify-content: center; margin-top: 16px;">
+                    Upload More Evidence
+                </a>
+            </div>
+
+            <!-- Dispute Card -->
+            <div class="dispute-card">
+                <div class="dispute-title">⚠️ Raise a Dispute</div>
+                <div class="dispute-text">Something doesn't look right? You can raise a dispute before releasing payment. Our team will investigate.</div>
+                <a href="/dispute" class="btn btn-danger" style="width: 100%; justify-content: center;">
+                    Raise Dispute
+                </a>
+                <div style="font-size: 12px; color: #92400E; margin-top: 12px;">You can cancel this transaction anytime before confirming completion.</div>
+            </div>
+
+            <!-- Completion Section -->
+            <div class="completion-section">
+                <div class="completion-title">✓ Ready to Confirm Completion?</div>
+                <p style="font-size: 13px; color: #065F46; margin-bottom: 16px;">Once you confirm, £1,250 will be released to Marcus K.</p>
+                <button class="btn btn-primary" style="width: 100%; justify-content: center; background-color: #10B981;" onclick="confirmCompletion()">
+                    Confirm Work Complete & Release Payment
+                </button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Amount Card -->
+            <div class="amount-card">
+                <div class="amount-value">£1,250</div>
+                <div class="amount-label">Amount in Escrow</div>
+                <div class="breakdown">Service fee: <span class="breakdown-amount">£1,150</span></div>
+                <div class="breakdown">Platform fee: <span class="breakdown-amount">£100</span></div>
+                <div class="badge-escrow">ESCROWED</div>
+            </div>
+
+            <!-- Provider Card -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="avatar">MK</div>
+                    <div class="provider-info">
+                        <div class="provider-name">Marcus K.</div>
+                        <div class="provider-rating">⭐ 4.9 (152 reviews)</div>
+                        <div class="badge-verified">PRO VERIFIED</div>
+                    </div>
+                </div>
+                <div class="provider-action">
+                    <a href="/messages" class="btn btn-primary">Message Provider</a>
+                    <a href="/seller-profile" class="btn btn-secondary">View Profile</a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="amount-card">
+                <a href="#" class="btn-link" style="display: block; margin-bottom: 12px;">📄 Download Contract</a>
+                <a href="#" class="btn-link" style="display: block;">📍 View on Map</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links">
+            <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+            <a href="/support">Support</a>
+        </div>
+        <div>© 2026 Hyyryn. All rights reserved.</div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('hamMenu');
+            const overlay = document.getElementById('hamOverlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function confirmCompletion() {
+            const confirmed = confirm('Payment of £1,250 will be released to Marcus K. — confirm?');
+            if (confirmed) {
+                alert('Payment confirmed! The funds will be transferred shortly.');
+            }
+        }
+    </script>
+</body>
+</html>

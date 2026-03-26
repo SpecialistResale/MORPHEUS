@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Create Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0C18;
+            color: #E5E7EB;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(91, 63, 248, 0.18) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .card-wrapper {
+            max-width: 440px;
+            margin: 0 auto;
+            background-color: #0d0f1a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .shield-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #5B3FF8, #7C3AED);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            color: #FFFFFF;
+            letter-spacing: -0.5px;
+        }
+
+        .heading {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #9CA3AF;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .step-badge {
+            display: inline-block;
+            background-color: rgba(91, 63, 248, 0.15);
+            border: 1px solid rgba(91, 63, 248, 0.3);
+            color: #A78BFA;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #D1D5DB;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(91, 63, 248, 0.4);
+            box-shadow: 0 0 0 3px rgba(91, 63, 248, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #6B7280;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            color: #D1D5DB;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #4A33D4;
+            box-shadow: 0 8px 16px rgba(91, 63, 248, 0.3);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: #6B7280;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .link-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-link {
+            color: #A78BFA;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .login-link:hover {
+            color: #C4B5FD;
+        }
+
+        .legal-text {
+            font-size: 12px;
+            color: #6B7280;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .legal-text a {
+            color: #A78BFA;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .legal-text a:hover {
+            color: #C4B5FD;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card-wrapper">
+            <div class="logo-section">
+                <div class="logo-container">
+                    <div class="shield-icon">🛡️</div>
+                    <div class="logo-text">HYYRYN</div>
+                </div>
+            </div>
+
+            <div class="step-badge">Step 1 of 2 — Account Details</div>
+
+            <h1 class="heading">Create Account</h1>
+            <p class="subtitle">Join the trust protocol</p>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="Your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" class="form-input" id="passwordInput" placeholder="Create a strong password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('passwordInput')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" class="form-input" id="confirmPasswordInput" placeholder="Confirm your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPasswordInput')">👁️</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Continue to Role Selection</button>
+            </form>
+
+            <div class="divider">or</div>
+
+            <div class="link-section">
+                <p>Already have an account? <a href="/login" class="login-link">Log In</a></p>
+            </div>
+
+            <p class="legal-text">
+                By continuing you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Form submission logic would go here
+            window.location.href = '/onboarding';
+        });
+    </script>
+</body>
+</html>

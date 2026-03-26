@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Raise Dispute</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+        }
+
+        /* Protocol Bar */
+        .protocol-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .protocol-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .protocol-back {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .protocol-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #EF4444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .protocol-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .protocol-badge {
+            background-color: #10B981;
+            color: #FFFFFF;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Page Content */
+        .page-content {
+            margin-top: 56px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 32px;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background-color: #FEF3C7;
+            border: 1px solid #F59E0B;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .warning-icon {
+            font-size: 18px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .warning-text {
+            font-size: 13px;
+            color: #92400E;
+            line-height: 1.5;
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-section:last-of-type {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #475569;
+        }
+
+        /* Radio Cards */
+        .radio-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .radio-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .radio-card:hover {
+            border-color: #5B3FF8;
+            background-color: #F9FAFB;
+        }
+
+        .radio-card input[type="radio"] {
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .radio-card input[type="radio"]:checked + .card-content {
+            color: #5B3FF8;
+        }
+
+        .radio-card input[type="radio"]:checked {
+            accent-color: #5B3FF8;
+        }
+
+        .radio-card.selected {
+            border-color: #5B3FF8;
+            background-color: #F3F0FF;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: #475569;
+        }
+
+        /* Textarea */
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 120px;
+            color: #0F172A;
+            transition: all 0.2s;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #5B3FF8;
+            box-shadow: 0 0 0 3px rgba(91, 63, 248, 0.1);
+        }
+
+        .textarea-counter {
+            font-size: 11px;
+            color: #94A3B8;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        /* Radio Options */
+        .radio-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            font-size: 13px;
+            color: #0F172A;
+            flex: 1;
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: #5B3FF8;
+        }
+
+        /* Evidence Status */
+        .evidence-status {
+            background-color: #F9FAFB;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .evidence-count {
+            font-size: 13px;
+            color: #0F172A;
+        }
+
+        .evidence-badge {
+            background-color: #D1FAE5;
+            color: #065F46;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .add-evidence-link {
+            color: #5B3FF8;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .add-evidence-link:hover {
+            text-decoration: underline;
+        }
+
+        /* What Happens Next */
+        .process-section {
+            background-color: #F9FAFB;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .process-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 12px;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            min-width: 28px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 2px;
+        }
+
+        .step-time {
+            font-size: 11px;
+            color: #94A3B8;
+        }
+
+        /* Bottom Actions */
+        .bottom-actions {
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        .btn-primary {
+            background-color: #EF4444;
+            color: #FFFFFF;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #DC2626;
+        }
+
+        .btn-secondary {
+            background: none;
+            border: 1px solid #E2E8F0;
+            color: #475569;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #5B3FF8;
+            color: #5B3FF8;
+        }
+
+        /* Warning Note */
+        .fraud-warning {
+            background-color: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 12px;
+            color: #991B1B;
+            margin-top: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Protocol Bar -->
+    <div class="protocol-bar">
+        <div class="protocol-left">
+            <button class="protocol-back" onclick="window.location.href='/transaction'">←</button>
+            <div class="protocol-title">DISPUTE PROTOCOL</div>
+        </div>
+        <div class="protocol-right">
+            <div class="protocol-badge">✓ PROTECTED</div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Warning Banner -->
+        <div class="warning-banner">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-text">
+                Raising a dispute will pause transaction TX-2847 and notify both parties. A Hyyryn mediator will be assigned within 4 hours.
+            </div>
+        </div>
+
+        <!-- Dispute Form -->
+        <div class="form-card">
+            <form onsubmit="submitDispute(event)">
+                <!-- Section 1: Nature of Dispute -->
+                <div class="form-section">
+                    <div class="section-title">1. Nature of Dispute</div>
+                    <div class="radio-cards">
+                        <label class="radio-card">
+                            <input type="radio" name="dispute-nature" value="not-completed" onchange="updateCardStyle(event)">
+                            <div class="card-content">
+                                <div class="card-title">Work Not Completed</div>
+                                <div class="card-desc">Professional did not finish the agreed work</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="dispute-nature" value="quality-below" onchange="updateCardStyle(event)">
+                            <div class="card-content">
+                                <div class="card-title">Quality Below Standard</div>
+                                <div class="card-desc">Work was completed but does not meet the agreed quality</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="dispute-nature" value="no-show" onchange="updateCardStyle(event)">
+                            <div class="card-content">
+                                <div class="card-title">No-Show / Abandonment</div>
+                                <div class="card-desc">Professional did not show up or abandoned the job</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="dispute-nature" value="misrepresentation" onchange="updateCardStyle(event)">
+                            <div class="card-content">
+                                <div class="card-title">Misrepresentation</div>
+                                <div class="card-desc">Work or professional details were misrepresented</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="dispute-nature" value="other" onchange="updateCardStyle(event)">
+                            <div class="card-content">
+                                <div class="card-title">Other</div>
+                                <div class="card-desc">Please describe the issue in the description field</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section 2: Describe the Issue -->
+                <div class="form-section">
+                    <div class="section-title">2. Describe the Issue</div>
+                    <textarea class="form-textarea" placeholder="Provide detailed information about the dispute..." onkeyup="updateCounter(event)"></textarea>
+                    <div class="textarea-counter"><span id="charCount">0</span>/500</div>
+                </div>
+
+                <!-- Section 3: Desired Resolution -->
+                <div class="form-section">
+                    <div class="section-title">3. Desired Resolution</div>
+                    <div class="radio-options">
+                        <div class="radio-option">
+                            <input type="radio" id="full-refund" name="resolution" value="full-refund" checked>
+                            <label for="full-refund">Full Refund (£1,250)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="partial-refund" name="resolution" value="partial-refund" onchange="toggleAmountInput(event)">
+                            <label for="partial-refund">Partial Refund</label>
+                            <input type="number" id="amount-input" class="amount-input" placeholder="Enter amount £" style="display: none; width: 120px; margin-left: auto;">
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="redo-work" name="resolution" value="redo-work">
+                            <label for="redo-work">Work to be Re-done</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="mediated" name="resolution" value="mediated-settlement">
+                            <label for="mediated">Mediated Settlement</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Evidence -->
+                <div class="form-section">
+                    <div class="section-title">4. Supporting Evidence</div>
+                    <div class="evidence-status">
+                        <div class="evidence-count">You have <strong>2 items of evidence</strong> attached</div>
+                        <div class="evidence-badge">✓ Attached</div>
+                    </div>
+                    <a href="/evidence" class="add-evidence-link">+ Add More Evidence</a>
+                </div>
+
+                <!-- What Happens Next -->
+                <div class="process-section">
+                    <div class="process-title">What Happens Next</div>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Dispute logged & both parties notified</div>
+                                <div class="step-time">Expected: 0–4 hours</div>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Hyyryn mediator reviews evidence</div>
+                                <div class="step-time">Expected: 4–48 hours</div>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <div class="step-title">Resolution issued</div>
+                                <div class="step-time">Expected: 48–72 hours</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Actions -->
+                <div class="bottom-actions">
+                    <button type="submit" class="btn-primary">Submit Dispute</button>
+                    <button type="button" class="btn-secondary" onclick="window.location.href='/transaction'">Cancel — Return to Transaction</button>
+                </div>
+
+                <div class="fraud-warning">
+                    ⚠️ Fraudulent disputes may result in account suspension
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateCardStyle(event) {
+            const cards = document.querySelectorAll('.radio-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            
+            if (event.target.checked) {
+                event.target.parentElement.classList.add('selected');
+            }
+        }
+
+        function updateCounter(event) {
+            const count = event.target.value.length;
+            document.getElementById('charCount').textContent = count;
+        }
+
+        function toggleAmountInput(event) {
+            const input = document.getElementById('amount-input');
+            if (event.target.checked) {
+                input.style.display = 'block';
+            } else {
+                input.style.display = 'none';
+            }
+        }
+
+        function submitDispute(event) {
+            event.preventDefault();
+            
+            const natureRadio = document.querySelector('input[name="dispute-nature"]:checked');
+            const resolutionRadio = document.querySelector('input[name="resolution"]:checked');
+            
+            if (!natureRadio) {
+                alert('Please select the nature of the dispute');
+                return;
+            }
+            
+            if (!resolutionRadio) {
+                alert('Please select a desired resolution');
+                return;
+            }
+            
+            alert('Dispute submitted successfully. You will receive updates as the mediation process progresses.');
+        }
+    </script>
+</body>
+</html>

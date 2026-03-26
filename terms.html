@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service — Hyyryn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #0F172A;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .navbar-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .navbar-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            line-height: 1.1;
+        }
+
+        .navbar-logo-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            color: #5B3FF8;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav {
+            display: none;
+            list-style: none;
+            gap: 32px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav.active {
+            display: flex;
+        }
+
+        .navbar-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-nav a:hover {
+            color: #0F172A;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .navbar-login {
+            text-decoration: none;
+            color: #5B3FF8;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .navbar-login:hover {
+            background: #F3F0FF;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+        }
+
+        /* Content */
+        .content-wrapper {
+            margin-top: 68px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 48px;
+            padding: 48px 24px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-title {
+            grid-column: 1 / -1;
+            margin-bottom: 32px;
+        }
+
+        .page-title h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #0F172A;
+        }
+
+        .page-meta {
+            font-size: 14px;
+            color: #94A3B8;
+        }
+
+        /* Sidebar TOC */
+        .toc-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .toc-nav {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .toc-nav h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #0F172A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .toc-nav ul {
+            list-style: none;
+        }
+
+        .toc-nav li {
+            margin-bottom: 12px;
+        }
+
+        .toc-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 500;
+            display: block;
+            padding: 6px 0;
+            border-left: 2px solid transparent;
+            padding-left: 10px;
+            transition: all 0.2s;
+        }
+
+        .toc-nav a:hover {
+            color: #5B3FF8;
+        }
+
+        .toc-nav a.active {
+            color: #5B3FF8;
+            border-left-color: #5B3FF8;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .content-section {
+            margin-bottom: 48px;
+        }
+
+        .content-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 16px;
+            padding-top: 24px;
+            margin-top: -24px;
+        }
+
+        .content-section p {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #5B3FF8;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .toc-sidebar {
+                position: static;
+            }
+
+            .toc-nav {
+                display: flex;
+                gap: 16px;
+                padding: 16px;
+                overflow-x: auto;
+            }
+
+            .toc-nav ul {
+                display: flex;
+                gap: 12px;
+            }
+
+            .toc-nav li {
+                margin-bottom: 0;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-hamburger {
+                display: block;
+            }
+
+            .content-wrapper {
+                padding: 24px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .toc-nav {
+                flex-wrap: wrap;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="navbar-hamburger" onclick="toggleMenu()">☰</button>
+        <a href="/" class="navbar-logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#5B3FF8"/>
+            </svg>
+            <div class="navbar-logo-text">
+                Hyyryn
+                <div class="navbar-logo-subtext">THE TRUST PROTOCOL</div>
+            </div>
+        </a>
+        <ul class="navbar-nav" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/how-it-works">How It Works</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <div class="navbar-right">
+            <a href="/login" class="navbar-login">Log In</a>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="page-title">
+            <h1>Terms of Service</h1>
+            <div class="page-meta">Last updated: March 2026</div>
+        </div>
+
+        <!-- Sidebar TOC -->
+        <aside class="toc-sidebar">
+            <nav class="toc-nav">
+                <h3>Contents</h3>
+                <ul>
+                    <li><a href="#definitions">Definitions</a></li>
+                    <li><a href="#accounts">User Accounts</a></li>
+                    <li><a href="#services">Services & Listings</a></li>
+                    <li><a href="#escrow">Escrow & Payments</a></li>
+                    <li><a href="#disputes">Disputes & Mediation</a></li>
+                    <li><a href="#verification">Verification</a></li>
+                    <li><a href="#fees">Platform Fees</a></li>
+                    <li><a href="#termination">Account Termination</a></li>
+                    <li><a href="#liability">Limitation of Liability</a></li>
+                    <li><a href="#law">Governing Law</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="content-section" id="definitions">
+                <h2>1. Definitions</h2>
+                <p>In these Terms of Service ("Terms"), the following terms have the meanings set out below: "Hyyryn" or "we" or "us" means Hyyryn Ltd, a company registered in England and Wales (Company Number 15467891); "User" means any person who accesses or uses the Hyyryn platform; "Buyer" means a User who posts service requests on the platform; "Pro" or "Seller" means a User who offers services on the platform; "Services" means work performed by a Pro as requested by a Buyer; "Escrow" means the secure holding of funds by Hyyryn until conditions are met; "Transaction" means a complete request for services, delivery, and payment cycle between a Buyer and Pro; "Platform" means the Hyyryn website, mobile application, and associated services. These Terms, together with our Privacy Policy and Dispute Resolution Policy, constitute the entire agreement between you and Hyyryn regarding your use of the platform.</p>
+            </section>
+
+            <section class="content-section" id="accounts">
+                <h2>2. User Accounts</h2>
+                <p>To use Hyyryn, you must create an account and provide accurate, complete, and current information. You are responsible for maintaining the confidentiality of your account credentials and are liable for all activities that occur under your account. You agree not to share your password or allow others to use your account. Hyyryn reserves the right to suspend or terminate accounts that provide false information or that are used in violation of these Terms. Users must be at least 18 years of age to use the platform. You agree to notify us immediately of any unauthorized access to your account. Hyyryn is not responsible for losses resulting from unauthorized account access if caused by your negligence.</p>
+            </section>
+
+            <section class="content-section" id="services">
+                <h2>3. Services & Listings</h2>
+                <p>Pros may create listings describing their available services. All listings must be accurate, lawful, and not violate any intellectual property or personal rights. Hyyryn reserves the right to remove listings that are misleading, illegal, or offensive. Buyers may post requests for services, and Pros may choose to respond with proposals. Neither Hyyryn nor the other party is obligated to accept any request or proposal. By posting a request or proposal, you represent that you have the right and authority to do so. You agree not to use the platform for illegal services or to solicit services that violate applicable law. Hyyryn does not verify the legality of services and is not liable for disputes about service legality.</p>
+            </section>
+
+            <section class="content-section" id="escrow">
+                <h2>4. Escrow & Payments</h2>
+                <p>When a Buyer and Pro agree on a transaction, the Buyer deposits payment into escrow held by Hyyryn. Funds are held securely and are not accessible to either party until specified conditions are met. Once a Pro completes the work and the Buyer confirms satisfaction, Hyyryn releases funds to the Pro within 2 business days. If a Buyer does not respond within 30 days, funds are automatically released. Hyyryn acts as a neutral escrow holder and does not take sides in disputes. All transactions are processed through secure payment gateways using encryption and bank-level security. Platform fees are deducted from the Pro's payment before release. Buyers are never charged platform fees. You authorize Hyyryn to hold and manage funds on your behalf as described in these Terms. Hyyryn uses escrow funds only as specified and maintains separate accounts for client funds.</p>
+            </section>
+
+            <section class="content-section" id="disputes">
+                <h2>5. Disputes & Mediation</h2>
+                <p>If a Buyer and Pro dispute whether work is complete, either party may open a dispute within 14 days of delivery. Disputing parties must provide evidence including photos, messages, deliverables, and written explanations. A professional mediator will be assigned to review all evidence and make a binding decision within 72 hours. The mediator's decision determines how escrowed funds are distributed. Mediation is required before pursuing legal action. If mediation fails to resolve the dispute, either party may pursue legal remedies in the courts of England and Wales. Hyyryn does not refund mediation fees. By using the platform, you agree to participate in good faith in the mediation process. Frivolous or bad faith disputes may result in account suspension or termination.</p>
+            </section>
+
+            <section class="content-section" id="verification">
+                <h2>6. Verification</h2>
+                <p>Pros must complete a multi-step verification process before offering services. Verification includes identity verification, background checks, skills assessment, portfolio review, and reference checks. Hyyryn reserves the right to deny verification for any reason. Verified Pros display a badge on their profile and in search results. Verification is not a guarantee of quality or trustworthiness. Hyyryn performs basic verification but does not conduct comprehensive background investigations. Users rely on verified status at their own risk. False information provided during verification may result in permanent suspension. Verification status may be revoked if Pros receive consistent negative reviews or violate these Terms. Verification is valid for one year and must be renewed annually.</p>
+            </section>
+
+            <section class="content-section" id="fees">
+                <h2>7. Platform Fees</h2>
+                <p>Hyyryn charges Pros a transaction fee based on the job value: £0–£500 (10%), £500–£2,000 (8%), £2,000–£10,000 (6%), and £10,000+ (4%). Fees are deducted from the Pro's payment after the Buyer confirms completion. Buyers are never charged platform fees. There are no monthly subscriptions, listing fees, or hidden charges. Fees are non-refundable once a transaction completes. Hyyryn may modify fee structure with 30 days' notice. Enterprise customers may negotiate custom pricing. All prices are in GBP unless otherwise specified. Payment processing fees may apply for certain payment methods. Hyyryn is not responsible for currency conversion losses.</p>
+            </section>
+
+            <section class="content-section" id="termination">
+                <h2>8. Account Termination</h2>
+                <p>Either party may terminate their account at any time by providing written notice. Upon termination, you may not post new requests or listings, but existing transactions must be completed. Hyyryn may terminate accounts for violation of these Terms, fraud, illegal activity, or repeated disputes. Termination may be immediate if you violate the law or harm the platform. Terminated Pros may not re-register under different identities. Termination does not affect escrowed funds in ongoing transactions. Upon termination, Hyyryn may retain your data as required by law. Hyyryn will provide 30 days' notice before terminating accounts for policy violations unless the violation is severe.</p>
+            </section>
+
+            <section class="content-section" id="liability">
+                <h2>9. Limitation of Liability</h2>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, HYYRYN IS PROVIDED ON AN "AS IS" BASIS WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. HYYRYN DOES NOT WARRANT THAT THE PLATFORM WILL BE ERROR-FREE, UNINTERRUPTED, OR SECURE. HYYRYN IS NOT LIABLE FOR INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS, EVEN IF ADVISED OF THEIR POSSIBILITY. HYYRYN'S TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID HYYRYN IN THE 12 MONTHS BEFORE THE CLAIM. SOME JURISDICTIONS DO NOT ALLOW LIMITATION OF LIABILITY, SO THIS LIMITATION MAY NOT APPLY TO YOU. You acknowledge that Hyyryn does not control the conduct of Buyers or Pros and is not responsible for their actions, behavior, or quality of services. You use the platform at your own risk.</p>
+            </section>
+
+            <section class="content-section" id="law">
+                <h2>10. Governing Law</h2>
+                <p>These Terms are governed by the laws of England and Wales without regard to conflicts of law principles. You irrevocably submit to the exclusive jurisdiction of the courts of England and Wales for any dispute arising from these Terms or your use of the platform. If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall remain in effect. Hyyryn's failure to enforce any right does not constitute a waiver of that right. These Terms constitute the entire agreement between you and Hyyryn regarding your use of the platform. Hyyryn may modify these Terms at any time with 30 days' notice. Your continued use of the platform after notice of modification constitutes acceptance. If you do not agree to modifications, you must terminate your account. Hyyryn is registered with the Information Commissioner's Office (ICO) for data protection compliance under registration number ZA234567.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/search">Search</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/contact">Contact</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+            </div>
+            <div class="footer-copyright">© 2026 Hyyryn Ltd. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Simple TOC active state
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.toc-nav a');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

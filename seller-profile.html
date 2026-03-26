@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Pro Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .ham-menu {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0F172A;
+        }
+
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0F172A;
+        }
+
+        .logo-shield {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #5B3FF8, #8B5CF6);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .logo-tagline {
+            font-size: 10px;
+            font-weight: 600;
+            color: #94A3B8;
+            letter-spacing: 1px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #475569;
+            position: relative;
+        }
+
+        .icon-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 18px;
+            height: 18px;
+            background-color: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+
+        .avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F59E0B, #F59E0B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Page Content */
+        .page-content {
+            margin-top: 68px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 32px;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #0F172A, #1e2d4a);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .hero-avatar {
+            width: 120px;
+            height: 120px;
+            min-width: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F59E0B, #FBBF24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .hero-info {
+            color: #FFFFFF;
+            flex: 1;
+        }
+
+        .hero-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #E2E8F0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .badge-verified {
+            background-color: #F59E0B;
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #CBD5E1;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 32px;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #5B3FF8;
+            border-bottom-color: #5B3FF8;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 65% 35%;
+            gap: 24px;
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .about-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        /* Credentials Grid */
+        .credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .credential-badge {
+            background-color: #F9FAFB;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .credential-icon {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .credential-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .badge-green { color: #10B981; }
+        .badge-blue { color: #3B82F6; }
+        .badge-purple { color: #8B5CF6; }
+        .badge-amber { color: #F59E0B; }
+
+        /* Services Cards */
+        .service-card {
+            background-color: #F9FAFB;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .service-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .service-price {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .service-rating {
+            font-size: 12px;
+            color: #F59E0B;
+            margin-bottom: 12px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #5B3FF8;
+            color: #5B3FF8;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F3F0FF;
+        }
+
+        /* Right Column */
+        .contact-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            background-color: #3B82F6;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563EB;
+        }
+
+        .btn-accent {
+            background-color: #8B5CF6;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn-accent:hover {
+            background-color: #7C3AED;
+        }
+
+        /* Trust Score */
+        .trust-section {
+            background-color: #F9FAFB;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .trust-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .trust-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #E2E8F0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #5B3FF8);
+            width: 96%;
+        }
+
+        /* Stats List */
+        .stats-list {
+            background-color: #F9FAFB;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 13px;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-row .label {
+            color: #475569;
+        }
+
+        .stat-row .value {
+            color: #0F172A;
+            font-weight: 600;
+        }
+
+        /* Verification Badges */
+        .verification-list {
+            background-color: #F9FAFB;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .verification-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            font-size: 13px;
+            color: #0F172A;
+        }
+
+        .check-mark {
+            color: #10B981;
+            font-weight: 700;
+        }
+
+        /* Reviews */
+        .reviews-section {
+            margin-top: 32px;
+        }
+
+        .review-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .review-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #475569;
+            min-width: 40px;
+        }
+
+        .review-meta {
+            flex: 1;
+        }
+
+        .review-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: #94A3B8;
+        }
+
+        .review-rating {
+            font-size: 13px;
+            color: #F59E0B;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        /* Footer */
+        .footer-link {
+            color: #5B3FF8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 32px;
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <button class="ham-menu">☰</button>
+        </div>
+        <div class="navbar-center">
+            <div class="navbar-logo">
+                <div class="logo-shield">H</div>
+                <span>Hyyryn</span>
+            </div>
+            <div class="logo-tagline">— THE TRUST PROTOCOL —</div>
+        </div>
+        <div class="navbar-right">
+            <button class="icon-btn">
+                🔔
+                <span class="badge">2</span>
+            </button>
+            <button class="icon-btn">✉️</button>
+            <div class="avatar-small">MK</div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-avatar">MK</div>
+            <div class="hero-info">
+                <div class="hero-name">Marcus K.</div>
+                <div class="hero-title">Plumbing Specialist</div>
+                <div class="hero-badges">
+                    <span class="badge-verified">✓ PRO VERIFIED</span>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">4.9★</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">127</div>
+                        <div class="stat-label">Jobs</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">London, UK</div>
+                        <div class="stat-label">Location</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">&lt; 2h</div>
+                        <div class="stat-label">Response Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="switchTab('services')">Services</button>
+            <button class="tab-btn" onclick="switchTab('reviews')">Reviews</button>
+            <button class="tab-btn" onclick="switchTab('credentials')">Credentials</button>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Left Column -->
+            <div>
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <div class="card">
+                        <div class="card-title">About Marcus</div>
+                        <div class="about-text">
+                            With over 10 years of experience in residential and commercial plumbing, Marcus brings expertise and reliability to every project. Specializing in emergency repairs, full installations, and maintenance work, he's earned trust from hundreds of satisfied clients across London and the surrounding areas.
+                        </div>
+                        <div class="about-text">
+                            Marcus is fully certified, background-checked, and committed to completing work to the highest standards. He takes pride in clear communication, fair pricing, and getting the job done right the first time. Available for same-day emergency callouts.
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Credentials & Certifications</div>
+                        <div class="credentials-grid">
+                            <div class="credential-badge">
+                                <div class="credential-icon badge-green">✓</div>
+                                <div class="credential-name">Gas Safe Registered</div>
+                            </div>
+                            <div class="credential-badge">
+                                <div class="credential-icon badge-blue">✓</div>
+                                <div class="credential-name">NICEIC Certified</div>
+                            </div>
+                            <div class="credential-badge">
+                                <div class="credential-icon badge-purple">✓</div>
+                                <div class="credential-name">DBS Checked</div>
+                            </div>
+                            <div class="credential-badge">
+                                <div class="credential-icon badge-amber">★</div>
+                                <div class="credential-name">10 Years Experience</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Featured Services</div>
+                        <div class="service-card">
+                            <div class="service-name">Emergency Callout Plumbing</div>
+                            <div class="service-price">£180/hr</div>
+                            <div class="service-rating">4.9★ (89 reviews)</div>
+                            <button class="btn-secondary" onclick="window.location.href='/service'">View Service</button>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-name">Full Bathroom Installation</div>
+                            <div class="service-price">from £1,200</div>
+                            <div class="service-rating">4.8★ (34 reviews)</div>
+                            <button class="btn-secondary" onclick="window.location.href='/service'">View Service</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Tab -->
+                <div id="services" class="tab-content">
+                    <div class="card">
+                        <div class="card-title">All Services</div>
+                        <div class="service-card">
+                            <div class="service-name">Emergency Callout Plumbing</div>
+                            <div class="service-price">£180/hr</div>
+                            <div class="service-rating">4.9★ (89 reviews)</div>
+                            <button class="btn-secondary" onclick="window.location.href='/service'">View Service</button>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-name">Full Bathroom Installation</div>
+                            <div class="service-price">from £1,200</div>
+                            <div class="service-rating">4.8★ (34 reviews)</div>
+                            <button class="btn-secondary" onclick="window.location.href='/service'">View Service</button>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-name">Kitchen Tap & Sink Installation</div>
+                            <div class="service-price">from £250</div>
+                            <div class="service-rating">4.9★ (45 reviews)</div>
+                            <button class="btn-secondary" onclick="window.location.href='/service'">View Service</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div id="reviews" class="tab-content">
+                    <div class="reviews-section">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">JT</div>
+                                <div class="review-meta">
+                                    <div class="review-name">Jennifer T.</div>
+                                    <div class="review-date">2 weeks ago</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">★★★★★ 5.0</div>
+                            <div class="review-text">
+                                Marcus was absolutely excellent. He arrived on time, fixed the issue quickly, and was very professional. Would definitely use him again. Great value for money.
+                            </div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">DM</div>
+                                <div class="review-meta">
+                                    <div class="review-name">David M.</div>
+                                    <div class="review-date">1 month ago</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">★★★★★ 5.0</div>
+                            <div class="review-text">
+                                Bathroom installation from start to finish. Marcus was responsive, tidy, and the work is flawless. Highly recommend for any major plumbing work.
+                            </div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">SN</div>
+                                <div class="review-meta">
+                                    <div class="review-name">Sarah N.</div>
+                                    <div class="review-date">6 weeks ago</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">★★★★☆ 4.8</div>
+                            <div class="review-text">
+                                Very professional and knowledgeable. Got the job done efficiently. Only minor note is he could've given a bit more notice about arrival, but overall excellent service.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credentials Tab -->
+                <div id="credentials" class="tab-content">
+                    <div class="card">
+                        <div class="card-title">Professional Qualifications</div>
+                        <div class="credentials-grid" style="grid-template-columns: 1fr;">
+                            <div style="background-color: #F9FAFB; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                                <div style="font-weight: 600; color: #0F172A; margin-bottom: 4px;">Gas Safe Registered</div>
+                                <div style="font-size: 12px; color: #475569;">Registration #123456 • Valid through 2026</div>
+                            </div>
+                            <div style="background-color: #F9FAFB; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                                <div style="font-weight: 600; color: #0F172A; margin-bottom: 4px;">NICEIC Certified</div>
+                                <div style="font-size: 12px; color: #475569;">Electrical safety certification • Valid through 2025</div>
+                            </div>
+                            <div style="background-color: #F9FAFB; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                                <div style="font-weight: 600; color: #0F172A; margin-bottom: 4px;">DBS Background Check</div>
+                                <div style="font-size: 12px; color: #475569;">Enhanced check • Completed January 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <div class="card contact-card">
+                    <button class="btn-primary" onclick="window.location.href='/messages'">Message Marcus</button>
+                    <button class="btn-accent" onclick="window.location.href='/search'">Book a Service</button>
+                    
+                    <div class="trust-section">
+                        <div class="trust-label">Trust Score</div>
+                        <div class="trust-score">96/100</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Performance Stats</div>
+                    <div class="stats-list">
+                        <div class="stat-row">
+                            <span class="label">Completed Jobs</span>
+                            <span class="value">127</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Average Rating</span>
+                            <span class="value">4.9★</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Disputes</span>
+                            <span class="value">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Member Since</span>
+                            <span class="value">2022</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Verification Status</div>
+                    <div class="verification-list">
+                        <div class="verification-item">
+                            <span class="check-mark">✓</span>
+                            <span>ID Verified</span>
+                        </div>
+                        <div class="verification-item">
+                            <span class="check-mark">✓</span>
+                            <span>Professional License</span>
+                        </div>
+                        <div class="verification-item">
+                            <span class="check-mark">✓</span>
+                            <span>Background Check</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/search" class="footer-link">← Back to Search</a>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const btns = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            btns.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Browse All Categories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+        }
+
+        .navbar {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E5E7EB;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shield-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #5B3FF8, #7C3AED);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 900;
+            color: #0F172A;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            gap: 32px;
+            margin-left: 64px;
+        }
+
+        .nav-link {
+            color: #6B7280;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #0F172A;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-login {
+            padding: 8px 16px;
+            background-color: #5B3FF8;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-login:hover {
+            background-color: #4A33D4;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #0A0C18 0%, #111827 100%);
+            color: #FFFFFF;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .search-wrapper {
+            max-width: 500px;
+            margin: 0 auto 24px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(91, 63, 248, 0.4);
+        }
+
+        .hero-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
+        .main-content {
+            padding: 60px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .category-card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: #5B3FF8;
+            box-shadow: 0 8px 24px rgba(91, 63, 248, 0.15);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #F3F4F6;
+        }
+
+        .category-content {
+            padding: 20px;
+            position: relative;
+        }
+
+        .category-overlay {
+            position: relative;
+        }
+
+        .category-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .category-count {
+            display: inline-block;
+            background-color: #F3F4F6;
+            color: #6B7280;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .category-browse {
+            display: inline-block;
+            color: #5B3FF8;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .category-browse:hover {
+            color: #4A33D4;
+        }
+
+        .popular-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 24px;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #FFFFFF;
+            border: 1px solid #D1D5DB;
+            color: #0F172A;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tag:hover {
+            background-color: #F3F4F6;
+            border-color: #5B3FF8;
+            color: #5B3FF8;
+        }
+
+        .cta-section {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .cta-text {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        .cta-link {
+            color: #5B3FF8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .cta-link:hover {
+            color: #4A33D4;
+        }
+
+        .footer {
+            background-color: #0F172A;
+            color: #D1D5DB;
+            padding: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 32px;
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            color: #6B7280;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo-container">
+                <div class="shield-icon">🛡️</div>
+                <div class="logo-text">HYYRYN</div>
+            </div>
+        </div>
+        <div class="nav-center">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/search" class="nav-link">Search</a>
+            <a href="/how-it-works" class="nav-link">How it Works</a>
+            <a href="/pricing" class="nav-link">Pricing</a>
+        </div>
+        <div class="nav-right">
+            <button class="btn-login" onclick="window.location='/login'">Log In</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="hero-title">Browse All Service Categories</h1>
+        <div class="search-wrapper">
+            <input type="text" class="search-input" placeholder="Search categories...">
+        </div>
+        <p class="hero-subtitle">473 verified professionals ready to help</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Categories Grid -->
+        <div class="categories-grid">
+            <!-- Plumbing -->
+            <div class="category-card" onclick="window.location='/search?category=plumbing'">
+                <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80" alt="Plumbing" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Plumbing</div>
+                    <span class="category-count">142 professionals</span>
+                    <br>
+                    <a href="/search?category=plumbing" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Electrical -->
+            <div class="category-card" onclick="window.location='/search?category=electrical'">
+                <img src="https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=600&q=80" alt="Electrical" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Electrical</div>
+                    <span class="category-count">118 professionals</span>
+                    <br>
+                    <a href="/search?category=electrical" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Painting -->
+            <div class="category-card" onclick="window.location='/search?category=painting'">
+                <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&q=80" alt="Painting" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Painting</div>
+                    <span class="category-count">94 professionals</span>
+                    <br>
+                    <a href="/search?category=painting" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Construction -->
+            <div class="category-card" onclick="window.location='/search?category=construction'">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Construction" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Construction</div>
+                    <span class="category-count">156 professionals</span>
+                    <br>
+                    <a href="/search?category=construction" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- HVAC / Climate -->
+            <div class="category-card" onclick="window.location='/search?category=hvac'">
+                <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600&q=80" alt="HVAC" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">HVAC / Climate</div>
+                    <span class="category-count">73 professionals</span>
+                    <br>
+                    <a href="/search?category=hvac" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Landscaping -->
+            <div class="category-card" onclick="window.location='/search?category=landscaping'">
+                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80" alt="Landscaping" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Landscaping</div>
+                    <span class="category-count">127 professionals</span>
+                    <br>
+                    <a href="/search?category=landscaping" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Cleaning -->
+            <div class="category-card" onclick="window.location='/search?category=cleaning'">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=80" alt="Cleaning" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Cleaning</div>
+                    <span class="category-count">89 professionals</span>
+                    <br>
+                    <a href="/search?category=cleaning" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Vehicle Rentals -->
+            <div class="category-card" onclick="window.location='/search?category=vehicle-rentals'">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Vehicle Rentals" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Vehicle Rentals</div>
+                    <span class="category-count">64 professionals</span>
+                    <br>
+                    <a href="/search?category=vehicle-rentals" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Carpentry -->
+            <div class="category-card" onclick="window.location='/search?category=carpentry'">
+                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80" alt="Carpentry" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Carpentry</div>
+                    <span class="category-count">103 professionals</span>
+                    <br>
+                    <a href="/search?category=carpentry" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Security Systems -->
+            <div class="category-card" onclick="window.location='/search?category=security'">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Security Systems" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Security Systems</div>
+                    <span class="category-count">51 professionals</span>
+                    <br>
+                    <a href="/search?category=security" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Roofing -->
+            <div class="category-card" onclick="window.location='/search?category=roofing'">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Roofing" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Roofing</div>
+                    <span class="category-count">82 professionals</span>
+                    <br>
+                    <a href="/search?category=roofing" class="category-browse">Browse →</a>
+                </div>
+            </div>
+
+            <!-- Moving Services -->
+            <div class="category-card" onclick="window.location='/search?category=moving'">
+                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80" alt="Moving Services" class="category-image">
+                <div class="category-content">
+                    <div class="category-name">Moving Services</div>
+                    <span class="category-count">76 professionals</span>
+                    <br>
+                    <a href="/search?category=moving" class="category-browse">Browse →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular Searches -->
+        <div class="popular-section">
+            <h2 class="section-title">Popular Searches</h2>
+            <div class="tags-container">
+                <a href="/search?q=plumber" class="tag">Plumber</a>
+                <a href="/search?q=electrician" class="tag">Electrician</a>
+                <a href="/search?q=plasterer" class="tag">Plasterer</a>
+                <a href="/search?q=carpenter" class="tag">Carpenter</a>
+                <a href="/search?q=painter" class="tag">Painter</a>
+                <a href="/search?q=builder" class="tag">Builder</a>
+                <a href="/search?q=roofer" class="tag">Roofer</a>
+                <a href="/search?q=cleaner" class="tag">Cleaner</a>
+                <a href="/search?q=locksmith" class="tag">Locksmith</a>
+                <a href="/search?q=decorator" class="tag">Decorator</a>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <p class="cta-text">Can't find your category?</p>
+            <a href="/contact" class="cta-link">Contact us to request a new category</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-title">Platform</div>
+                <a href="/" class="footer-link">Home</a>
+                <a href="/search" class="footer-link">Search</a>
+                <a href="/how-it-works" class="footer-link">How it Works</a>
+            </div>
+            <div class="footer-section">
+                <div class="footer-title">Company</div>
+                <a href="/pricing" class="footer-link">Pricing</a>
+                <a href="/contact" class="footer-link">Contact</a>
+                <a href="/careers" class="footer-link">Careers</a>
+            </div>
+            <div class="footer-section">
+                <div class="footer-title">Legal</div>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="/cookies" class="footer-link">Cookies</a>
+            </div>
+            <div class="footer-section">
+                <div class="footer-title">Connect</div>
+                <a href="#" class="footer-link">Twitter</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+                <a href="#" class="footer-link">Facebook</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hyyryn. All rights reserved. The trust protocol for verified professionals.</p>
+        </div>
+    </div>
+</body>
+</html>

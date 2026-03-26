@@ -233,12 +233,12 @@
         <div class="dash-icon-box"><svg width="26" height="26" fill="none" stroke="rgba(139,92,246,1)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
         <div><div class="dash-title">Seller Dashboard</div><div class="dash-subtitle">Manage your protected transactions and services</div></div>
       </div>
-      <button class="btn-create"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Transaction</button>
+      <button class="btn-create" onclick="window.location='/login'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Transaction</button>
     </div>
     <div class="upgrade-bar">
       <svg width="16" height="16" fill="none" stroke="#FCD34D" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       <div class="upgrade-bar-text"><strong>Upgrade to Pro</strong> — You're on the standard plan (5–8% fee). Pro members pay just <strong>3% flat</strong> and get priority visibility.</div>
-      <button class="btn-upgrade">Upgrade to Pro</button>
+      <button class="btn-upgrade" onclick="window.location='/pro-dashboard'">Upgrade to Pro</button>
     </div>
   </div>
 
@@ -292,20 +292,20 @@
           <div>
             <div class="alert-title">Evidence Required</div>
             <div class="alert-desc">You have 1 transaction requiring evidence upload. Standard review is processed within 24–72 hours of submission.</div>
-            <button class="btn-evidence"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload Evidence</button>
+            <button class="btn-evidence" onclick="window.location='/messages'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload Evidence</button>
           </div>
         </div>
         <div class="card">
           <div class="card-head">
             <div><div class="card-title">Your Transactions</div><div class="card-sub">Manage and track all your protected deals</div></div>
-            <div class="filter-tabs"><button class="filter-tab active">All</button><button class="filter-tab">Active</button><button class="filter-tab">Completed</button></div>
+            <div class="filter-tabs"><button class="filter-tab active" onclick="filterTxn('all',this)">All</button><button class="filter-tab" onclick="filterTxn('active',this)">Active</button><button class="filter-tab" onclick="filterTxn('completed',this)">Completed</button></div>
           </div>
-          <div class="txn-row">
+          <div class="txn-row" data-status="active" onclick="window.location='/service'">
             <div class="txn-avatar ta--amber">BT</div>
             <div class="txn-info"><div class="txn-name">Bathroom Tiling</div><div class="txn-meta">Buyer: Thomas Reid · TXN-002 · Due: Feb 14, 2026</div></div>
             <div class="txn-right"><div class="txn-amount">£420.00</div><div class="txn-fee">Fee: 5% · You receive: £399.00</div><div><span class="txn-status ts--amber"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>Awaiting Evidence</span></div></div>
           </div>
-          <div class="txn-row">
+          <div class="txn-row" data-status="completed" onclick="window.location='/service'">
             <div class="txn-avatar ta--green">GL</div>
             <div class="txn-info"><div class="txn-name">Garden Landscaping</div><div class="txn-meta">Buyer: Lisa Ahmed · TXN-001</div></div>
             <div class="txn-right"><div class="txn-amount">£760.00</div><div class="txn-fee">Fee: 5% · You receive: £722.00</div><div><span class="txn-status ts--green"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>Settlement Executed</span></div></div>
@@ -322,7 +322,7 @@
             <div class="upsell-feat"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>50% faster fund release</div>
             <div class="upsell-feat"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Dedicated support channel</div>
           </div>
-          <button class="btn-upsell">Unlock with Pro →</button>
+          <button class="btn-upsell" onclick="window.location='/pro-dashboard'">Unlock with Pro →</button>
         </div>
         <div class="upsell-card">
           <div class="upsell-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
@@ -333,7 +333,7 @@
             <div class="upsell-feat"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Real-time event streams</div>
             <div class="upsell-feat"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>ERP & legal system sync</div>
           </div>
-          <button class="btn-upsell">Unlock with Pro →</button>
+          <button class="btn-upsell" onclick="window.location='/pro-dashboard'">Unlock with Pro →</button>
         </div>
       </div>
     </div>
@@ -344,6 +344,13 @@
   function openHam() { document.getElementById('hamOverlay').classList.add('open'); document.getElementById('hamPanel').classList.add('open'); document.body.style.overflow='hidden'; }
   function closeHam() { document.getElementById('hamOverlay').classList.remove('open'); document.getElementById('hamPanel').classList.remove('open'); document.body.style.overflow=''; }
   document.addEventListener('keydown', e => { if(e.key==='Escape') closeHam(); });
+  function filterTxn(filter, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.txn-row').forEach(row => {
+      row.style.display = (filter === 'all' || row.dataset.status === filter) ? 'flex' : 'none';
+    });
+  }
   let lastY = 0;
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing — Hyyryn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #0F172A;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .navbar-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .navbar-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            line-height: 1.1;
+        }
+
+        .navbar-logo-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            color: #5B3FF8;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav {
+            display: none;
+            list-style: none;
+            gap: 32px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav.active {
+            display: flex;
+        }
+
+        .navbar-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-nav a:hover {
+            color: #0F172A;
+        }
+
+        .navbar-nav a.active {
+            color: #5B3FF8;
+            font-weight: 600;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .navbar-login {
+            text-decoration: none;
+            color: #5B3FF8;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .navbar-login:hover {
+            background: #F3F0FF;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+        }
+
+        .mobile-menu a.active {
+            color: #5B3FF8;
+            font-weight: 600;
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 68px;
+            padding: 80px 24px;
+            background: linear-gradient(135deg, #0A0D1A 0%, #0F172A 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #D1D5DB;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Section */
+        .section {
+            padding: 80px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+            color: #0F172A;
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 64px;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #5B3FF8;
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(91, 63, 248, 0.15);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #5B3FF8;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .pricing-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 24px;
+        }
+
+        .pricing-price span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .pricing-description {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 32px;
+            min-height: 40px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            font-size: 14px;
+            color: #475569;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li:before {
+            content: "✓ ";
+            color: #10B981;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .pricing-button {
+            width: 100%;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-blue {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .btn-blue:hover {
+            background: #2563EB;
+        }
+
+        .btn-purple {
+            background: #5B3FF8;
+            color: white;
+        }
+
+        .btn-purple:hover {
+            background: #4C2FD1;
+        }
+
+        .btn-navy {
+            background: #0F172A;
+            color: white;
+        }
+
+        .btn-navy:hover {
+            background: #1E293B;
+        }
+
+        /* Explainer */
+        .explainer {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            margin-bottom: 64px;
+            text-align: center;
+        }
+
+        .explainer h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 12px;
+        }
+
+        .explainer p {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        /* Table */
+        .fee-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            margin-bottom: 64px;
+            overflow: hidden;
+        }
+
+        .fee-table th,
+        .fee-table td {
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .fee-table th {
+            background: #F9FAFB;
+            font-weight: 600;
+            color: #0F172A;
+            font-size: 14px;
+        }
+
+        .fee-table td {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .fee-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Trust Banner */
+        .trust-banner {
+            background: linear-gradient(135deg, #F3F0FF 0%, #E0E7FF 100%);
+            border-left: 4px solid #5B3FF8;
+            padding: 24px 32px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .trust-banner p {
+            color: #5B3FF8;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* FAQ */
+        .faq-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #5B3FF8;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-hamburger {
+                display: block;
+            }
+
+            .navbar-nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="navbar-hamburger" onclick="toggleMenu()">☰</button>
+        <a href="/" class="navbar-logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#5B3FF8"/>
+            </svg>
+            <div class="navbar-logo-text">
+                Hyyryn
+                <div class="navbar-logo-subtext">THE TRUST PROTOCOL</div>
+            </div>
+        </a>
+        <ul class="navbar-nav" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/how-it-works">How It Works</a></li>
+            <li><a href="/pricing" class="active">Pricing</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <div class="navbar-right">
+            <a href="/login" class="navbar-login">Log In</a>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/pricing" class="active">Pricing</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Simple, Transparent Pricing</h1>
+        <p>No hidden fees. No surprises. Ever.</p>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="section">
+        <div class="pricing-grid">
+            <!-- Buyer Plan -->
+            <div class="pricing-card">
+                <div class="pricing-name">BUYER</div>
+                <div class="pricing-price">Free</div>
+                <div class="pricing-description">Everything you need to find and hire trusted professionals</div>
+                <ul class="pricing-features">
+                    <li>Post unlimited service requests</li>
+                    <li>Escrow protection for all transactions</li>
+                    <li>Access to dispute resolution</li>
+                    <li>Browse verified Pro network</li>
+                    <li>24/7 customer support</li>
+                </ul>
+                <a href="/register" class="pricing-button btn-blue">Get Started Free</a>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <div class="pricing-badge">MOST POPULAR</div>
+                <div class="pricing-name">PRO</div>
+                <div class="pricing-price">8% <span>per transaction</span></div>
+                <div class="pricing-description">Become a verified seller and build your reputation</div>
+                <ul class="pricing-features">
+                    <li>Create up to 10 service listings</li>
+                    <li>Pro verification badge</li>
+                    <li>Build reviews and ratings</li>
+                    <li>Direct messaging with clients</li>
+                    <li>Analytics and performance dashboard</li>
+                </ul>
+                <a href="/register" class="pricing-button btn-purple">Start Selling</a>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <div class="pricing-name">ENTERPRISE</div>
+                <div class="pricing-price">Custom <span>pricing</span></div>
+                <div class="pricing-description">For agencies and teams with advanced needs</div>
+                <ul class="pricing-features">
+                    <li>Unlimited service listings</li>
+                    <li>API integration and webhooks</li>
+                    <li>Dedicated account manager</li>
+                    <li>White-label platform options</li>
+                    <li>Volume discounts available</li>
+                </ul>
+                <a href="/contact" class="pricing-button btn-navy">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How Fees Work -->
+    <section class="section">
+        <div class="explainer">
+            <h3>How Platform Fees Work</h3>
+            <p>Platform fees are only charged when a transaction completes successfully. There are no monthly subscriptions, no listing fees, and no upfront costs. Transparent pricing, every transaction.</p>
+        </div>
+
+        <!-- Fee Table -->
+        <h2 style="font-size: 24px; margin-bottom: 24px;">Fee Schedule by Transaction Value</h2>
+        <table class="fee-table">
+            <thead>
+                <tr>
+                    <th>Transaction Value</th>
+                    <th>Platform Fee %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>£0 – £500</td>
+                    <td>10%</td>
+                </tr>
+                <tr>
+                    <td>£500 – £2,000</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <td>£2,000 – £10,000</td>
+                    <td>6%</td>
+                </tr>
+                <tr>
+                    <td>£10,000+</td>
+                    <td>4%</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Trust Banner -->
+    <section class="section">
+        <div class="trust-banner">
+            <p>💳 All payments processed via institutional-grade escrow with bank-level security</p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <h2>Common Questions About Pricing</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">When are fees charged?</div>
+                <div class="faq-answer">Platform fees are charged only when a transaction is completed and the buyer confirms satisfaction. Fees are deducted from the Pro's payment before funds are released. Buyers never pay platform fees on Hyyryn.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can I negotiate fees for large contracts?</div>
+                <div class="faq-answer">Yes. Enterprise clients with high transaction volumes (£100k+ annually) may qualify for custom pricing and volume discounts. Contact our sales team at enterprise@hyyryn.com to discuss your needs.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Are there any hidden charges or setup fees?</div>
+                <div class="faq-answer">No. Hyyryn has no hidden charges, setup fees, monthly subscriptions, or listing fees. The only costs are the platform transaction fees shown in our fee schedule. What you see is what you pay.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/search">Search</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/contact">Contact</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+            </div>
+            <div class="footer-copyright">© 2026 Hyyryn Ltd. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

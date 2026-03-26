@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works — Hyyryn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #0F172A;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .navbar-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .navbar-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            line-height: 1.1;
+        }
+
+        .navbar-logo-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            color: #5B3FF8;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav {
+            display: none;
+            list-style: none;
+            gap: 32px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav.active {
+            display: flex;
+        }
+
+        .navbar-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-nav a:hover {
+            color: #0F172A;
+        }
+
+        .navbar-nav a.active {
+            color: #5B3FF8;
+            font-weight: 600;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .navbar-login {
+            text-decoration: none;
+            color: #5B3FF8;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .navbar-login:hover {
+            background: #F3F0FF;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+        }
+
+        .mobile-menu a.active {
+            color: #5B3FF8;
+            font-weight: 600;
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 68px;
+            padding: 80px 24px;
+            background: linear-gradient(135deg, #0A0D1A 0%, #0F172A 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #D1D5DB;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+            color: #0F172A;
+        }
+
+        /* Steps Grid */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .step {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .step:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: #5B3FF8;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+
+        .step h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0F172A;
+        }
+
+        .step p {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .section-cta {
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #5B3FF8;
+            color: white;
+            margin: 0 8px;
+        }
+
+        .btn-primary:hover {
+            background: #4C2FD1;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #5B3FF8;
+            border: 2px solid #5B3FF8;
+            margin: 0 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #F3F0FF;
+        }
+
+        /* Benefits Cards */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .benefit-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0F172A;
+        }
+
+        .benefit-card p {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #E2E8F0;
+            padding: 24px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #0F172A;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .faq-question:hover {
+            color: #5B3FF8;
+        }
+
+        .faq-toggle {
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+
+        .faq-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 16px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #5B3FF8;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-hamburger {
+                display: block;
+            }
+
+            .navbar-nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                display: block;
+                margin: 8px 0;
+            }
+
+            .footer-links {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="navbar-hamburger" onclick="toggleMenu()">☰</button>
+        <a href="/" class="navbar-logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#5B3FF8"/>
+            </svg>
+            <div class="navbar-logo-text">
+                Hyyryn
+                <div class="navbar-logo-subtext">THE TRUST PROTOCOL</div>
+            </div>
+        </a>
+        <ul class="navbar-nav" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/how-it-works" class="active">How It Works</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <div class="navbar-right">
+            <a href="/login" class="navbar-login">Log In</a>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/how-it-works" class="active">How It Works</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>The Trust Protocol Explained</h1>
+        <p>Hyyryn is the first institutional-grade escrow marketplace for services.</p>
+    </section>
+
+    <!-- Buyers Section -->
+    <section class="section">
+        <h2>For Buyers</h2>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Search & Browse</h3>
+                <p>Find verified professionals in your area</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Secure Payment</h3>
+                <p>Funds held in escrow — not released until you're satisfied</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Work Delivered</h3>
+                <p>Pro completes work, you receive evidence</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Confirm & Release</h3>
+                <p>Approve work, funds released instantly</p>
+            </div>
+        </div>
+        <div class="section-cta">
+            <a href="/search" class="btn btn-primary">Find a Pro</a>
+        </div>
+    </section>
+
+    <!-- Pros Section -->
+    <section class="section">
+        <h2>For Pros</h2>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Get Verified</h3>
+                <p>Complete our multi-step verification</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Create Listings</h3>
+                <p>Set your services, rates, and availability</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Deliver Work</h3>
+                <p>Complete jobs with confidence</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Get Paid</h3>
+                <p>Funds released automatically on completion</p>
+            </div>
+        </div>
+        <div class="section-cta">
+            <a href="/register" class="btn btn-primary">Become a Pro</a>
+        </div>
+    </section>
+
+    <!-- Why Escrow Section -->
+    <section class="section">
+        <h2>Why Escrow?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>No Fraud Risk</h3>
+                <p>Funds are held by a neutral third party until the work is confirmed complete. Neither party can access money without fulfilling their obligations.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Dispute Protection</h3>
+                <p>If disagreements arise, our professional mediators review evidence and resolve disputes within 72 hours. Your interests are protected.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Institutional Grade</h3>
+                <p>Built on the same escrow principles used by banks and property transactions. Secure, transparent, and legally compliant.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(event)">
+                    <span>What is escrow and how does it work?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Escrow is a secure arrangement where funds are held by a neutral third party (Hyyryn) until agreed-upon conditions are met. When a buyer and pro agree on a transaction, the buyer deposits their payment into escrow. Once the pro completes the work and the buyer confirms satisfaction, Hyyryn releases the funds to the pro. This protects both parties.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(event)">
+                    <span>How long are funds held in escrow?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Funds are held in escrow until the buyer confirms the work is complete and satisfactory. Most transactions are resolved within 2-5 business days. If the buyer doesn't respond within 30 days, funds are automatically released to the pro. For urgent releases, buyers can approve at any time.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(event)">
+                    <span>What happens if there's a dispute?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    If a buyer and pro cannot agree on whether work is complete, either party can open a dispute. A professional mediator is assigned to review all evidence, including photos, messages, and deliverables. The mediator makes a binding decision within 72 hours. This ensures fair resolution for both parties.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(event)">
+                    <span>How do I become a verified Pro?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Becoming a Pro involves completing our five-step verification process: identity verification, background check, skills assessment, portfolio review, and references. The entire process takes 3-5 business days. Once verified, you can create unlimited listings and start accepting jobs. <a href="/verification" style="color: #5B3FF8;">Learn more about Pro verification</a>.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(event)">
+                    <span>What fees does Hyyryn charge?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Buyers can use Hyyryn for free. Pros are charged a transaction fee ranging from 4% to 10% depending on job value. There are no monthly fees, no listing fees, and no hidden charges. All fees are deducted from the pro's payment after the buyer confirms completion. <a href="/pricing" style="color: #5B3FF8;">View our detailed pricing</a>.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section" style="text-align: center;">
+        <h2>Ready to get started?</h2>
+        <p style="font-size: 16px; color: #475569; margin-bottom: 32px;">Join thousands of buyers and pros using Hyyryn to complete work with confidence.</p>
+        <div>
+            <a href="/register" class="btn btn-primary">I'm a Buyer</a>
+            <a href="/register" class="btn btn-secondary">I'm a Pro</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/search">Search</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/contact">Contact</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+            </div>
+            <div class="footer-copyright">© 2026 Hyyryn Ltd. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function toggleFaq(event) {
+            const question = event.currentTarget;
+            const answer = question.nextElementSibling;
+            const toggle = question.querySelector('.faq-toggle');
+
+            document.querySelectorAll('.faq-answer').forEach(a => {
+                if (a !== answer) {
+                    a.classList.remove('active');
+                    a.previousElementSibling.querySelector('.faq-toggle').classList.remove('active');
+                }
+            });
+
+            answer.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

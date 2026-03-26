@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Centre — Hyyryn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #0F172A;
+        }
+
+        .navbar-logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .navbar-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .navbar-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            line-height: 1.1;
+        }
+
+        .navbar-logo-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            color: #5B3FF8;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav {
+            display: none;
+            list-style: none;
+            gap: 32px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav.active {
+            display: flex;
+        }
+
+        .navbar-nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-nav a:hover {
+            color: #0F172A;
+        }
+
+        .navbar-nav a.active {
+            color: #5B3FF8;
+            font-weight: 600;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .navbar-login {
+            text-decoration: none;
+            color: #5B3FF8;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .navbar-login:hover {
+            background: #F3F0FF;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+        }
+
+        .mobile-menu a.active {
+            color: #5B3FF8;
+            font-weight: 600;
+        }
+
+        /* Hero with Search */
+        .hero {
+            margin-top: 68px;
+            padding: 80px 24px;
+            background: linear-gradient(135deg, #0A0D1A 0%, #0F172A 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 32px;
+            line-height: 1.2;
+        }
+
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #0F172A;
+        }
+
+        .search-box input::placeholder {
+            color: #94A3B8;
+        }
+
+        .search-box button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #5B3FF8;
+            font-size: 18px;
+        }
+
+        /* Section */
+        .section {
+            padding: 80px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+            color: #0F172A;
+        }
+
+        /* Topic Cards Grid */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 64px;
+        }
+
+        .topic-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .topic-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .topic-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .topic-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 12px;
+        }
+
+        .topic-card p {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 20px;
+        }
+
+        .topic-card a {
+            display: inline-block;
+            color: #5B3FF8;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .topic-card a:hover {
+            color: #4C2FD1;
+        }
+
+        /* Articles Section */
+        .articles-section h2 {
+            font-size: 28px;
+            margin-bottom: 32px;
+        }
+
+        .articles-list {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .article-item {
+            padding: 20px 32px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .article-item:hover {
+            background: #F9FAFB;
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-link {
+            text-decoration: none;
+            color: #0F172A;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .article-link:hover {
+            color: #5B3FF8;
+        }
+
+        .article-arrow {
+            color: #94A3B8;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+
+        .article-item:hover .article-arrow {
+            color: #5B3FF8;
+        }
+
+        /* CTA Card */
+        .help-cta {
+            background: linear-gradient(135deg, #F3F0FF 0%, #E0E7FF 100%);
+            border: 1px solid #C7B9FF;
+            padding: 48px 32px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 64px;
+        }
+
+        .help-cta h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .help-cta p {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 24px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #5B3FF8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4C2FD1;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #5B3FF8;
+            border: 2px solid #5B3FF8;
+        }
+
+        .btn-secondary:hover {
+            background: #F3F0FF;
+        }
+
+        /* Footer */
+        footer {
+            background: #0F172A;
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #D1D5DB;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #5B3FF8;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-hamburger {
+                display: block;
+            }
+
+            .navbar-nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero {
+                padding: 60px 24px;
+            }
+
+            .section {
+                padding: 60px 24px;
+            }
+
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .footer-links {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="navbar-hamburger" onclick="toggleMenu()">☰</button>
+        <a href="/" class="navbar-logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#5B3FF8"/>
+            </svg>
+            <div class="navbar-logo-text">
+                Hyyryn
+                <div class="navbar-logo-subtext">THE TRUST PROTOCOL</div>
+            </div>
+        </a>
+        <ul class="navbar-nav" id="navMenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/how-it-works">How It Works</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        <div class="navbar-right">
+            <a href="/login" class="navbar-login">Log In</a>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/how-it-works">How It Works</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <!-- Hero with Search -->
+    <section class="hero">
+        <h1>How can we help?</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search help articles...">
+            <button type="button">🔍</button>
+        </div>
+    </section>
+
+    <!-- Topic Cards -->
+    <section class="section">
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-icon">🚀</div>
+                <h3>Getting Started</h3>
+                <p>New to Hyyryn? Learn how to create an account and find your first professional.</p>
+                <a href="/how-it-works">View Guide →</a>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-icon">💳</div>
+                <h3>Payments & Escrow</h3>
+                <p>Understand how our escrow system works and manage your payments securely.</p>
+                <a href="#payments">Learn More →</a>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-icon">⚖️</div>
+                <h3>Disputes</h3>
+                <p>How to resolve disagreements and understand our dispute resolution process.</p>
+                <a href="#disputes">Get Help →</a>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-icon">👤</div>
+                <h3>Account & Verification</h3>
+                <p>Manage your profile, update information, and complete Pro verification.</p>
+                <a href="/verification">View Steps →</a>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-icon">🔧</div>
+                <h3>Pro Sellers</h3>
+                <p>Tools and resources specifically for professionals selling services on Hyyryn.</p>
+                <a href="/pro-dashboard">Access Dashboard →</a>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-icon">💻</div>
+                <h3>Technical Issues</h3>
+                <p>Troubleshoot common problems and get technical support from our team.</p>
+                <a href="/contact">Contact Support →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Articles -->
+    <section class="section articles-section">
+        <h2>Popular Articles</h2>
+        <div class="articles-list">
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">How do I create a buyer account?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">How long does escrow typically take?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">How do I raise a dispute?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">What documents do I need for Pro verification?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">How do I list my services as a Pro?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">What payment methods do you accept?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">How do I withdraw my earnings?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">Can I cancel a transaction?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">What is the buyer protection guarantee?</span>
+                <span class="article-arrow">→</span>
+            </a>
+            <a href="#article" class="article-item" onclick="return false;">
+                <span class="article-link">How do I report inappropriate behaviour?</span>
+                <span class="article-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Help CTA -->
+    <section class="section">
+        <div class="help-cta">
+            <h3>Still need help?</h3>
+            <p>Can't find what you're looking for? Our support team is ready to assist.</p>
+            <div class="cta-buttons">
+                <a href="mailto:hello@hyyryn.com" class="btn btn-primary">Email Support</a>
+                <a href="/contact" class="btn btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/search">Search</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/contact">Contact</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+            </div>
+            <div class="footer-copyright">© 2026 Hyyryn Ltd. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Simple search functionality
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.toLowerCase();
+                alert('Searching for: ' + query);
+            }
+        });
+    </script>
+</body>
+</html>

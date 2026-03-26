@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Notifications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .ham-menu {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0F172A;
+        }
+
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0F172A;
+        }
+
+        .logo-shield {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #5B3FF8, #8B5CF6);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .logo-tagline {
+            font-size: 10px;
+            font-weight: 600;
+            color: #94A3B8;
+            letter-spacing: 1px;
+        }
+
+        /* Page Content */
+        .page-content {
+            margin-top: 68px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 32px;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #0F172A, #1e2d4a);
+            border-radius: 12px;
+            padding: 32px;
+            color: #FFFFFF;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #CBD5E1;
+        }
+
+        .mark-all-btn {
+            background-color: transparent;
+            border: 1px solid #CBD5E1;
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mark-all-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #E2E8F0;
+            overflow-x: auto;
+        }
+
+        .filter-tab {
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .filter-tab.active {
+            color: #5B3FF8;
+            border-bottom-color: #5B3FF8;
+        }
+
+        .filter-tab:hover {
+            color: #0F172A;
+        }
+
+        /* Notification Items */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notification-item {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .notification-item.unread {
+            background-color: #F3F0FF;
+            border-color: #E9D5FF;
+        }
+
+        .notification-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .notification-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            min-width: 12px;
+            margin-top: 4px;
+        }
+
+        .dot-green { background-color: #10B981; }
+        .dot-blue { background-color: #3B82F6; }
+        .dot-purple { background-color: #8B5CF6; }
+        .dot-amber { background-color: #F59E0B; }
+        .dot-gray { background-color: #D1D5DB; }
+
+        .notification-icon {
+            font-size: 18px;
+            min-width: 24px;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 2px;
+        }
+
+        .notification-desc {
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .notification-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #94A3B8;
+        }
+
+        .notification-action {
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .notification-action:hover {
+            background-color: #4C2FC7;
+        }
+
+        /* Load More Button */
+        .load-more-btn {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            color: #5B3FF8;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 24px;
+            transition: all 0.2s;
+        }
+
+        .load-more-btn:hover {
+            background-color: #F9FAFB;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <button class="ham-menu">☰</button>
+        </div>
+        <div class="navbar-center">
+            <div class="navbar-logo">
+                <div class="logo-shield">H</div>
+                <span>Hyyryn</span>
+            </div>
+            <div class="logo-tagline">— THE TRUST PROTOCOL —</div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-left">
+                <div class="page-title">🔔 Notifications</div>
+                <div class="page-subtitle">12 unread notifications</div>
+            </div>
+            <button class="mark-all-btn" onclick="markAllRead()">Mark All Read</button>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterNotifications('all')">All</button>
+            <button class="filter-tab" onclick="filterNotifications('transactions')">Transactions</button>
+            <button class="filter-tab" onclick="filterNotifications('messages')">Messages</button>
+            <button class="filter-tab" onclick="filterNotifications('system')">System</button>
+        </div>
+
+        <!-- Notification List -->
+        <div class="notification-list">
+            <!-- 1. Transaction -->
+            <div class="notification-item unread" data-category="transactions">
+                <div class="notification-dot dot-green"></div>
+                <div class="notification-icon">✓</div>
+                <div class="notification-content">
+                    <div class="notification-title">TX-2847: Work confirmed started by Marcus K.</div>
+                    <div class="notification-desc">The professional has confirmed they've started work on your job.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">2h ago</span>
+                        <button class="notification-action" onclick="window.location.href='/transaction'">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Message -->
+            <div class="notification-item unread" data-category="messages">
+                <div class="notification-dot dot-blue"></div>
+                <div class="notification-icon">💬</div>
+                <div class="notification-content">
+                    <div class="notification-title">New message from Marcus K. about TX-2847</div>
+                    <div class="notification-desc">"I've arrived and getting started on the bathroom work..."</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">5h ago</span>
+                        <button class="notification-action" onclick="window.location.href='/messages'">Reply</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Payment -->
+            <div class="notification-item unread" data-category="transactions">
+                <div class="notification-dot dot-purple"></div>
+                <div class="notification-icon">💳</div>
+                <div class="notification-content">
+                    <div class="notification-title">£1,250 secured in escrow for TX-2847</div>
+                    <div class="notification-desc">Payment has been held securely until work is completed and approved.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">1d ago</span>
+                        <button class="notification-action" onclick="window.location.href='/transaction'">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Dispute Resolution -->
+            <div class="notification-item" data-category="transactions">
+                <div class="notification-dot dot-green"></div>
+                <div class="notification-icon">⚖️</div>
+                <div class="notification-content">
+                    <div class="notification-title">Dispute TX-2201 resolved in your favour</div>
+                    <div class="notification-desc">Refund of £850 is being processed and will arrive within 3-5 business days.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">2d ago</span>
+                        <button class="notification-action" onclick="window.location.href='/transaction'">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. System -->
+            <div class="notification-item" data-category="system">
+                <div class="notification-dot dot-gray"></div>
+                <div class="notification-icon">✓</div>
+                <div class="notification-content">
+                    <div class="notification-title">Your account identity verification is complete</div>
+                    <div class="notification-desc">All checks passed. Your verified status is now active.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">3d ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Payment Alert -->
+            <div class="notification-item unread" data-category="transactions">
+                <div class="notification-dot dot-amber"></div>
+                <div class="notification-icon">⚠️</div>
+                <div class="notification-content">
+                    <div class="notification-title">TX-2847 payment window closes in 48 hours</div>
+                    <div class="notification-desc">Please confirm completion of work or raise a dispute before the deadline.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">4d ago</span>
+                        <button class="notification-action" onclick="window.location.href='/transaction'">Confirm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Message with Media -->
+            <div class="notification-item" data-category="messages">
+                <div class="notification-dot dot-blue"></div>
+                <div class="notification-icon">📸</div>
+                <div class="notification-content">
+                    <div class="notification-title">Marcus K. sent you 3 photos of completed work</div>
+                    <div class="notification-desc">Final photos of the bathroom installation for your review.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">5d ago</span>
+                        <button class="notification-action" onclick="window.location.href='/messages'">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Platform Fee -->
+            <div class="notification-item" data-category="transactions">
+                <div class="notification-dot dot-purple"></div>
+                <div class="notification-icon">💸</div>
+                <div class="notification-content">
+                    <div class="notification-title">Platform fee of £100 charged for TX-2847</div>
+                    <div class="notification-desc">Service fee (8%) has been deducted from the transaction total.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">6d ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. System - Pro Match -->
+            <div class="notification-item" data-category="system">
+                <div class="notification-dot dot-gray"></div>
+                <div class="notification-icon">⭐</div>
+                <div class="notification-content">
+                    <div class="notification-title">New Pro match found for your saved search</div>
+                    <div class="notification-desc">A highly rated Electrician matching your requirements is now available.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">1w ago</span>
+                        <button class="notification-action" onclick="window.location.href='/search'">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Review Published -->
+            <div class="notification-item" data-category="messages">
+                <div class="notification-dot dot-blue"></div>
+                <div class="notification-icon">⭐</div>
+                <div class="notification-content">
+                    <div class="notification-title">Your review of Marcus K. has been published</div>
+                    <div class="notification-desc">Your 5-star review is now visible on his profile.</div>
+                    <div class="notification-meta">
+                        <span class="notification-time">1w ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <button class="load-more-btn" onclick="loadMore()">Load More</button>
+    </div>
+
+    <script>
+        function filterNotifications(category) {
+            const items = document.querySelectorAll('.notification-item');
+            const tabs = document.querySelectorAll('.filter-tab');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function markAllRead() {
+            const unread = document.querySelectorAll('.notification-item.unread');
+            unread.forEach(item => {
+                item.classList.remove('unread');
+            });
+        }
+
+        function loadMore() {
+            alert('Loading more notifications...');
+        }
+    </script>
+</body>
+</html>

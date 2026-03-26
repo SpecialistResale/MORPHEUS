@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Secure Payment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+            padding-top: 56px;
+        }
+
+        /* Protocol Bar */
+        .protocol-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #0F172A;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .protocol-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .protocol-breadcrumb {
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        .protocol-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #10B981;
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pulse {
+            width: 6px;
+            height: 6px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .share-icon {
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Main Container */
+        .page-container {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: 48px;
+            padding: 36px 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lock-icon {
+            font-size: 20px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            color: #0F172A;
+            background-color: #F9FAFB;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #5B3FF8;
+            background-color: #FFFFFF;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .checkbox-label a {
+            color: #5B3FF8;
+            text-decoration: none;
+        }
+
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #4C2FD9;
+        }
+
+        .ssl-badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #E2E8F0;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .ssl-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .summary-item:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .summary-title {
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: #0F172A;
+            text-align: right;
+        }
+
+        .summary-rating {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0F172A;
+            padding-top: 20px;
+            border-top: 2px solid #E2E8F0;
+            margin-top: 20px;
+        }
+
+        /* Escrow Box */
+        .escrow-box {
+            background-color: #F3E8FF;
+            border: 1px solid #DDD6FE;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #5B3FF8;
+            line-height: 1.6;
+        }
+
+        .escrow-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #6D28D9;
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #10B981;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0F172A;
+            color: #94A3B8;
+            padding: 48px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 48px;
+        }
+
+        .footer-links {
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            margin: 0 16px;
+        }
+
+        .footer-links a:hover {
+            color: #E2E8F0;
+        }
+
+        @media (max-width: 1024px) {
+            .page-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Protocol Bar -->
+    <div class="protocol-bar">
+        <div class="protocol-left">
+            <button class="back-btn" onclick="window.location='/service'">←</button>
+            <div class="protocol-breadcrumb">Service > Payment</div>
+        </div>
+        <div class="protocol-badge">
+            <div class="pulse"></div>
+            PROTOCOL SECURED
+        </div>
+        <div class="share-icon">⤴️</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="page-container">
+        <!-- Payment Form -->
+        <div class="card">
+            <h1 class="card-title">
+                <span class="lock-icon">🔒</span>
+                Secure Payment
+            </h1>
+
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label class="form-label">Cardholder Name</label>
+                    <input type="text" class="form-input" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Card Number</label>
+                    <div style="position: relative;">
+                        <input type="text" class="form-input" placeholder="4532 1234 5678 9010" required>
+                        <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; gap: 4px; font-size: 12px;">
+                            <span style="color: #1F2937;">💳 Visa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Expiry Date</label>
+                        <input type="text" class="form-input" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CVV</label>
+                        <input type="text" class="form-input" placeholder="123" required>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms" class="checkbox-label">
+                        I agree to the <a href="/escrow-terms">escrow terms and conditions</a>
+                    </label>
+                </div>
+
+                <button type="button" class="btn btn-primary" onclick="processPayment()">
+                    SECURE PAYMENT — £1,250.00
+                </button>
+
+                <div class="ssl-badges">
+                    <div class="ssl-badge">🔒 SSL Encrypted</div>
+                    <div class="ssl-badge">🛡️ Escrow Protected</div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="summary-card">
+            <h2 class="card-title" style="font-size: 16px; margin-bottom: 24px;">Order Summary</h2>
+
+            <div class="summary-item">
+                <div>
+                    <div class="summary-title">Emergency Plumbing — Full Installation</div>
+                    <div class="summary-label">Service</div>
+                </div>
+            </div>
+
+            <div class="summary-item">
+                <div>
+                    <div class="summary-title">Marcus K.</div>
+                    <div class="summary-rating">⭐ 4.9 (152 reviews)</div>
+                </div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-label">Service fee</div>
+                <div class="summary-value">£1,150</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-label">Platform fee</div>
+                <div class="summary-value">£100</div>
+            </div>
+
+            <div class="total-row">
+                <div>Total</div>
+                <div>£1,250.00</div>
+            </div>
+
+            <div class="escrow-box">
+                <div class="escrow-title">💰 How Escrow Works</div>
+                <div>Your payment is held securely until you confirm the work is complete. Only then is it released to the provider.</div>
+            </div>
+
+            <div class="trust-badges">
+                <div class="trust-badge">🔒 SSL Encrypted</div>
+                <div class="trust-badge">🛡️ Escrow Protected</div>
+                <div class="trust-badge">⚖️ Dispute Cover</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links">
+            <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+            <a href="/support">Support</a>
+        </div>
+        <div>© 2026 Hyyryn. All rights reserved.</div>
+    </div>
+
+    <script>
+        function processPayment() {
+            const agreeTerms = document.getElementById('agreeTerms');
+            
+            if (!agreeTerms.checked) {
+                alert('Please agree to the escrow terms and conditions to proceed.');
+                return;
+            }
+
+            window.location = '/payment-confirmation';
+        }
+    </script>
+</body>
+</html>

@@ -250,7 +250,7 @@
           <div class="pro-subtitle">Welcome back — your Pro benefits are fully active</div>
         </div>
       </div>
-      <button class="btn-create-pro" onclick="window.location='/login'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Transaction</button>
+      <button class="btn-create-pro" onclick="window.location='/transaction'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Transaction</button>
     </div>
     <div class="benefits-bar">
       <div class="benefit-item"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>3% Flat Fee</div>
@@ -319,7 +319,7 @@
           <div>
             <div class="alert-title">Evidence Required — Priority Queue</div>
             <div class="alert-desc">1 transaction needs evidence. As a Pro member, your upload will be processed within 2 hours.</div>
-            <button class="btn-evidence" onclick="window.location='/messages'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload Evidence (Priority)</button>
+            <button class="btn-evidence" onclick="window.location='/evidence'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload Evidence (Priority)</button>
           </div>
         </div>
         <!-- Transactions -->
@@ -328,17 +328,17 @@
             <div><div class="card-title">Pro Transactions</div><div class="card-sub">All deals secured at 3% Pro rate</div></div>
             <div class="filter-tabs"><button class="filter-tab active" onclick="filterTxn('all',this)">All</button><button class="filter-tab" onclick="filterTxn('active',this)">Active</button><button class="filter-tab" onclick="filterTxn('completed',this)">Completed</button></div>
           </div>
-          <div class="txn-row" data-status="active" onclick="window.location='/service'" style="cursor:pointer">
+          <div class="txn-row" data-status="active" onclick="window.location='/transaction'" style="cursor:pointer">
             <div class="txn-avatar ta--purple">KP</div>
             <div class="txn-info"><div class="txn-name">Kitchen Plumbing Overhaul</div><div class="txn-meta">Buyer: Kevin Park · TXN-004 · Due: Mar 20, 2026</div></div>
             <div class="txn-right"><div class="txn-amount">£680.00</div><div class="txn-fee">Pro fee: 3% · You receive: £659.60</div><div><span class="txn-status ts--amber"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>Awaiting Evidence</span></div></div>
           </div>
-          <div class="txn-row" data-status="active" onclick="window.location='/service'" style="cursor:pointer">
+          <div class="txn-row" data-status="active" onclick="window.location='/transaction'" style="cursor:pointer">
             <div class="txn-avatar ta--amber">CS</div>
             <div class="txn-info"><div class="txn-name">Car Service &amp; MOT</div><div class="txn-meta">Buyer: Claire Sutton · TXN-003</div></div>
             <div class="txn-right"><div class="txn-amount">£295.00</div><div class="txn-fee">Pro fee: 3% · You receive: £286.15</div><div><span class="txn-status ts--blue"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>In Progress</span></div></div>
           </div>
-          <div class="txn-row" data-status="completed" onclick="window.location='/service'" style="cursor:pointer">
+          <div class="txn-row" data-status="completed" onclick="window.location='/transaction'" style="cursor:pointer">
             <div class="txn-avatar ta--green">BD</div>
             <div class="txn-info"><div class="txn-name">Bedroom Decoration</div><div class="txn-meta">Buyer: Bella Davis · TXN-002</div></div>
             <div class="txn-right"><div class="txn-amount">£1,150.00</div><div class="txn-fee">Pro fee: 3% · You receive: £1,115.50</div><div><span class="txn-status ts--green"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>Settlement Executed</span></div></div>

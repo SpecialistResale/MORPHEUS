@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyyryn — Pro Verification Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #0F172A;
+        }
+
+        .navbar {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E5E7EB;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shield-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #5B3FF8, #7C3AED);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 900;
+            color: #0F172A;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            gap: 32px;
+            margin-left: 64px;
+        }
+
+        .nav-link {
+            color: #6B7280;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #0F172A;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .btn-secondary {
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #0F172A;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #9CA3AF;
+            background-color: #F3F4F6;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #92400E 0%, #D97706 100%);
+            padding: 40px;
+            color: #FFFFFF;
+            border-bottom: 1px solid #FCD34D;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .shield-check {
+            font-size: 32px;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .badge-amber {
+            background-color: rgba(255, 255, 255, 0.25);
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-info {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 40%;
+            background-color: #FCD34D;
+            border-radius: 3px;
+        }
+
+        .main-content {
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .step-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .step-card:hover {
+            border-color: #D1D5DB;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-icon {
+            font-size: 24px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-number {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .step-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .badge-complete {
+            background-color: #D1FAE5;
+            color: #065F46;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-primary {
+            background-color: #5B3FF8;
+            color: #FFFFFF;
+        }
+
+        .btn-action-primary:hover {
+            background-color: #4A33D4;
+        }
+
+        .btn-action-outline {
+            background-color: transparent;
+            border: 1px solid #D1D5DB;
+            color: #0F172A;
+        }
+
+        .btn-action-outline:hover {
+            border-color: #9CA3AF;
+            background-color: #F9FAFB;
+        }
+
+        .benefits-section {
+            background: linear-gradient(135deg, rgba(91, 63, 248, 0.08), rgba(168, 85, 247, 0.08));
+            border: 1px solid rgba(91, 63, 248, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .benefits-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 12px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .benefit-check {
+            color: #5B3FF8;
+            font-weight: 700;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            padding-top: 24px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .btn-save {
+            padding: 12px 24px;
+            background-color: transparent;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-save:hover {
+            background-color: #F9FAFB;
+            border-color: #9CA3AF;
+        }
+
+        .dashboard-link {
+            color: #5B3FF8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .dashboard-link:hover {
+            color: #4A33D4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo-container">
+                <div class="shield-icon">🛡️</div>
+                <div class="logo-text">HYYRYN</div>
+            </div>
+        </div>
+        <div class="nav-center">
+            <a href="/pro-dashboard" class="nav-link">Dashboard</a>
+            <a href="/verification" class="nav-link active">Verification</a>
+            <a href="/profile" class="nav-link">Profile</a>
+        </div>
+        <div class="nav-right">
+            <button class="btn-secondary" onclick="window.location='/login'">Exit</button>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-top">
+            <div class="shield-check">🛡️</div>
+            <div class="header-content">
+                <h1 class="header-title">Pro Verification Portal</h1>
+                <div class="badge-container">
+                    <span class="badge-amber">⏱️ Verification in Progress</span>
+                    <span class="progress-info">2 of 5 steps completed</span>
+                </div>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="steps-container">
+            <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-icon">✅</div>
+                <div class="step-content">
+                    <div class="step-number">Step 1</div>
+                    <div class="step-title">Identity Verification</div>
+                    <div class="step-description">Government-issued ID verified</div>
+                </div>
+                <div class="step-actions">
+                    <span class="badge-complete">Complete</span>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-icon">✅</div>
+                <div class="step-content">
+                    <div class="step-number">Step 2</div>
+                    <div class="step-title">Phone Verification</div>
+                    <div class="step-description">+44 7XXX confirmed</div>
+                </div>
+                <div class="step-actions">
+                    <span class="badge-complete">Complete</span>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-icon">🔵</div>
+                <div class="step-content">
+                    <div class="step-number">Step 3</div>
+                    <div class="step-title">Professional Credentials</div>
+                    <div class="step-description">Upload your trade certificates and licenses</div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn-action btn-action-primary" onclick="window.location='/evidence'">Upload Documents</button>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-card">
+                <div class="step-icon">⏳</div>
+                <div class="step-content">
+                    <div class="step-number">Step 4</div>
+                    <div class="step-title">Background Check</div>
+                    <div class="step-description">UK DBS standard disclosure</div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn-action btn-action-outline">Initiate Check</button>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step-card">
+                <div class="step-icon">⏳</div>
+                <div class="step-content">
+                    <div class="step-number">Step 5</div>
+                    <div class="step-title">Bank Account Verification</div>
+                    <div class="step-description">Required for payment processing</div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn-action btn-action-outline">Add Bank Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="benefits-section">
+            <div class="benefits-title">Unlock by completing verification:</div>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-check">✓</span>
+                    <span>Access jobs over £5,000</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-check">✓</span>
+                    <span>Pro badge on profile</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-check">✓</span>
+                    <span>Priority listing placement</span>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-check">✓</span>
+                    <span>Lower platform fees</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="footer-actions">
+            <button class="btn-save">Save & Return Later</button>
+            <a href="/pro-dashboard" class="dashboard-link">Return to Pro Dashboard →</a>
+        </div>
+    </div>
+</body>
+</html>
