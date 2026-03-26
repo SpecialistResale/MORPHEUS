@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyyryn — Log In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-deep:  #07080F;
+      --bg-dark:  #0D0F1A;
+      --bg-card:  #111827;
+      --accent:   #5B3FF8;
+      --accent-h: #4A33D4;
+      --green:    #10B981;
+      --amber:    #F59E0B;
+      --red:      #EF4444;
+      --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: #0A0C18;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 60px;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── Background glow ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(91,63,248,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── Logo ── */
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      text-decoration: none;
+    }
+    .login-logo-icon {
+      width: 52px;
+      height: 52px;
+      background: #1a1a2e;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-logo-name {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    /* ── Welcome header ── */
+    .login-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .login-sub {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,.35);
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    /* ── Main card wrapper ── */
+    .login-wrap {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── Accordion cards ── */
+    .acc-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: border-color .25s;
+    }
+    .acc-card.open {
+      border-color: rgba(255,255,255,.15);
+    }
+    .acc-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .acc-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .25s;
+    }
+    .acc-icon svg { color: rgba(255,255,255,.6); }
+    .acc-card.open .acc-icon {
+      background: var(--accent);
+    }
+    .acc-card.open .acc-icon svg { color: #fff; }
+    .acc-text { flex: 1; }
+    .acc-label {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .acc-desc {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,.38);
+    }
+    .acc-chevron {
+      color: rgba(255,255,255,.35);
+      transition: transform .25s;
+    }
+    .acc-card.open .acc-chevron { transform: rotate(180deg); }
+
+    /* ── Accordion body ── */
+    .acc-body {
+      display: none;
+      padding: 0 20px 24px;
+    }
+    .acc-card.open .acc-body { display: block; }
+    .acc-inner {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    /* ── Role toggle ── */
+    .role-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .role-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      transition: all .2s;
+    }
+    .role-btn--inactive {
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.5);
+    }
+    .role-btn--active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .role-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .role-btn--active .role-icon { background: rgba(255,255,255,.2); }
+    .check-icon {
+      margin-left: auto;
+      opacity: 0;
+    }
+    .role-btn--active .check-icon { opacity: 1; }
+
+    /* ── Form fields ── */
+    .field-group { margin-bottom: 16px; }
+    .field-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .field-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 0 16px;
+      transition: border-color .2s;
+    }
+    .field-wrap:focus-within {
+      border-color: rgba(91,63,248,.5);
+    }
+    .field-icon { color: rgba(255,255,255,.3); flex-shrink: 0; }
+    .field-wrap input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 14px;
+      font-family: var(--font);
+      padding: 14px 0;
+    }
+    .field-wrap input::placeholder { color: rgba(255,255,255,.22); }
+    .eye-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,.3);
+      padding: 4px;
+      transition: color .2s;
+    }
+    .eye-btn:hover { color: rgba(255,255,255,.6); }
+
+    /* ── CTA buttons ── */
+    .btn-execute {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 8px;
+    }
+    .btn-execute:hover {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.3);
+    }
+    .btn-deploy {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background .2s;
+      margin-top: 8px;
+    }
+    .btn-deploy:hover { background: var(--accent-h); }
+
+    /* ── PRO upgrade card ── */
+    .pro-card {
+      background: linear-gradient(135deg, rgba(91,63,248,.35) 0%, rgba(60,30,180,.5) 100%);
+      border: 1px solid rgba(91,63,248,.4);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s;
+    }
+    .pro-card:hover { border-color: rgba(91,63,248,.7); }
+    .pro-icon-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pro-info { flex: 1; }
+    .pro-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+    .pro-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+    .pro-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(91,63,248,.5);
+      border: 1px solid rgba(91,63,248,.6);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+    .pro-perks {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.55);
+    }
+    .pro-learn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.6);
+      white-space: nowrap;
+    }
+
+    /* ── Sandbox notice ── */
+    .sandbox-notice {
+      border: 1px solid rgba(245,158,11,.25);
+      background: rgba(245,158,11,.05);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .sandbox-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(245,158,11,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sandbox-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--amber);
+      margin-bottom: 5px;
+    }
+    .sandbox-text {
+      font-size: 11px;
+      color: rgba(255,255,255,.38);
+      line-height: 1.6;
+    }
+
+    /* ── Admin access link ── */
+    .admin-link {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.25);
+      cursor: pointer;
+      transition: color .2s;
+      text-decoration: none;
+      display: block;
+      margin-top: 8px;
+    }
+    .admin-link:hover { color: rgba(255,255,255,.5); }
+
+    /* ════════════════════════════════
+       ADMIN PANEL (hidden by default)
+       ════════════════════════════════ */
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(7,8,15,.92);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .admin-overlay.show { display: flex; }
+
+    /* Blurred red background image */
+    .admin-bg {
+      position: fixed;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600&q=80&auto=format&fit=crop') center/cover;
+      filter: blur(20px) brightness(0.25) saturate(2);
+      z-index: -1;
+    }
+    .admin-panel {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Back link */
+    .admin-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.6);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 32px;
+      background: none;
+      border: none;
+      font-family: var(--font);
+      transition: color .2s;
+    }
+    .admin-back:hover { color: #fff; }
+
+    /* Admin logo */
+    .admin-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .admin-logo-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(239,68,68,.15);
+      border: 2px solid rgba(239,68,68,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .admin-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,.4);
+      text-align: center;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    /* Admin accordion */
+    .admin-acc {
+      background: rgba(239,68,68,.08);
+      border: 1px solid rgba(239,68,68,.2);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .admin-acc-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 18px 24px;
+      cursor: pointer;
+    }
+    .admin-acc-label {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: rgba(239,68,68,.9);
+    }
+    .admin-acc-body {
+      padding: 0 24px 24px;
+    }
+
+    .admin-field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .admin-field {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+    .admin-field:focus-within {
+      border-color: rgba(239,68,68,.4);
+    }
+    .admin-field input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 14px;
+      font-family: var(--font);
+      padding: 14px 0;
+    }
+    .admin-field input::placeholder { color: rgba(255,255,255,.22); }
+    .btn-admin-signin {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: var(--red);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background .2s;
+      margin-bottom: 16px;
+    }
+    .btn-admin-signin:hover { background: #DC2626; }
+
+    /* Security notice */
+    .security-notice {
+      border: 1px solid rgba(245,158,11,.25);
+      background: rgba(245,158,11,.05);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .security-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 4px;
+    }
+    .security-text {
+      font-size: 11px;
+      color: rgba(255,255,255,.35);
+      line-height: 1.5;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .login-title { font-size: 22px; }
+      .acc-header { padding: 16px 18px; gap: 14px; }
+      .acc-inner { padding: 18px; }
+      .pro-card { padding: 16px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ MAIN LOGIN ══════════ -->
+  <a href="/" class="login-logo">
+    <div class="login-logo-icon">
+      <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+        <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/>
+        <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="login-logo-name">HYYRYN</span>
+  </a>
+
+  <h1 class="login-title">WELCOME TO HYYRYN</h1>
+  <p class="login-sub">CHOOSE AN OPTION BELOW TO CONTINUE</p>
+
+  <div class="login-wrap">
+
+    <!-- ── SIGN IN ── -->
+    <div class="acc-card" id="accSignin">
+      <div class="acc-header" onclick="toggleAcc('accSignin')">
+        <div class="acc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div class="acc-text">
+          <div class="acc-label">SIGN IN</div>
+          <div class="acc-desc">ACCESS YOUR EXISTING ACCOUNT</div>
+        </div>
+        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <!-- Role toggle -->
+          <div class="role-toggle">
+            <button class="role-btn role-btn--inactive" id="signinBuyer" onclick="setRole('signin','buyer')">
+              <div class="role-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              BUYER
+              <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button class="role-btn role-btn--active" id="signinSeller" onclick="setRole('signin','seller')">
+              <div class="role-icon">
+                <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="rgba(255,255,255,0.6)"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              SELLER
+              <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+          <!-- Email -->
+          <div class="field-group">
+            <label class="field-label">EMAIL HASH</label>
+            <div class="field-wrap">
+              <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <input type="email" placeholder="identity@protocol.io" autocomplete="email" />
+            </div>
+          </div>
+          <!-- Password -->
+          <div class="field-group">
+            <label class="field-label">ACCESS KEY</label>
+            <div class="field-wrap">
+              <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" placeholder="••••••••••" id="signinPass" autocomplete="current-password" />
+              <button class="eye-btn" onclick="togglePass('signinPass', this)" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="btn-execute">EXECUTE AUTHENTICATION</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CREATE ACCOUNT ── -->
+    <div class="acc-card" id="accCreate">
+      <div class="acc-header" onclick="toggleAcc('accCreate')">
+        <div class="acc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="acc-text">
+          <div class="acc-label">CREATE ACCOUNT</div>
+          <div class="acc-desc">START YOUR JOURNEY WITH US</div>
+        </div>
+        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <!-- Role toggle -->
+          <div class="role-toggle">
+            <button class="role-btn role-btn--inactive" id="createBuyer" onclick="setRole('create','buyer')">
+              <div class="role-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              BUYER NODE
+              <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button class="role-btn role-btn--active" id="createSeller" onclick="setRole('create','seller')">
+              <div class="role-icon">
+                <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="rgba(255,255,255,0.6)"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              SELLER NODE
+              <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+          <!-- Institutional Name -->
+          <div class="field-group">
+            <label class="field-label">INSTITUTIONAL NAME</label>
+            <div class="field-wrap">
+              <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <input type="text" placeholder="Full legal name" autocomplete="name" />
+            </div>
+          </div>
+          <!-- Email alias -->
+          <div class="field-group">
+            <label class="field-label">EMAIL ALIAS</label>
+            <div class="field-wrap">
+              <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <input type="email" placeholder="you@example.com" autocomplete="email" />
+            </div>
+          </div>
+          <!-- Password -->
+          <div class="field-group">
+            <label class="field-label">SYSTEM PASSWORD</label>
+            <div class="field-wrap">
+              <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" placeholder="Min 8 characters" id="createPass" autocomplete="new-password" />
+              <button class="eye-btn" onclick="togglePass('createPass', this)" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="btn-deploy">DEPLOY NEW NODE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── UPGRADE TO PRO ── -->
+    <a href="#" class="pro-card">
+      <div class="pro-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/>
+        </svg>
+      </div>
+      <div class="pro-info">
+        <div class="pro-title-row">
+          <span class="pro-title">UPGRADE TO PRO</span>
+          <span class="pro-new">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/></svg>
+            NEW
+          </span>
+        </div>
+        <div class="pro-perks">£24.99/MO &bull; PRIORITY VISIBILITY &bull; 3% FEES &bull; VERIFIED BADGE</div>
+      </div>
+      <div class="pro-learn">
+        LEARN MORE
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </a>
+
+    <!-- ── SANDBOX NOTICE ── -->
+    <div class="sandbox-notice">
+      <div class="sandbox-icon">
+        <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#F59E0B"/>
+          <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sandbox-label">DEMO SANDBOX ENVIRONMENT</div>
+        <div class="sandbox-text">Authentication is mocked. Click any section and enter generic credentials to proceed as buyer or seller.</div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN LINK ── -->
+    <a class="admin-link" onclick="openAdmin()">INSTITUTIONAL ADMIN ACCESS</a>
+
+  </div><!-- /login-wrap -->
+
+
+  <!-- ══════════ ADMIN OVERLAY ══════════ -->
+  <div class="admin-overlay" id="adminOverlay">
+    <div class="admin-bg"></div>
+    <div class="admin-panel">
+      <button class="admin-back" onclick="closeAdmin()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Login
+      </button>
+
+      <div class="admin-logo">
+        <div class="admin-logo-icon">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#EF4444"/>
+            <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <h2 class="admin-title">Admin Access</h2>
+      <p class="admin-subtitle">Restricted Area — Authorized Personnel Only</p>
+
+      <div class="admin-acc">
+        <div class="admin-acc-header">
+          <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#EF4444"/>
+            <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="admin-acc-label">Administrator Login</span>
+        </div>
+        <div class="admin-acc-body">
+          <label class="admin-field-label">Admin Email</label>
+          <div class="admin-field">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <input type="email" placeholder="admin@hyyryn.com" autocomplete="email" />
+          </div>
+          <label class="admin-field-label">Password</label>
+          <div class="admin-field">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" placeholder="••••••••" id="adminPass" autocomplete="current-password" />
+            <button class="eye-btn" onclick="togglePass('adminPass', this)" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <button class="btn-admin-signin">
+            <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
+              <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="white"/>
+              <path d="M10 14L12.5 16.5L18 11" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Sign In as Admin
+          </button>
+          <div class="security-notice">
+            <svg width="18" height="18" viewBox="0 0 28 28" fill="none" style="flex-shrink:0;margin-top:2px">
+              <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#F59E0B"/>
+              <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div>
+              <div class="security-label">Security Notice</div>
+              <div class="security-text">All admin activities are logged and monitored. Unauthorized access attempts will be reported.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /admin-overlay -->
+
+  <script>
+    // Accordion toggle — only one open at a time
+    function toggleAcc(id) {
+      const cards = ['accSignin', 'accCreate'];
+      cards.forEach(c => {
+        const el = document.getElementById(c);
+        if (c === id) {
+          el.classList.toggle('open');
+        } else {
+          el.classList.remove('open');
+        }
+      });
+    }
+
+    // Role toggle
+    function setRole(section, role) {
+      const prefix = section === 'signin' ? 'signin' : 'create';
+      const suffix = role === 'buyer' ? 'Buyer' : 'Seller';
+      const other  = role === 'buyer' ? 'Seller' : 'Buyer';
+      document.getElementById(prefix + suffix).className = 'role-btn role-btn--active';
+      document.getElementById(prefix + other).className  = 'role-btn role-btn--inactive';
+    }
+
+    // Password eye toggle
+    function togglePass(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+      } else {
+        input.type = 'password';
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+      }
+    }
+
+    // Admin overlay
+    function openAdmin() {
+      document.getElementById('adminOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAdmin() {
+      document.getElementById('adminOverlay').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // Close admin on backdrop click
+    document.getElementById('adminOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeAdmin();
+    });
+
+    // Open sign-in by default
+    document.getElementById('accSignin').classList.add('open');
+  </script>
+</body>
+</html>
