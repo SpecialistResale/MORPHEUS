@@ -14,16 +14,11 @@
   <!-- ===================== NAVBAR ===================== -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <button class="hamburger" aria-label="Open menu">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
       </button>
       <a href="#" class="nav-logo">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/>
-          <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="nav-logo-text">
           <span class="nav-logo-name">Hyyryn</span>
           <span class="nav-logo-sub">— THE TRUST PROTOCOL —</span>
@@ -31,14 +26,12 @@
       </a>
       <a href="#" class="btn-signin">Sign In</a>
     </div>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-      <a href="#categories">Service Categories</a>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#categories">Categories</a>
       <a href="#protocol">How It Works</a>
       <a href="#services">Popular Services</a>
-      <a href="#sellers">Become a Seller</a>
-      <a href="#institutional">Enterprise</a>
+      <a href="#sellers">For Sellers</a>
+      <a href="#stakeholders">For Buyers</a>
       <a href="#" class="mobile-signin">Sign In</a>
     </div>
   </nav>
@@ -48,7 +41,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="hero-badge">
-        <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         INSTITUTIONAL-GRADE PROTECTION
       </div>
       <h1 class="hero-title">
@@ -62,9 +55,9 @@
       <div class="hero-search">
         <div class="search-input-wrap">
           <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" placeholder="Search secured services..." />
+          <input type="text" placeholder="Search secured services..." id="searchInput" />
         </div>
-        <button class="btn-search">Search</button>
+        <button class="btn-search" id="searchBtn">Search</button>
       </div>
     </div>
   </section>
@@ -74,8 +67,7 @@
     <div class="container">
       <div class="section-header">
         <div class="section-label">
-          <span class="label-line"></span>
-          HIGH-VALUE VERTICALS
+          <span class="label-line"></span>HIGH-VALUE VERTICALS
         </div>
         <div class="section-title-row">
           <h2>Institutional Service Tiers</h2>
@@ -118,34 +110,34 @@
   <!-- ===================== TRUST PROTOCOL ===================== -->
   <section class="section-trust" id="protocol">
     <div class="container">
-      <div class="trust-grid">
-        <div class="trust-card fade-in">
+      <div class="trust-wrap">
+        <div class="trust-card trust-card--active fade-in">
           <div class="trust-card-header">
-            <div class="trust-icon">
+            <div class="trust-icon trust-icon--active">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
             <span class="trust-code">VAL-01</span>
           </div>
-          <h3 class="trust-title">PROOF OF QUALITY</h3>
+          <h3 class="trust-title trust-title--active">PROOF OF QUALITY</h3>
           <p class="trust-desc">Every service is delivered with cryptographic evidence of completion to ensure finality.</p>
-        </div>
-        <div class="trust-card trust-card--active fade-in">
-          <div class="trust-card-header">
-            <div class="trust-icon trust-icon--active">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </div>
-            <span class="trust-code">ESC-02</span>
-          </div>
-          <h3 class="trust-title trust-title--active">SECURED PAYOUTS</h3>
-          <p class="trust-desc">Capital is held in neutral escrow layers. No manual intervention unless protocol is breached.</p>
           <div class="trust-sys-check">&gt;_ SYS_CHECK_PASSED</div>
         </div>
         <div class="trust-card fade-in">
           <div class="trust-card-header">
             <div class="trust-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
-            <span class="trust-code">EVO-03</span>
+            <span class="trust-code">ESC-02</span>
+          </div>
+          <h3 class="trust-title">SECURED PAYOUTS</h3>
+          <p class="trust-desc">Capital is held in neutral escrow layers. No manual intervention unless protocol is breached.</p>
+        </div>
+        <div class="trust-card fade-in">
+          <div class="trust-card-header">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <span class="trust-code">EVD-03</span>
           </div>
           <h3 class="trust-title">EVIDENCE-BASED</h3>
           <p class="trust-desc">Timestamped metadata and spatial verification protect both transacting parties.</p>
@@ -174,161 +166,172 @@
     </div>
   </section>
 
-  <!-- ===================== POPULAR SERVICES ===================== -->
+  <!-- ===================== MOST POPULAR SERVICES ===================== -->
   <section class="section-services" id="services">
     <div class="container">
       <div class="section-header">
-        <div class="section-label-light">PROTOCOL HIGH-PERFORMANCE</div>
+        <div class="services-label-wrap">
+          <span class="services-label-pill">PROTOCOL HIGH-PERFORMANCE</span>
+        </div>
         <div class="section-title-row">
-          <h2 class="dark-heading">Most popular services</h2>
-          <div class="services-nav">
+          <h2 class="services-heading">Most popular services</h2>
+          <div class="services-nav-wrap">
             <button class="nav-arrow" aria-label="Previous">&lt;</button>
             <button class="nav-arrow" aria-label="Next">&gt;</button>
             <a href="#" class="btn-explore-services">Explore All Services →</a>
           </div>
         </div>
       </div>
-      <div class="services-carousel">
-        <div class="service-card fade-in">
-          <div class="service-card-img-wrap">
+
+      <div class="services-grid">
+        <!-- Card 1 -->
+        <div class="listing-card fade-in">
+          <div class="listing-img-wrap">
             <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&q=80&auto=format&fit=crop" alt="Plumbing" loading="lazy" />
             <button class="btn-heart" aria-label="Save">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
           </div>
+          <div class="listing-body">
+            <div class="listing-user">
+              <div class="listing-avatar">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80&auto=format&fit=crop&face" alt="jsmith" />
+                <span class="avatar-dot"></span>
+              </div>
+              <div class="listing-user-info">
+                <span class="listing-username">@jsmith_plumbing</span>
+                <span class="listing-badge listing-badge--pro">PRO</span>
+              </div>
+            </div>
+            <p class="listing-title">I will provide professional plumbing services with 12-year track record</p>
+            <div class="listing-rating">
+              <span class="star">★</span>
+              <span class="rating-val">4.9</span>
+              <span class="rating-count">(187 verified reviews)</span>
+            </div>
+            <div class="listing-footer">
+              <div class="listing-price-wrap">
+                <span class="starting-at">STARTING AT</span>
+                <span class="listing-price">£85</span>
+              </div>
+              <span class="protected-badge">
+                <svg width="11" height="11" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                PROTECTED
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="service-card fade-in">
-          <div class="service-card-img-wrap">
+
+        <!-- Card 2 -->
+        <div class="listing-card fade-in">
+          <div class="listing-img-wrap">
             <img src="https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=500&q=80&auto=format&fit=crop" alt="Electrical" loading="lazy" />
             <button class="btn-heart" aria-label="Save">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
           </div>
+          <div class="listing-body">
+            <div class="listing-user">
+              <div class="listing-avatar">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&q=80&auto=format&fit=crop&face" alt="spark" />
+                <span class="avatar-dot"></span>
+              </div>
+              <div class="listing-user-info">
+                <span class="listing-username">@spark_electric</span>
+                <span class="listing-badge listing-badge--pro">PRO</span>
+              </div>
+            </div>
+            <p class="listing-title">I will install and repair electrical systems - certified electrician</p>
+            <div class="listing-rating">
+              <span class="star">★</span>
+              <span class="rating-val">5</span>
+              <span class="rating-count">(143 verified reviews)</span>
+            </div>
+            <div class="listing-footer">
+              <div class="listing-price-wrap">
+                <span class="starting-at">STARTING AT</span>
+                <span class="listing-price">£120</span>
+              </div>
+              <span class="protected-badge">
+                <svg width="11" height="11" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                PROTECTED
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="service-card fade-in">
-          <div class="service-card-img-wrap">
+
+        <!-- Card 3 -->
+        <div class="listing-card fade-in">
+          <div class="listing-img-wrap">
             <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500&q=80&auto=format&fit=crop" alt="Painting" loading="lazy" />
             <button class="btn-heart" aria-label="Save">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
           </div>
+          <div class="listing-body">
+            <div class="listing-user">
+              <div class="listing-avatar">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80&auto=format&fit=crop&face" alt="paint" />
+                <span class="avatar-dot"></span>
+              </div>
+              <div class="listing-user-info">
+                <span class="listing-username">@perfect_paint</span>
+                <span class="listing-badge listing-badge--top">TOP RATED</span>
+              </div>
+            </div>
+            <p class="listing-title">I will paint interior and exterior walls with premium finish</p>
+            <div class="listing-rating">
+              <span class="star">★</span>
+              <span class="rating-val">4.8</span>
+              <span class="rating-count">(210 verified reviews)</span>
+            </div>
+            <div class="listing-footer">
+              <div class="listing-price-wrap">
+                <span class="starting-at">STARTING AT</span>
+                <span class="listing-price">£150</span>
+              </div>
+              <span class="protected-badge">
+                <svg width="11" height="11" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                PROTECTED
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="service-card fade-in">
-          <div class="service-card-img-wrap">
+
+        <!-- Card 4 -->
+        <div class="listing-card fade-in">
+          <div class="listing-img-wrap">
             <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=80&auto=format&fit=crop" alt="Construction" loading="lazy" />
             <button class="btn-heart" aria-label="Save">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== SELLER CTA ===================== -->
-  <section class="section-seller" id="sellers">
-    <div class="container">
-      <div class="seller-badge">
-        <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        SUPPLIER INTEGRATION LAYER
-      </div>
-      <h2 class="seller-title">
-        Ready to Accept <span class="seller-title-accent">Protected<br>Payments?</span>
-      </h2>
-      <p class="seller-subtitle">
-        Join a network of quality-focused professionals who leverage our "No<br>
-        Proof, No Payout" protocol to guarantee settlement finality.
-      </p>
-      <div class="seller-ctas">
-        <a href="mailto:hello@hyyryn.com?subject=Seller%20Account%20Request" class="btn-seller-primary">CREATE SELLER ACCOUNT →</a>
-        <a href="mailto:hello@hyyryn.com?subject=Selling%20Enquiry" class="btn-seller-secondary">LEARN ABOUT SELLING</a>
-      </div>
-      <div class="seller-stats">
-        <div class="seller-stat">
-          <div class="seller-stat-icon seller-stat-icon--lock">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
-          <div class="seller-stat-value">£750+</div>
-          <div class="seller-stat-label">KYC THRESHOLD REQUIREMENT</div>
-        </div>
-        <div class="seller-stat">
-          <div class="seller-stat-icon seller-stat-icon--pulse">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <div class="seller-stat-value seller-stat-value--green">5-8%</div>
-          <div class="seller-stat-label">PROTOCOL FEE MARGIN</div>
-        </div>
-        <div class="seller-stat">
-          <div class="seller-stat-icon seller-stat-icon--term">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-          </div>
-          <div class="seller-stat-value seller-stat-value--amber">24-72h</div>
-          <div class="seller-stat-label">SETTLEMENT FINALITY WINDOW</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== INSTITUTIONAL ===================== -->
-  <section class="section-institutional" id="institutional">
-    <div class="institutional-ticker">
-      <div class="ticker-content">
-        <span>Evidence-Based Escrow Protocol</span>
-        <span class="ticker-sep">·</span>
-        <span>THE GLOBAL "NO PROOF, NO PAYOUT" STANDARD</span>
-        <span class="ticker-sep">·</span>
-        <span>STATUS: <span class="ticker-dot">●</span> OPERATIONAL</span>
-        <span class="ticker-sep">·</span>
-        <span>NETWORK: SECURED V4.0</span>
-        <span class="ticker-sep">·</span>
-        <span>Evidence-Based Escrow Protocol</span>
-        <span class="ticker-sep">·</span>
-        <span>THE GLOBAL "NO PROOF, NO PAYOUT" STANDARD</span>
-        <span class="ticker-sep">·</span>
-        <span>STATUS: <span class="ticker-dot">●</span> OPERATIONAL</span>
-        <span class="ticker-sep">·</span>
-        <span>NETWORK: SECURED V4.0</span>
-      </div>
-    </div>
-    <div class="container">
-      <div class="institutional-grid">
-        <div class="institutional-left fade-in">
-          <div class="institutional-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            HYYRYN INSTITUTIONAL
-          </div>
-          <h2 class="institutional-title">The institutional standard<br>for service procurement</h2>
-          <p class="institutional-desc">Deploy our trust protocol across your entire organization. Centralized management for decentralized trust.</p>
-          <div class="institutional-features">
-            <div class="inst-feature">
-              <div class="inst-feature-icon inst-feature-icon--blue">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+          <div class="listing-body">
+            <div class="listing-user">
+              <div class="listing-avatar">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=80&auto=format&fit=crop&face" alt="build" />
+                <span class="avatar-dot"></span>
               </div>
-              <div>
-                <div class="inst-feature-title">Talent Curators</div>
-                <div class="inst-feature-desc">Top-tier placement in institutional discovery.</div>
+              <div class="listing-user-info">
+                <span class="listing-username">@build_pro_uk</span>
+                <span class="listing-badge listing-badge--pro">PRO</span>
               </div>
             </div>
-            <div class="inst-feature">
-              <div class="inst-feature-icon inst-feature-icon--green">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              </div>
-              <div>
-                <div class="inst-feature-title">Risk Mitigation</div>
-                <div class="inst-feature-desc">Industry-leading rates for verified professionals.</div>
-              </div>
+            <p class="listing-title">I will provide full building and renovation services with guaranteed timeline</p>
+            <div class="listing-rating">
+              <span class="star">★</span>
+              <span class="rating-val">4.9</span>
+              <span class="rating-count">(94 verified reviews)</span>
             </div>
-          </div>
-        </div>
-        <div class="institutional-right fade-in">
-          <div class="institutional-img-wrap">
-            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80&auto=format&fit=crop" alt="Institutional office" loading="lazy" />
-            <div class="inst-verified-badge">
-              <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div>
-                <div class="inst-verified-title">Protocol Verified</div>
-                <div class="inst-verified-sub">SYSTEM OPERATIONAL</div>
+            <div class="listing-footer">
+              <div class="listing-price-wrap">
+                <span class="starting-at">STARTING AT</span>
+                <span class="listing-price">£850</span>
               </div>
+              <span class="protected-badge">
+                <svg width="11" height="11" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#10B981"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                PROTECTED
+              </span>
             </div>
           </div>
         </div>
@@ -336,13 +339,206 @@
     </div>
   </section>
 
-  <!-- ===================== CTA ===================== -->
-  <section class="section-cta" id="access">
+  <!-- ===================== SELLER SECTION ===================== -->
+  <section class="section-offer" id="sellers">
     <div class="container">
-      <div class="cta-inner fade-in">
-        <a href="mailto:hello@hyyryn.com?subject=Hyyryn%20Institutional%20Onboarding" class="btn-cta-main">
-          Initiate Institutional Onboarding →
-        </a>
+      <div class="offer-grid">
+        <div class="offer-left fade-in">
+          <div class="offer-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="offer-icon-badge">+</span>
+          </div>
+          <h2 class="offer-title">
+            Ready to Offer<br>
+            <span class="offer-title-accent">Protected Services?</span>
+          </h2>
+          <p class="offer-desc">Join the world's most rigorous escrow network. Signal institutional-grade trust and guarantee your payouts with Hyyryn.</p>
+          <div class="offer-ctas">
+            <a href="mailto:hello@hyyryn.com?subject=Initialize%20Listing" class="btn-offer-primary">
+              <span>+</span> Initialize Listing
+            </a>
+            <a href="mailto:hello@hyyryn.com?subject=Protocol%20Specs" class="btn-offer-secondary">Protocol Specs</a>
+          </div>
+        </div>
+        <div class="offer-right fade-in">
+          <div class="smart-escrow-card">
+            <div class="escrow-card-header">
+              <div class="escrow-icon">
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <div class="escrow-title">Smart Escrow</div>
+                <div class="escrow-sub">ACTIVE PROTECTION</div>
+              </div>
+            </div>
+            <div class="escrow-bars">
+              <div class="escrow-bar escrow-bar--full"></div>
+              <div class="escrow-bar escrow-bar--mid"></div>
+              <div class="escrow-bar escrow-bar--short"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROTECTION FOR EVERY STAKEHOLDER ===================== -->
+  <section class="section-stakeholders" id="stakeholders">
+    <div class="container">
+      <div class="stakeholders-intro fade-in">
+        <div class="dual-badge">DUAL-LAYER PROTOCOL</div>
+        <h2 class="stakeholders-title">
+          Protection for Every<br>
+          <span class="stakeholders-title-accent">Stakeholder</span>
+        </h2>
+        <p class="stakeholders-desc">
+          Hyyryn neutralizes transaction risk by enforcing strict evidence requirements. We replace "trust" with verifiable process layers.
+        </p>
+      </div>
+      <div class="stakeholders-grid">
+        <!-- Buyers card -->
+        <div class="stakeholder-card fade-in">
+          <div class="stakeholder-icon-wrap stakeholder-icon-wrap--blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="stakeholder-watermark">
+            <svg width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="rgba(91,63,248,0.08)" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 class="stakeholder-title">INSTITUTIONAL &amp; PRIVATE <span class="stakeholder-accent">BUYERS</span></h3>
+          <p class="stakeholder-desc">Secure your capital in a neutral environment. Funds are only released when the defined protocol evidence is satisfied.</p>
+          <div class="stakeholder-features">
+            <div class="stakeholder-feat">
+              <div class="feat-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div>
+                <div class="feat-title">ESCROW FINALITY</div>
+                <div class="feat-desc">Capital held in regulated environment until verification.</div>
+              </div>
+            </div>
+            <div class="stakeholder-feat">
+              <div class="feat-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <div>
+                <div class="feat-title">BINDING ARBITRATION</div>
+                <div class="feat-desc">Neutral third-party review of all visual documentation.</div>
+              </div>
+            </div>
+          </div>
+          <a href="mailto:hello@hyyryn.com?subject=Buyer%20Account" class="stakeholder-btn stakeholder-btn--outline">DISCOVER SECURED SERVICES →</a>
+        </div>
+
+        <!-- Sellers card -->
+        <div class="stakeholder-card fade-in">
+          <div class="stakeholder-icon-wrap stakeholder-icon-wrap--purple">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="white"/><path d="M10 14L12.5 16.5L18 11" stroke="#5B3FF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="stakeholder-watermark">
+            <svg width="140" height="140" viewBox="0 0 28 28" fill="none" stroke="rgba(91,63,248,0.08)" stroke-width="0.8"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z"/></svg>
+          </div>
+          <h3 class="stakeholder-title">HIGH-STAKES <span class="stakeholder-accent">PROFESSIONALS</span></h3>
+          <p class="stakeholder-desc">Eliminate payment delays and bad faith disputes. Build an immutable reputation backed by verifiable evidence of your work quality.</p>
+          <div class="stakeholder-features">
+            <div class="stakeholder-feat">
+              <div class="feat-icon feat-icon--green">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div>
+                <div class="feat-title">GUARANTEED LIQUIDITY</div>
+                <div class="feat-desc">Instant release upon valid evidence submission.</div>
+              </div>
+            </div>
+            <div class="stakeholder-feat">
+              <div class="feat-icon feat-icon--green">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <div>
+                <div class="feat-title">TRUST SIGNALING</div>
+                <div class="feat-desc">Premium badge indicating adherence to the protocol.</div>
+              </div>
+            </div>
+          </div>
+          <a href="mailto:hello@hyyryn.com?subject=Onboard%20Business" class="stakeholder-btn stakeholder-btn--purple">ONBOARD YOUR BUSINESS →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NETWORK STATS BAR ===================== -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-bar-inner">
+        <div class="stats-nodes">
+          <div class="stats-avatars">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&q=80&auto=format&fit=crop&face" alt="" />
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&q=80&auto=format&fit=crop&face" alt="" />
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&q=80&auto=format&fit=crop&face" alt="" />
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=40&q=80&auto=format&fit=crop&face" alt="" />
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&q=80&auto=format&fit=crop&face" alt="" />
+            <span class="stats-avatar-more">+12k</span>
+          </div>
+          <div>
+            <div class="stats-bar-label">NETWORK STATUS</div>
+            <div class="stats-bar-value">12,482 VERIFIED PROTOCOL NODES</div>
+          </div>
+        </div>
+        <div class="stats-divider"></div>
+        <div class="stats-item">
+          <div class="stats-bar-label">PROTOCOL RATING</div>
+          <div class="stats-bar-value">4.98 <span class="stats-denom">/ 5.0</span></div>
+        </div>
+        <div class="stats-divider"></div>
+        <div class="stats-item">
+          <div class="stats-bar-label">SECURED VOLUME</div>
+          <div class="stats-bar-value">£12.4M <span class="stats-indexed">INDEXED</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ACCEPT PAYMENTS CTA ===================== -->
+  <section class="section-accept" id="access">
+    <div class="container">
+      <div class="accept-inner fade-in">
+        <div class="accept-badge">
+          <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          SUPPLIER INTEGRATION LAYER
+        </div>
+        <h2 class="accept-title">
+          Ready to Accept <span class="accept-accent">Protected<br>Payments?</span>
+        </h2>
+        <p class="accept-desc">
+          Join a network of quality-focused professionals who leverage our "No<br>
+          Proof, No Payout" protocol to guarantee settlement finality.
+        </p>
+        <div class="accept-ctas">
+          <a href="mailto:hello@hyyryn.com?subject=Create%20Seller%20Account" class="btn-accept-primary">CREATE SELLER ACCOUNT →</a>
+          <a href="mailto:hello@hyyryn.com?subject=Learn%20About%20Selling" class="btn-accept-secondary">LEARN ABOUT SELLING</a>
+        </div>
+        <div class="accept-stats">
+          <div class="accept-stat">
+            <div class="accept-stat-icon accept-stat-icon--lock">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="accept-stat-val">£750+</div>
+            <div class="accept-stat-label">KYC THRESHOLD REQUIREMENT</div>
+          </div>
+          <div class="accept-stat">
+            <div class="accept-stat-icon accept-stat-icon--pulse">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="accept-stat-val accept-stat-val--green">5-8%</div>
+            <div class="accept-stat-label">PROTOCOL FEE MARGIN</div>
+          </div>
+          <div class="accept-stat">
+            <div class="accept-stat-icon accept-stat-icon--term">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+            <div class="accept-stat-val accept-stat-val--amber">24-72h</div>
+            <div class="accept-stat-label">SETTLEMENT FINALITY WINDOW</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -353,18 +549,15 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="#" class="footer-logo">
-            <svg width="32" height="32" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="30" height="30" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>HYYRYN</span>
           </a>
-          <p class="footer-brand-desc">
-            The institutional standard for high-stakes services and rentals. Governed by the "No Proof, No Payout" protocol.
-          </p>
+          <p class="footer-brand-desc">The institutional standard for high-stakes services and rentals. Governed by the "No Proof, No Payout" protocol.</p>
           <div class="footer-status">
             <span class="status-label">NETWORK STATUS</span>
             <span class="status-value"><span class="status-dot"></span>SYSTEM ACTIVE</span>
           </div>
         </div>
-
         <div class="footer-links">
           <div class="footer-col">
             <h4>DISCOVERY</h4>
@@ -393,26 +586,12 @@
           </div>
         </div>
       </div>
-
       <div class="footer-compliance">
-        <div class="compliance-badge">
-          <span class="badge-label">ISO</span>
-          <span class="badge-text">9001 CERTIFIED</span>
-        </div>
-        <div class="compliance-badge">
-          <span class="badge-label">PCI</span>
-          <span class="badge-text">DSS COMPLIANT</span>
-        </div>
-        <div class="compliance-badge">
-          <span class="badge-label">AML</span>
-          <span class="badge-text">VERIFIED SYSTEM</span>
-        </div>
-        <div class="compliance-badge">
-          <span class="badge-label">GDPR</span>
-          <span class="badge-text">DATA PROTECTED</span>
-        </div>
+        <div class="compliance-badge"><span class="badge-label">ISO</span><span class="badge-text">9001 CERTIFIED</span></div>
+        <div class="compliance-badge"><span class="badge-label">PCI</span><span class="badge-text">DSS COMPLIANT</span></div>
+        <div class="compliance-badge"><span class="badge-label">AML</span><span class="badge-text">VERIFIED SYSTEM</span></div>
+        <div class="compliance-badge"><span class="badge-label">GDPR</span><span class="badge-text">DATA PROTECTED</span></div>
       </div>
-
       <div class="footer-bottom">
         <div class="footer-legal">
           <span>© HYYRYN LTD. 2026</span>
@@ -421,17 +600,17 @@
           <a href="#">COOKIES</a>
         </div>
         <div class="footer-social">
-          <a href="#" aria-label="Twitter/X">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <a href="#" aria-label="X">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </a>
           <a href="#" aria-label="TikTok">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.73a4.85 4.85 0 0 1-1-.04z"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-6.34 6.29 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.73a4.85 4.85 0 0 1-1-.04z"/></svg>
           </a>
           <a href="#" aria-label="LinkedIn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
           </a>
           <a href="#" aria-label="Instagram">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           </a>
         </div>
       </div>
