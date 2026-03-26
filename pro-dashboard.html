@@ -10,842 +10,376 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:       #0D0F1A;
-      --bg-card:  #111827;
-      --bg-card2: #161D2E;
+      --bg:       #F9FAFB;
+      --bg-card:  #FFFFFF;
       --accent:   #5B3FF8;
       --green:    #10B981;
       --amber:    #F59E0B;
       --orange:   #F97316;
       --red:      #EF4444;
       --purple:   #8B5CF6;
+      --navy:     #0F172A;
+      --text:     #0F172A;
+      --text-mid: #475569;
+      --muted:    #94A3B8;
+      --border:   #E2E8F0;
       --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --border:   rgba(255,255,255,0.07);
       --radius:   12px;
     }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: var(--bg); color: #fff; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
     a { text-decoration: none; color: inherit; }
 
-    /* ── Sidebar ── */
-    .layout { display: flex; min-height: 100vh; }
-    .sidebar {
-      width: 220px;
-      background: #0A0C17;
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 24px 0;
-      flex-shrink: 0;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
+    /* ── Navbar ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      background: #fff; border-bottom: 1px solid rgba(0,0,0,.06);
+      height: 68px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      transition: transform .3s ease, box-shadow .3s ease;
     }
-    .sidebar-logo {
-      display: flex; align-items: center; gap: 10px;
-      padding: 0 20px 28px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .sidebar-logo-icon {
-      width: 32px; height: 32px;
-      background: var(--accent);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sidebar-logo-name { font-size: 14px; font-weight: 900; letter-spacing: 1.5px; color: #fff; }
-    .nav-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 11px 20px;
-      font-size: 13px; font-weight: 600;
-      color: rgba(255,255,255,.45);
-      cursor: pointer;
-      transition: all .2s;
-      border-left: 3px solid transparent;
-    }
-    .nav-item:hover { color: rgba(255,255,255,.8); background: rgba(255,255,255,.04); }
-    .nav-item.active { color: #fff; background: rgba(91,63,248,.1); border-left-color: var(--accent); }
-    .nav-item svg { flex-shrink: 0; opacity: .7; }
-    .nav-item.active svg { opacity: 1; }
-    .nav-section { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); padding: 16px 20px 6px; }
-    .sidebar-bottom { margin-top: auto; padding: 20px; border-top: 1px solid var(--border); }
-    .sidebar-profile { display: flex; align-items: center; gap: 10px; }
-    .sidebar-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,#5B3FF8,#8B5CF6); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
-    .sidebar-name { font-size: 12px; font-weight: 700; color: #fff; }
-    .sidebar-role { font-size: 10px; color: var(--amber); font-weight: 600; }
+    .navbar.hidden { transform: translateY(-100%); }
+    .navbar.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+    .ham-trigger { width: 38px; height: 38px; border-radius: 8px; background: none; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: background .2s; }
+    .ham-trigger:hover { background: #F1F5F9; }
+    .ham-trigger span { display: block; width: 18px; height: 2px; background: var(--navy); border-radius: 2px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-logo-name { font-size: 18px; font-weight: 700; color: var(--navy); letter-spacing: -.3px; line-height: 1; }
+    .nav-logo-sub { font-size: 9px; font-weight: 500; color: #6B7280; letter-spacing: 1.5px; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-icon-btn { position: relative; width: 38px; height: 38px; border-radius: 8px; background: none; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; color: var(--text-mid); text-decoration: none; }
+    .nav-icon-btn:hover { background: #F1F5F9; }
+    .nav-badge { position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px; border-radius: 100px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 800; padding: 0 4px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+    .nav-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #D97706, #F97316); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; cursor: pointer; }
 
-    /* ── Main ── */
-    .main { flex: 1; margin-left: 220px; }
+    /* ── Page ── */
+    .page { padding-top: 68px; }
 
     /* ── Pro Header ── */
-    .pro-header {
-      background: linear-gradient(135deg, #92400E 0%, #B45309 40%, #D97706 100%);
-      padding: 28px 32px 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .pro-header::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 300px; height: 300px;
-      background: rgba(255,255,255,.06);
-      border-radius: 50%;
-    }
-    .pro-header-top {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      margin-bottom: 4px;
-    }
+    .pro-header { background: linear-gradient(135deg, #92400E 0%, #B45309 40%, #D97706 100%); padding: 36px 48px 0; position: relative; overflow: hidden; }
+    .pro-header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: rgba(255,255,255,.06); border-radius: 50%; }
+    .pro-header-row { display: flex; align-items: flex-start; justify-content: space-between; position: relative; z-index: 1; }
     .pro-header-left { display: flex; align-items: center; gap: 16px; }
-    .pro-icon-box {
-      width: 52px; height: 52px;
-      background: rgba(0,0,0,.2);
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .pro-title-wrap {}
-    .pro-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 5px; }
-    .pro-page-title { font-size: 24px; font-weight: 900; color: #fff; }
-    .pro-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.2);
-      color: #fff;
-      font-size: 10px; font-weight: 800; letter-spacing: 1px;
-      padding: 5px 12px; border-radius: 100px;
-    }
+    .pro-icon-box { width: 52px; height: 52px; background: rgba(0,0,0,.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pro-title { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 5px; }
+    .pro-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 4px 12px; border-radius: 100px; margin-left: 12px; }
     .pro-subtitle { font-size: 13px; color: rgba(255,255,255,.7); }
-    .btn-create-txn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.25);
-      color: #fff;
-      font-family: var(--font);
-      font-size: 13px; font-weight: 700;
-      padding: 12px 22px; border-radius: 10px;
-      cursor: pointer; transition: all .2s;
-    }
-    .btn-create-txn:hover { background: rgba(0,0,0,.4); }
-
-    /* Benefits bar */
-    .benefits-bar {
-      display: flex; align-items: center; gap: 0;
-      margin-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.1);
-      background: rgba(0,0,0,.12);
-    }
-    .benefit-item {
-      display: flex; align-items: center; gap: 8px;
-      padding: 14px 22px;
-      font-size: 12px; font-weight: 700;
-      color: rgba(255,255,255,.8);
-      border-right: 1px solid rgba(255,255,255,.1);
-    }
-    .benefit-item svg { flex-shrink: 0; }
-    .benefits-view-all {
-      margin-left: auto;
-      display: flex; align-items: center; gap: 6px;
-      padding: 14px 22px;
-      font-size: 12px; font-weight: 700; color: rgba(255,255,255,.7);
-      cursor: pointer;
-    }
+    .btn-create-pro { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.25); color: #fff; font-family: var(--font); font-size: 13px; font-weight: 700; padding: 12px 22px; border-radius: 10px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .btn-create-pro:hover { background: rgba(0,0,0,.35); }
+    .benefits-bar { display: flex; align-items: center; margin-top: 24px; border-top: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.1); position: relative; z-index: 1; }
+    .benefit-item { display: flex; align-items: center; gap: 8px; padding: 13px 22px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.8); border-right: 1px solid rgba(255,255,255,.1); }
+    .benefits-more { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 13px 22px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5); cursor: pointer; }
 
     /* ── Content ── */
-    .content { padding: 28px 32px; }
+    .content { padding: 32px 48px; }
 
-    /* ── Stat cards grid ── */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
-    }
-    .stat-card--pro {
-      background: linear-gradient(135deg, #D97706 0%, #F97316 100%);
-      border-color: transparent;
-    }
-    .stat-card-top {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .stat-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .stat-icon--amber  { background: rgba(245,158,11,.2); color: var(--amber); }
-    .stat-icon--green  { background: rgba(16,185,129,.2); color: var(--green); }
-    .stat-icon--blue   { background: rgba(91,63,248,.2); color: var(--accent); }
-    .stat-icon--white  { background: rgba(255,255,255,.15); color: #fff; }
-    .stat-arrow { color: var(--green); }
-    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.45); margin-bottom: 6px; }
+    /* ── Stats ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .stat-card--pro { background: linear-gradient(135deg, #D97706 0%, #F97316 100%); border-color: transparent; }
+    .stat-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .si--amber  { background: rgba(245,158,11,.1); color: var(--amber); }
+    .si--green  { background: rgba(16,185,129,.1); color: var(--green); }
+    .si--purple { background: rgba(91,63,248,.1); color: var(--accent); }
+    .si--inv    { background: rgba(255,255,255,.15); color: #fff; }
+    .stat-up { color: var(--green); }
+    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
     .stat-card--pro .stat-label { color: rgba(255,255,255,.7); }
-    .stat-value { font-size: 28px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
-    .stat-sub { font-size: 11px; color: rgba(255,255,255,.45); font-weight: 500; }
-    .stat-card--pro .stat-sub { color: rgba(255,255,255,.75); }
+    .stat-value { font-size: 28px; font-weight: 900; color: var(--text); letter-spacing: -1px; line-height: 1; margin-bottom: 5px; }
+    .stat-card--pro .stat-value { color: #fff; }
+    .stat-sub { font-size: 11px; color: var(--muted); font-weight: 500; }
+    .stat-card--pro .stat-sub { color: rgba(255,255,255,.7); }
     .stat-sub--green { color: var(--green) !important; font-weight: 600; }
 
-    /* ── Metric cards ── */
-    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
-    .metric-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
-    }
-    .metric-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-    .metric-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .metric-icon--purple { background: rgba(139,92,246,.2); color: var(--purple); }
-    .metric-icon--blue   { background: rgba(59,130,246,.2); color: #3B82F6; }
-    .metric-icon--green  { background: rgba(16,185,129,.2); color: var(--green); }
-    .metric-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.4); margin-bottom: 4px; }
-    .metric-value { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; }
-    .metric-bar-wrap { margin-bottom: 10px; }
-    .metric-bar-bg { height: 6px; background: rgba(255,255,255,.07); border-radius: 100px; }
-    .metric-bar-fill { height: 6px; border-radius: 100px; }
-    .metric-bar-fill--purple { background: var(--purple); }
-    .metric-bar-fill--green  { background: var(--green); }
-    .bar-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; margin-top: 6px; }
-    .metric-footer { display: flex; flex-direction: column; gap: 4px; }
-    .metric-sub { font-size: 11px; color: rgba(255,255,255,.4); }
-    .metric-sub b { color: #fff; }
-    .metric-tag {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 10px; font-weight: 700;
-      color: var(--green);
-    }
-    .metric-tag--up { color: var(--green); }
-    .metric-tag--amber { color: var(--amber); }
-    .metric-pct { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.4); }
+    /* ── Metrics ── */
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+    .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .metric-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .metric-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mi--purple { background: rgba(91,63,248,.1); color: var(--accent); }
+    .mi--blue   { background: rgba(59,130,246,.1); color: #3B82F6; }
+    .mi--green  { background: rgba(16,185,129,.1); color: var(--green); }
+    .metric-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 4px; }
+    .metric-value { font-size: 28px; font-weight: 900; color: var(--text); letter-spacing: -1px; line-height: 1; }
+    .metric-bar-bg { height: 5px; background: #F1F5F9; border-radius: 100px; margin: 12px 0 8px; }
+    .metric-bar-fill { height: 5px; border-radius: 100px; }
+    .mf--purple { background: var(--accent); }
+    .mf--green  { background: var(--green); }
+    .bar-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--muted); }
+    .bar-row b { color: var(--text); }
+    .mt--green { color: var(--green); font-weight: 600; font-size: 11px; }
+    .mt--amber { color: var(--amber); font-weight: 600; font-size: 11px; }
 
-    /* ── API / Webhooks banner ── */
-    .api-banner {
-      background: linear-gradient(135deg, rgba(91,63,248,.15) 0%, rgba(59,130,246,.1) 100%);
-      border: 1px solid rgba(91,63,248,.25);
-      border-radius: var(--radius);
-      padding: 22px 28px;
-      display: flex; align-items: center; gap: 20px;
-      margin-bottom: 20px;
-    }
-    .api-icon {
-      width: 52px; height: 52px;
-      background: rgba(91,63,248,.25);
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-size: 20px;
-    }
+    /* ── API Banner ── */
+    .api-banner { background: linear-gradient(135deg, rgba(91,63,248,.06) 0%, rgba(59,130,246,.04) 100%); border: 1px solid rgba(91,63,248,.15); border-radius: var(--radius); padding: 22px 28px; display: flex; align-items: center; gap: 20px; margin-bottom: 22px; }
+    .api-icon { width: 52px; height: 52px; background: rgba(91,63,248,.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px; color: var(--accent); }
     .api-info { flex: 1; }
-    .api-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-    .api-title { font-size: 16px; font-weight: 800; color: #fff; }
-    .api-badge {
-      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
-      background: rgba(91,63,248,.3); color: rgba(255,255,255,.7);
-      border: 1px solid rgba(91,63,248,.3);
-      padding: 3px 8px; border-radius: 4px;
-    }
-    .api-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.5; }
-    .btn-api {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: #fff;
-      font-family: var(--font); font-size: 13px; font-weight: 700;
-      padding: 12px 22px; border-radius: 10px;
-      cursor: pointer; transition: background .2s; white-space: nowrap;
-      border: none;
-    }
-    .btn-api:hover { background: #4A33D4; }
+    .api-title { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 5px; }
+    .api-desc { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+    .btn-api { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; font-family: var(--font); font-size: 13px; font-weight: 700; padding: 12px 22px; border-radius: 10px; cursor: pointer; border: none; transition: background .2s; white-space: nowrap; }
+    .btn-api:hover { background: var(--accent-h, #4A33D4); }
 
     /* ── Alert ── */
-    .alert-evidence {
-      border: 1px solid rgba(245,158,11,.3);
-      background: rgba(245,158,11,.07);
-      border-radius: var(--radius);
-      padding: 18px 22px;
-      display: flex; align-items: flex-start; gap: 14px;
-      margin-bottom: 20px;
-    }
+    .alert { display: flex; align-items: flex-start; gap: 14px; background: rgba(245,158,11,.05); border: 1px solid rgba(245,158,11,.2); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 22px; }
     .alert-icon { color: var(--amber); flex-shrink: 0; margin-top: 1px; }
-    .alert-title { font-size: 13px; font-weight: 700; color: var(--amber); margin-bottom: 4px; }
-    .alert-desc { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.5; margin-bottom: 14px; }
-    .btn-upload {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--orange); color: #fff;
-      font-family: var(--font); font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
-      padding: 10px 18px; border-radius: 8px;
-      cursor: pointer; transition: background .2s; border: none;
-    }
-    .btn-upload:hover { background: #EA6C00; }
+    .alert-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .alert-desc { font-size: 13px; color: var(--text-mid); line-height: 1.5; margin-bottom: 14px; }
+    .btn-evidence { display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: #fff; font-family: var(--font); font-size: 12px; font-weight: 700; padding: 10px 18px; border-radius: 8px; cursor: pointer; border: none; transition: background .2s; }
+    .btn-evidence:hover { background: #EA6F1A; }
 
-    /* ── Transactions ── */
-    .txn-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .txn-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-    .txn-header-left { display: flex; align-items: center; gap: 14px; }
-    .txn-header-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(16,185,129,.15); color: var(--green);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .txn-header-title { font-size: 16px; font-weight: 800; color: #fff; }
-    .txn-header-sub { font-size: 12px; color: rgba(255,255,255,.4); }
-    .txn-filters { display: flex; align-items: center; gap: 8px; }
-    .txn-filter {
-      background: none; border: 1px solid var(--border);
-      color: rgba(255,255,255,.5);
-      font-family: var(--font); font-size: 12px; font-weight: 600;
-      padding: 7px 16px; border-radius: 8px;
-      cursor: pointer; transition: all .2s;
-    }
-    .txn-filter:hover { color: #fff; border-color: rgba(255,255,255,.2); }
-    .txn-filter.active { background: var(--orange); color: #fff; border-color: var(--orange); }
-    .txn-filter--view { background: rgba(255,255,255,.06); color: rgba(255,255,255,.6); }
+    /* ── Two col ── */
+    .two-col { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
 
-    /* Transaction rows */
-    .txn-row {
-      padding: 22px 24px;
-      border-bottom: 1px solid var(--border);
-    }
+    /* ── Card ── */
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 18px; }
+    .card:last-child { margin-bottom: 0; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); }
+    .card-title { font-size: 14px; font-weight: 800; color: var(--text); }
+    .card-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .filter-tabs { display: flex; gap: 4px; }
+    .filter-tab { font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 8px; border: none; font-family: var(--font); cursor: pointer; background: transparent; color: var(--muted); transition: all .2s; }
+    .filter-tab.active { background: rgba(91,63,248,.08); color: var(--accent); }
+
+    /* ── Txn rows ── */
+    .txn-row { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--border); transition: background .2s; cursor: pointer; }
     .txn-row:last-child { border-bottom: none; }
-    .txn-row-top {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .txn-row-left {}
-    .txn-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
-    .txn-title { font-size: 16px; font-weight: 800; color: #fff; }
-    .tag {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-      padding: 4px 10px; border-radius: 6px;
-    }
-    .tag--awaiting { background: rgba(245,158,11,.12); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
-    .tag--evidence  { background: rgba(245,158,11,.12); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
-    .tag--settle    { background: rgba(59,130,246,.12); color: #60A5FA; border: 1px solid rgba(59,130,246,.2); }
-    .tag--executed  { background: rgba(16,185,129,.12); color: var(--green); border: 1px solid rgba(16,185,129,.2); }
-    .tag--pro {
-      background: rgba(245,158,11,.15); color: var(--amber);
-      border: 1px solid rgba(245,158,11,.25);
-      display: inline-flex; align-items: center; gap: 4px;
-    }
-    .txn-meta { display: flex; align-items: center; gap: 16px; font-size: 12px; color: rgba(255,255,255,.4); }
-    .txn-meta-item { display: flex; align-items: center; gap: 5px; }
-    .txn-meta-due { color: var(--amber); font-weight: 600; }
-    .txn-amount-wrap { text-align: right; }
-    .txn-amount { font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
-    .txn-fee { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 2px; }
-    .txn-receive { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); }
-    .txn-actions { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
-    .btn-txn {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-family: var(--font); font-size: 12px; font-weight: 700;
-      padding: 9px 16px; border-radius: 8px;
-      cursor: pointer; transition: all .2s; border: none;
-    }
-    .btn-txn--orange { background: var(--orange); color: #fff; }
-    .btn-txn--orange:hover { background: #EA6C00; }
-    .btn-txn--outline {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      color: rgba(255,255,255,.7);
-    }
-    .btn-txn--outline:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .txn-row:hover { background: #FAFBFC; }
+    .txn-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+    .ta--purple { background: rgba(91,63,248,.1); color: var(--accent); }
+    .ta--green  { background: rgba(16,185,129,.1); color: var(--green); }
+    .ta--amber  { background: rgba(245,158,11,.1); color: var(--amber); }
+    .txn-info { flex: 1; }
+    .txn-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .txn-meta { font-size: 12px; color: var(--muted); }
+    .txn-right { text-align: right; }
+    .txn-amount { font-size: 18px; font-weight: 900; color: var(--text); letter-spacing: -.5px; }
+    .txn-fee { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .txn-status { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; letter-spacing: .5px; padding: 4px 10px; border-radius: 100px; margin-top: 5px; }
+    .ts--amber { background: rgba(245,158,11,.08); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
+    .ts--green { background: rgba(16,185,129,.08); color: var(--green); border: 1px solid rgba(16,185,129,.2); }
+    .ts--blue  { background: rgba(59,130,246,.08); color: #3B82F6; border: 1px solid rgba(59,130,246,.2); }
 
-    /* ── Tips row ── */
-    .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
-    .tip-card {
-      border-radius: var(--radius);
-      padding: 22px;
-      display: flex; align-items: flex-start; gap: 16px;
-    }
-    .tip-card--blue { background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.15); }
-    .tip-card--purple { background: rgba(139,92,246,.1); border: 1px solid rgba(139,92,246,.15); }
-    .tip-icon {
-      width: 42px; height: 42px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .tip-icon--blue { background: rgba(59,130,246,.2); color: #60A5FA; }
-    .tip-icon--purple { background: rgba(139,92,246,.2); color: var(--purple); }
-    .tip-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 6px; }
-    .tip-title span { margin-right: 6px; }
-    .tip-desc { font-size: 12px; color: rgba(255,255,255,.5); line-height: 1.6; }
-    .tip-desc b { color: var(--green); }
-    .tip-desc strong { color: #fff; }
+    /* ── Tip cards ── */
+    .tip-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 14px; }
+    .tip-card:last-child { margin-bottom: 0; }
+    .tip-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; letter-spacing: 1.5px; background: rgba(245,158,11,.1); color: var(--amber); border: 1px solid rgba(245,158,11,.2); padding: 4px 10px; border-radius: 4px; margin-bottom: 10px; }
+    .tip-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .tip-desc { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+
+    /* ── Hamburger panel ── */
+    .ham-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 998; opacity: 0; pointer-events: none; transition: opacity .25s; backdrop-filter: blur(4px); }
+    .ham-overlay.open { opacity: 1; pointer-events: all; }
+    .ham-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 300px; background: var(--navy); border-left: 1px solid rgba(255,255,255,.08); z-index: 999; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .28s cubic-bezier(.4,0,.2,1); overflow-y: auto; }
+    .ham-panel.open { transform: translateX(0); }
+    .ham-top { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ham-user { display: flex; align-items: center; gap: 12px; }
+    .ham-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #D97706, #F97316); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .ham-uname { font-size: 14px; font-weight: 800; color: #fff; }
+    .ham-urole { font-size: 11px; color: var(--amber); font-weight: 600; margin-top: 1px; }
+    .ham-close { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.06); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); transition: background .2s; }
+    .ham-close:hover { background: rgba(255,255,255,.12); }
+    .ham-section { padding: 14px 20px 4px; }
+    .ham-section-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); }
+    .ham-item { display: flex; align-items: center; gap: 12px; padding: 11px 20px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); cursor: pointer; transition: all .2s; }
+    .ham-item:hover { background: rgba(255,255,255,.04); color: #fff; }
+    .ham-item--active { color: #fff; background: rgba(91,63,248,.12); }
+    .ham-item--red { color: rgba(239,68,68,.8); }
+    .ham-item--red:hover { background: rgba(239,68,68,.08); color: var(--red); }
+    .ham-badge { margin-left: auto; min-width: 20px; height: 20px; background: var(--accent); border-radius: 100px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; padding: 0 5px; }
+    .ham-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: .5px; color: rgba(255,255,255,.2); }
   </style>
 </head>
 <body>
-<div class="layout">
 
-  <!-- ══ SIDEBAR ══ -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">
-        <svg width="18" height="18" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="white"/><path d="M10 14L12.5 16.5L18 11" stroke="#5B3FF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <span class="sidebar-logo-name">HYYRYN</span>
+<!-- HAMBURGER PANEL -->
+<div class="ham-overlay" id="hamOverlay" onclick="closeHam()"></div>
+<div class="ham-panel" id="hamPanel">
+  <div class="ham-top">
+    <div class="ham-user">
+      <div class="ham-avatar">M</div>
+      <div><div class="ham-uname">Marcus Osei</div><div class="ham-urole">⭐ Pro Seller</div></div>
     </div>
+    <button class="ham-close" onclick="closeHam()"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div class="ham-section"><div class="ham-section-label">QUICK ACTIONS</div></div>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Transaction</div>
+  <div class="ham-section"><div class="ham-section-label">NAVIGATION</div></div>
+  <a href="/" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <a href="/pro-dashboard" class="ham-item ham-item--active"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>My Transactions</div>
+  <div class="ham-section"><div class="ham-section-label">COMMUNICATION</div></div>
+  <a href="/messages" class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages<span class="ham-badge">3</span></a>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notifications</div>
+  <div class="ham-section"><div class="ham-section-label">PRO TOOLS</div></div>
+  <div class="ham-item" style="color:#FBBF24"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>API & Webhooks</div>
+  <div class="ham-section"><div class="ham-section-label">TRUST & SAFETY</div></div>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Resolution Centre</div>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Trust Protocol</div>
+  <div class="ham-section"><div class="ham-section-label">ACCOUNT</div></div>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Settings</div>
+  <div class="ham-item"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Billing</div>
+  <div class="ham-item ham-item--red" style="margin-top:4px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</div>
+  <div class="ham-footer"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Protected by Hyyryn Trust Protocol</div>
+</div>
 
-    <span class="nav-section">OVERVIEW</span>
-    <a href="/pro-dashboard" class="nav-item active">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Dashboard
-    </a>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Transactions
-    </a>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      My Profile
-    </a>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      Messages
-    </a>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <button class="ham-trigger" onclick="openHam()"><span></span><span></span><span></span></button>
+  <a href="/" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#5B3FF8"/><path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><div class="nav-logo-name">Hyyryn</div><div class="nav-logo-sub">— THE TRUST PROTOCOL —</div></div>
+  </a>
+  <div class="nav-right">
+    <a href="/messages" class="nav-icon-btn"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="nav-badge">3</span></a>
+    <div class="nav-avatar">M</div>
+  </div>
+</nav>
 
-    <span class="nav-section">PRO TOOLS</span>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      Analytics
-    </a>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-      API & Webhooks
-    </a>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-      Listings
-    </a>
-
-    <span class="nav-section">ACCOUNT</span>
-    <a href="#" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      Settings
-    </a>
-    <a href="/login" class="nav-item">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Log Out
-    </a>
-
-    <div class="sidebar-bottom">
-      <div class="sidebar-profile">
-        <div class="sidebar-avatar">JS</div>
+<div class="page">
+  <!-- PRO HEADER -->
+  <div class="pro-header">
+    <div class="pro-header-row">
+      <div class="pro-header-left">
+        <div class="pro-icon-box"><svg width="26" height="26" fill="none" stroke="rgba(253,186,116,1)" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <div>
-          <div class="sidebar-name">J. Smith</div>
-          <div class="sidebar-role">⚡ PRO MEMBER</div>
+          <div style="display:flex;align-items:center">
+            <div class="pro-title">Pro Seller Dashboard</div>
+            <span class="pro-badge">⭐ PRO MEMBER</span>
+          </div>
+          <div class="pro-subtitle">Welcome back — your Pro benefits are fully active</div>
         </div>
       </div>
+      <button class="btn-create-pro" onclick="window.location='/login'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Transaction</button>
     </div>
-  </aside>
+    <div class="benefits-bar">
+      <div class="benefit-item"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>3% Flat Fee</div>
+      <div class="benefit-item"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Priority Evidence Review</div>
+      <div class="benefit-item"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Verified Badge</div>
+      <div class="benefit-item"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>API Access</div>
+      <div class="benefits-more">View all benefits →</div>
+    </div>
+  </div>
 
-  <!-- ══ MAIN ══ -->
-  <main class="main">
-
-    <!-- PRO HEADER -->
-    <div class="pro-header">
-      <div class="pro-header-top">
-        <div class="pro-header-left">
-          <div class="pro-icon-box">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/>
-            </svg>
-          </div>
-          <div class="pro-title-wrap">
-            <div class="pro-title-row">
-              <span class="pro-page-title">Pro Seller Dashboard</span>
-              <span class="pro-badge">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/></svg>
-                PRO MEMBER
-              </span>
-            </div>
-            <div class="pro-subtitle">Premium features &bull; Priority visibility &bull; Reduced fees (3%)</div>
-          </div>
-        </div>
-        <button class="btn-create-txn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Create Transaction
-        </button>
+  <div class="content">
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-top"><div class="stat-icon si--amber"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><svg class="stat-up" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <div class="stat-label">FUNDS HELD</div><div class="stat-value">£975</div><div class="stat-sub">Awaiting evidence</div>
       </div>
-
-      <!-- Benefits bar -->
-      <div class="benefits-bar">
-        <div class="benefit-item">
-          <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="rgba(255,255,255,0.7)"/></svg>
-          Higher Trust Tier
-        </div>
-        <div class="benefit-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          3% Platform Fee
-        </div>
-        <div class="benefit-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-          Priority Listings
-        </div>
-        <div class="benefit-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-          Verified Pro Badge
-        </div>
-        <div class="benefits-view-all">
-          View All Benefits
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
+      <div class="stat-card">
+        <div class="stat-card-top"><div class="stat-icon si--green"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><svg class="stat-up" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <div class="stat-label">RELEASED (30D)</div><div class="stat-value">£3,240</div><div class="stat-sub stat-sub--green">+£420 this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-top"><div class="stat-icon si--purple"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><span style="font-size:11px;font-weight:700;color:var(--muted)">ACTIVE</span></div>
+        <div class="stat-label">ACTIVE JOBS</div><div class="stat-value">2</div><div class="stat-sub">In progress or review</div>
+      </div>
+      <div class="stat-card stat-card--pro">
+        <div class="stat-card-top"><div class="stat-icon si--inv"><svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
+        <div class="stat-label">PRO STATUS</div><div class="stat-value">Active</div><div class="stat-sub">3% flat fee · All benefits unlocked</div>
       </div>
     </div>
 
-    <div class="content">
-
-      <!-- STAT CARDS -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--amber">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            </div>
-            <svg class="stat-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-          </div>
-          <div class="stat-label">FUNDS HELD</div>
-          <div class="stat-value">£975.00</div>
-          <div class="stat-sub">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline;vertical-align:middle"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
-            Awaiting evidence
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--green">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
-          </div>
-          <div class="stat-label">RELEASED (30D)</div>
-          <div class="stat-value">£3,240</div>
-          <div class="stat-sub stat-sub--green">+£295 this week</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--blue">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2 15 22 11 13 2 9l20-7z"/></svg>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>
-          </div>
-          <div class="stat-label">ACTIVE JOBS</div>
-          <div class="stat-value">2</div>
-          <div class="stat-sub">In progress or review</div>
-        </div>
-
-        <div class="stat-card stat-card--pro">
-          <div class="stat-card-top">
-            <div class="stat-icon stat-icon--white">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/></svg>
-          </div>
-          <div class="stat-label">PRO STATUS</div>
-          <div class="stat-value">Active</div>
-          <div class="stat-sub">Save <b>£45/mo</b> on fees</div>
-        </div>
+    <!-- METRICS -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-icon mi--purple"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="metric-label">PRO RATING</div><div class="metric-value">4.9</div></div></div>
+        <div class="metric-bar-bg"><div class="metric-bar-fill mf--purple" style="width:98%"></div></div>
+        <div class="bar-row"><span>Top <b>2%</b> of sellers</span><span class="mt--green">98%</span></div>
       </div>
-
-      <!-- METRIC CARDS -->
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-top">
-            <div class="metric-icon metric-icon--purple">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            </div>
-            <div>
-              <div class="metric-label">PRO RATING</div>
-              <div class="metric-value">4.9</div>
-            </div>
-          </div>
-          <div class="metric-bar-wrap">
-            <div class="metric-bar-bg">
-              <div class="metric-bar-fill metric-bar-fill--purple" style="width:98%"></div>
-            </div>
-            <div class="bar-row">
-              <span class="metric-sub"></span>
-              <span class="metric-pct">98%</span>
-            </div>
-          </div>
-          <div class="metric-footer">
-            <div class="metric-sub"><b>87 reviews</b> &bull; Top 5% of sellers</div>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-top">
-            <div class="metric-icon metric-icon--blue">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </div>
-            <div>
-              <div class="metric-label">PROFILE VIEWS</div>
-              <div class="metric-value">1,247</div>
-            </div>
-          </div>
-          <div class="metric-footer" style="gap:6px">
-            <div class="metric-tag metric-tag--up">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-              +23% vs last month
-            </div>
-            <div class="metric-tag metric-tag--amber">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              Pro boost active
-            </div>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-top">
-            <div class="metric-icon metric-icon--green">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <div>
-              <div class="metric-label">RESPONSE TIME</div>
-              <div class="metric-value">2.3h</div>
-            </div>
-          </div>
-          <div class="metric-bar-wrap">
-            <div class="metric-bar-bg">
-              <div class="metric-bar-fill metric-bar-fill--green" style="width:78%"></div>
-            </div>
-            <div class="bar-row">
-              <span style="font-size:11px;color:var(--green);font-weight:700">Fast</span>
-            </div>
-          </div>
-          <div class="metric-footer">
-            <div class="metric-sub">Faster than <b style="color:var(--amber)">78% of sellers</b></div>
-          </div>
-        </div>
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-icon mi--blue"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div><div class="metric-label">PROFILE VIEWS</div><div class="metric-value">1,247</div></div></div>
+        <div class="metric-bar-bg"><div class="metric-bar-fill mf--purple" style="width:75%"></div></div>
+        <div class="bar-row"><span>+23% vs last month</span><span class="mt--green">↑ Boosted</span></div>
       </div>
-
-      <!-- API BANNER -->
-      <div class="api-banner">
-        <div class="api-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(139,92,246,0.9)" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        </div>
-        <div class="api-info">
-          <div class="api-title-row">
-            <span class="api-title">Institutional API &amp; Webhooks</span>
-            <span class="api-badge">INSTITUTIONAL LAYER</span>
-          </div>
-          <div class="api-desc">Synchronize your internal ERP and legal systems with the Finality Protocol. Manage API keys, register webhook endpoints, and monitor real-time event streams.</div>
-        </div>
-        <button class="btn-api">
-          Open API Explorer
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+      <div class="metric-card">
+        <div class="metric-top"><div class="metric-icon mi--green"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><div class="metric-label">RESPONSE TIME</div><div class="metric-value">2.3h</div></div></div>
+        <div class="metric-bar-bg"><div class="metric-bar-fill mf--green" style="width:82%"></div></div>
+        <div class="bar-row"><span>Faster than <b>82%</b></span><span class="mt--green">Priority</span></div>
       </div>
+    </div>
 
-      <!-- EVIDENCE ALERT -->
-      <div class="alert-evidence">
-        <svg class="alert-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div>
-          <div class="alert-title">
-            🎯 Evidence Required — Pro Priority
-          </div>
-          <div class="alert-desc">You have 1 transaction requiring evidence upload. Pro members get priority review within 2 hours. Complete by Jan 7, 2026.</div>
-          <button class="btn-upload">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload Evidence (Priority)
-          </button>
-        </div>
+    <!-- API BANNER -->
+    <div class="api-banner">
+      <div class="api-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+      <div class="api-info">
+        <div class="api-title">Institutional API &amp; Webhooks</div>
+        <div class="api-desc">Sync your ERP and legal systems with Hyyryn's Finality Protocol via REST API and real-time event streams.</div>
       </div>
+      <button class="btn-api" onclick="window.location='/messages'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Access API Console</button>
+    </div>
 
-      <!-- TRANSACTIONS -->
-      <div class="txn-card">
-        <div class="txn-header">
-          <div class="txn-header-left">
-            <div class="txn-header-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <div>
-              <div class="txn-header-title">Your Transactions</div>
-              <div class="txn-header-sub">Manage and track all your protected deals</div>
-            </div>
-          </div>
-          <div class="txn-filters">
-            <button class="txn-filter txn-filter--view">View All</button>
-            <button class="txn-filter">All</button>
-            <button class="txn-filter active">Active</button>
-            <button class="txn-filter">Completed</button>
-          </div>
-        </div>
-
-        <!-- TXN 1 -->
-        <div class="txn-row">
-          <div class="txn-row-top">
-            <div class="txn-row-left">
-              <div class="txn-title-row">
-                <span class="txn-title">Kitchen Plumbing Installation</span>
-                <span class="tag tag--awaiting">Awaiting Evidence Sync</span>
-                <span class="tag tag--evidence">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  Evidence Required
-                </span>
-                <span class="tag tag--pro">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
-                  PRO
-                </span>
-              </div>
-              <div class="txn-meta">
-                <span class="txn-meta-item">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  Buyer: Sarah Johnson
-                </span>
-                <span>TXN-004</span>
-                <span class="txn-meta-item txn-meta-due">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                  Due: Jan 7, 2026
-                </span>
-              </div>
-            </div>
-            <div class="txn-amount-wrap">
-              <div class="txn-amount">£680.00</div>
-              <div class="txn-fee">Platform fee: <b style="color:var(--green)">3%</b> (Pro rate)</div>
-              <div class="txn-receive">You receive: £659.60</div>
-            </div>
-          </div>
-          <div class="txn-actions">
-            <button class="btn-txn btn-txn--orange">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Upload Evidence (Priority)
-            </button>
-            <button class="btn-txn btn-txn--outline">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              View Details
-            </button>
-            <button class="btn-txn btn-txn--outline">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              Message
-            </button>
-          </div>
-        </div>
-
-        <!-- TXN 2 -->
-        <div class="txn-row">
-          <div class="txn-row-top">
-            <div class="txn-row-left">
-              <div class="txn-title-row">
-                <span class="txn-title">Car Service &amp; MOT</span>
-                <span class="tag tag--settle">Settlement Verification</span>
-                <span class="tag tag--pro">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
-                  PRO
-                </span>
-              </div>
-              <div class="txn-meta">
-                <span class="txn-meta-item">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  Buyer: Mike Peters
-                </span>
-                <span>TXN-005</span>
-              </div>
-            </div>
-            <div class="txn-amount-wrap">
-              <div class="txn-amount">£295.00</div>
-              <div class="txn-fee">Platform fee: <b style="color:var(--green)">3%</b> (Pro rate)</div>
-              <div class="txn-receive">You receive: £286.15</div>
-            </div>
-          </div>
-          <div class="txn-actions">
-            <button class="btn-txn btn-txn--outline">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              View Details
-            </button>
-            <button class="btn-txn btn-txn--outline">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              Message
-            </button>
-          </div>
-        </div>
-
-        <!-- TXN 3 -->
-        <div class="txn-row">
-          <div class="txn-row-top">
-            <div class="txn-row-left">
-              <div class="txn-title-row">
-                <span class="txn-title">Bedroom Decoration</span>
-                <span class="tag tag--executed">Settlement Executed</span>
-                <span class="tag tag--pro">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
-                  PRO
-                </span>
-              </div>
-              <div class="txn-meta">
-                <span class="txn-meta-item">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  Buyer: Emma Wilson
-                </span>
-                <span>TXN-006</span>
-              </div>
-            </div>
-            <div class="txn-amount-wrap">
-              <div class="txn-amount">£1,150.00</div>
-              <div class="txn-fee">Platform fee: <b style="color:var(--green)">3%</b> (Pro rate)</div>
-              <div class="txn-receive">You receive: £1,115.50</div>
-            </div>
-          </div>
-          <div class="txn-actions">
-            <button class="btn-txn btn-txn--outline">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              View Details
-            </button>
-            <button class="btn-txn btn-txn--outline">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              Message
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TIPS -->
-      <div class="tips-grid">
-        <div class="tip-card tip-card--blue">
-          <div class="tip-icon tip-icon--blue">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
+    <div class="two-col">
+      <div>
+        <!-- Alert -->
+        <div class="alert">
+          <div class="alert-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
           <div>
-            <div class="tip-title"><span>💡</span>Pro Tip: Upload Evidence Early</div>
-            <div class="tip-desc">Pro members who upload evidence within 24 hours get funds released <b>50% faster</b> than standard timing.</div>
+            <div class="alert-title">Evidence Required — Priority Queue</div>
+            <div class="alert-desc">1 transaction needs evidence. As a Pro member, your upload will be processed within 2 hours.</div>
+            <button class="btn-evidence" onclick="window.location='/messages'"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Upload Evidence (Priority)</button>
           </div>
         </div>
-        <div class="tip-card tip-card--purple">
-          <div class="tip-icon tip-icon--purple">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <!-- Transactions -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Pro Transactions</div><div class="card-sub">All deals secured at 3% Pro rate</div></div>
+            <div class="filter-tabs"><button class="filter-tab active" onclick="filterTxn('all',this)">All</button><button class="filter-tab" onclick="filterTxn('active',this)">Active</button><button class="filter-tab" onclick="filterTxn('completed',this)">Completed</button></div>
           </div>
-          <div>
-            <div class="tip-title"><span>⭐</span>Boost Your Visibility</div>
-            <div class="tip-desc">Your Pro badge gives you <strong>3x higher visibility</strong> in search results and recommendations.</div>
+          <div class="txn-row" data-status="active" onclick="window.location='/service'" style="cursor:pointer">
+            <div class="txn-avatar ta--purple">KP</div>
+            <div class="txn-info"><div class="txn-name">Kitchen Plumbing Overhaul</div><div class="txn-meta">Buyer: Kevin Park · TXN-004 · Due: Mar 20, 2026</div></div>
+            <div class="txn-right"><div class="txn-amount">£680.00</div><div class="txn-fee">Pro fee: 3% · You receive: £659.60</div><div><span class="txn-status ts--amber"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>Awaiting Evidence</span></div></div>
+          </div>
+          <div class="txn-row" data-status="active" onclick="window.location='/service'" style="cursor:pointer">
+            <div class="txn-avatar ta--amber">CS</div>
+            <div class="txn-info"><div class="txn-name">Car Service &amp; MOT</div><div class="txn-meta">Buyer: Claire Sutton · TXN-003</div></div>
+            <div class="txn-right"><div class="txn-amount">£295.00</div><div class="txn-fee">Pro fee: 3% · You receive: £286.15</div><div><span class="txn-status ts--blue"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>In Progress</span></div></div>
+          </div>
+          <div class="txn-row" data-status="completed" onclick="window.location='/service'" style="cursor:pointer">
+            <div class="txn-avatar ta--green">BD</div>
+            <div class="txn-info"><div class="txn-name">Bedroom Decoration</div><div class="txn-meta">Buyer: Bella Davis · TXN-002</div></div>
+            <div class="txn-right"><div class="txn-amount">£1,150.00</div><div class="txn-fee">Pro fee: 3% · You receive: £1,115.50</div><div><span class="txn-status ts--green"><svg width="6" height="6" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>Settlement Executed</span></div></div>
           </div>
         </div>
       </div>
-
-    </div><!-- /content -->
-  </main>
+      <div>
+        <div class="tip-card">
+          <div class="tip-badge">⭐ PRO TIP</div>
+          <div class="tip-title">Upload Evidence Early</div>
+          <div class="tip-desc">Uploading evidence within 24 hours of job completion gets you into the priority queue and speeds up fund release by up to 50%.</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-badge">📈 BOOST</div>
+          <div class="tip-title">Boost Your Visibility</div>
+          <div class="tip-desc">Your Pro status gives you 3× more search impressions. Keep your profile complete and response time under 3 hours to stay in the top results.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-  // Filter tabs
-  document.querySelectorAll('.txn-filter:not(.txn-filter--view)').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.txn-filter:not(.txn-filter--view)').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  function openHam() { document.getElementById('hamOverlay').classList.add('open'); document.getElementById('hamPanel').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeHam() { document.getElementById('hamOverlay').classList.remove('open'); document.getElementById('hamPanel').classList.remove('open'); document.body.style.overflow=''; }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeHam(); });
+  function filterTxn(filter, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.txn-row').forEach(row => {
+      row.style.display = (filter === 'all' || row.dataset.status === filter) ? 'flex' : 'none';
     });
+  }
+  // Hide navbar on scroll down, show on scroll up
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    const y = window.scrollY;
+    if (y > lastY && y > 80) { nav.classList.add('hidden'); } else { nav.classList.remove('hidden'); }
+    nav.classList.toggle('scrolled', y > 10);
+    lastY = y;
   });
 </script>
 </body>

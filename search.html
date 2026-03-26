@@ -452,7 +452,7 @@
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
         <span class="current">EXPLORE MARKET</span>
       </div>
-      <button class="btn-institutional">
+      <button class="btn-institutional" onclick="window.location='/buyer-dashboard'">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         Institutional Discovery
       </button>
@@ -477,7 +477,7 @@
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
           Protocol Config
         </div>
-        <button class="btn-search">Search</button>
+        <button class="btn-search" onclick="var q=document.querySelector('.search-main input').value.trim();window.location=q?'/search?q='+encodeURIComponent(q):'/search'">Search</button>
       </div>
 
       <!-- Stats -->
@@ -615,14 +615,14 @@
               <div class="cta-price-val">£250</div>
               <div class="cta-price-per">/ Day Deployment</div>
             </div>
-            <button class="btn-review">Review Terms</button>
-            <button class="btn-initiate">Initiate Protocol</button>
+            <button class="btn-review" onclick="event.stopPropagation();window.location='/service'">Review Terms</button>
+            <button class="btn-initiate" onclick="event.stopPropagation();window.location='/service'">Initiate Protocol</button>
           </div>
         </div>
       </div>
 
       <!-- Card 2 — Market Demand -->
-      <div class="result-card">
+      <div class="result-card" onclick="window.location='/service'">
         <div class="card-img" style="background:linear-gradient(135deg,#0f2027,#203a43)">
           <div class="card-img-placeholder">🏗️</div>
           <span class="card-tag tag--demand">MARKET DEMAND</span>
@@ -666,14 +666,14 @@
               <div class="cta-price-val">£1,250</div>
               <div class="cta-price-per">/ Day Deployment</div>
             </div>
-            <button class="btn-review">Review Terms</button>
-            <button class="btn-initiate">Initiate Protocol</button>
+            <button class="btn-review" onclick="event.stopPropagation();window.location='/service'">Review Terms</button>
+            <button class="btn-initiate" onclick="event.stopPropagation();window.location='/service'">Initiate Protocol</button>
           </div>
         </div>
       </div>
 
       <!-- Card 3 — Supply / Trending -->
-      <div class="result-card">
+      <div class="result-card" onclick="window.location='/service'">
         <div class="card-img" style="background:linear-gradient(135deg,#0d1b2a,#1b3050)">
           <div class="card-img-placeholder">⛵</div>
           <span class="card-tag tag--supply">SUPPLY NODE</span>
@@ -721,14 +721,14 @@
               <div class="cta-price-val">£2,500</div>
               <div class="cta-price-per">/ Day Deployment</div>
             </div>
-            <button class="btn-review">Review Terms</button>
-            <button class="btn-initiate">Initiate Protocol</button>
+            <button class="btn-review" onclick="event.stopPropagation();window.location='/service'">Review Terms</button>
+            <button class="btn-initiate" onclick="event.stopPropagation();window.location='/service'">Initiate Protocol</button>
           </div>
         </div>
       </div>
 
       <!-- Card 4 — Market Demand -->
-      <div class="result-card">
+      <div class="result-card" onclick="window.location='/service'">
         <div class="card-img" style="background:linear-gradient(135deg,#1a1a1a,#2d2d2d)">
           <div class="card-img-placeholder">🚙</div>
           <span class="card-tag tag--demand">MARKET DEMAND</span>
@@ -772,8 +772,8 @@
               <div class="cta-price-val">£5,000</div>
               <div class="cta-price-per">/ Transit Deployment</div>
             </div>
-            <button class="btn-review">Review Terms</button>
-            <button class="btn-initiate">Initiate Protocol</button>
+            <button class="btn-review" onclick="event.stopPropagation();window.location='/service'">Review Terms</button>
+            <button class="btn-initiate" onclick="event.stopPropagation();window.location='/service'">Initiate Protocol</button>
           </div>
         </div>
       </div>
