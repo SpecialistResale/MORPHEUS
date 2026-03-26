@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyyryn — Messages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent:  #5B3FF8;
+      --green:   #10B981;
+      --amber:   #F59E0B;
+      --orange:  #F97316;
+      --text:    #0F172A;
+      --muted:   #64748B;
+      --light:   #F1F5F9;
+      --border:  #E2E8F0;
+      --font:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius:  12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: #fff; color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ══════════ TOP NAV ══════════ */
+    .topnav {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; padding: 0 28px;
+      background: #0F172A;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topnav-logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .topnav-logo-icon {
+      width: 34px; height: 34px; background: var(--accent); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .topnav-logo-text { display: flex; flex-direction: column; gap: 1px; }
+    .topnav-logo-name { font-size: 15px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; }
+    .topnav-logo-sub  { font-size: 8px; font-weight: 500; letter-spacing: 1.5px; color: rgba(255,255,255,.35); }
+    .topnav-center {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .protocol-pill {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 100px;
+      padding: 7px 14px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; color: rgba(255,255,255,.7);
+    }
+    .protocol-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+    .topnav-right { display: flex; align-items: center; gap: 10px; }
+    .msg-icon-btn {
+      position: relative; width: 38px; height: 38px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: rgba(255,255,255,.7); transition: all .2s;
+    }
+    .msg-icon-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .msg-icon-btn:hover { background: rgba(255,255,255,.14); }
+    .msg-badge {
+      position: absolute; top: -5px; right: -5px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      font-size: 10px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #0F172A;
+    }
+    .portal-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: #1E293B; border: 1px solid rgba(255,255,255,.12);
+      border-radius: 10px; padding: 8px 18px;
+      font-family: var(--font); font-size: 13px; font-weight: 800;
+      color: #fff; cursor: pointer; transition: background .2s;
+    }
+    .portal-btn:hover { background: #2D3F58; }
+
+    /* ══════════ PAGE LAYOUT ══════════ */
+    .page { max-width: 1300px; margin: 0 auto; padding: 32px 28px; }
+
+    /* ── Page header ── */
+    .page-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .page-header-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: rgba(91,63,248,.12);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .page-title { font-size: 26px; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+    .page-sub { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+    /* ── On-platform banner ── */
+    .onplatform-banner {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 24px;
+    }
+    .onplatform-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: #DBEAFE;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .onplatform-title { font-size: 14px; font-weight: 800; color: #1D4ED8; margin-bottom: 5px; }
+    .onplatform-desc { font-size: 13px; color: #3B82F6; line-height: 1.6; }
+
+    /* ══════════ MESSAGES PANEL ══════════ */
+    .messages-panel {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 620px;
+      background: #fff;
+      box-shadow: 0 2px 24px rgba(0,0,0,.06);
+    }
+
+    /* ── Conversation list ── */
+    .conv-list {
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+    }
+    .conv-search-wrap {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .conv-search {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px;
+    }
+    .conv-search svg { color: var(--muted); flex-shrink: 0; }
+    .conv-search input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: var(--font); font-size: 13px; color: var(--text);
+    }
+    .conv-search input::placeholder { color: #94A3B8; }
+
+    .conv-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 16px;
+      cursor: pointer; transition: background .15s;
+      border-bottom: 1px solid var(--border);
+      border-left: 3px solid transparent;
+    }
+    .conv-item:hover { background: var(--light); }
+    .conv-item.active { background: #F5F3FF; border-left-color: var(--accent); }
+    .conv-item:last-child { border-bottom: none; }
+
+    .conv-avatar {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: #fff;
+      flex-shrink: 0; position: relative;
+    }
+    .conv-avatar--jd { background: linear-gradient(135deg, #F97316, #EF4444); }
+    .conv-avatar--sm { background: linear-gradient(135deg, #374151, #6B7280); }
+    .conv-avatar--cs { background: linear-gradient(135deg, #F97316, #D97706); }
+    .conv-online-dot {
+      position: absolute; bottom: -2px; right: -2px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--green); border: 2px solid #fff;
+    }
+
+    .conv-body { flex: 1; min-width: 0; }
+    .conv-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+    .conv-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .conv-pro {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 9px; font-weight: 800; letter-spacing: 0.5px;
+      background: rgba(249,115,22,.1); color: var(--orange);
+      border: 1px solid rgba(249,115,22,.2);
+      padding: 2px 6px; border-radius: 4px;
+      margin-left: 6px;
+    }
+    .conv-time { font-size: 11px; color: var(--muted); }
+    .conv-service { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 5px; }
+    .conv-preview-row { display: flex; align-items: center; justify-content: space-between; }
+    .conv-preview { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+    .conv-unread {
+      min-width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      font-size: 10px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Chat panel ── */
+    .chat-panel {
+      display: flex; flex-direction: column;
+    }
+
+    /* Chat header */
+    .chat-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+    .chat-header-left { display: flex; align-items: center; gap: 12px; }
+    .chat-avatar {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, #F97316, #EF4444);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: #fff;
+      position: relative;
+    }
+    .chat-avatar-dot {
+      position: absolute; bottom: -2px; right: -2px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--green); border: 2px solid #fff;
+    }
+    .chat-name { font-size: 15px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .chat-service-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .online-label { color: var(--green); font-weight: 600; }
+    .chat-header-right { display: flex; align-items: center; gap: 10px; }
+    .btn-view-txn {
+      background: var(--accent); color: #fff;
+      font-family: var(--font); font-size: 12px; font-weight: 700;
+      padding: 9px 18px; border-radius: 9px; border: none;
+      cursor: pointer; transition: background .2s;
+    }
+    .btn-view-txn:hover { background: #4A33D4; }
+    .btn-more {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: none; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--muted); transition: all .2s;
+    }
+    .btn-more:hover { background: var(--light); }
+
+    /* Chat body */
+    .chat-body {
+      flex: 1; padding: 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      overflow-y: auto;
+      background: #FAFAFA;
+    }
+
+    .bubble-wrap { display: flex; flex-direction: column; gap: 4px; max-width: 68%; }
+    .bubble-wrap--left { align-self: flex-start; }
+    .bubble-wrap--right { align-self: flex-end; }
+
+    .bubble {
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 14px; line-height: 1.55;
+    }
+    .bubble--left {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 16px 16px 16px 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    }
+    .bubble--right {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 16px 16px 4px 16px;
+    }
+
+    .quick-reply-label {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      color: var(--accent); margin-bottom: 5px;
+    }
+    .bubble--right .quick-reply-label { color: rgba(255,255,255,.7); }
+
+    .bubble-time {
+      font-size: 11px; color: #94A3B8;
+    }
+    .bubble-time--right { text-align: right; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .read-ticks { color: var(--accent); }
+
+    /* Chat input */
+    .chat-input-area {
+      padding: 16px 22px;
+      border-top: 1px solid var(--border);
+      background: #fff;
+    }
+    .chat-input-wrap {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 16px;
+    }
+    .chat-input-wrap input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: var(--font); font-size: 14px; color: var(--text);
+    }
+    .chat-input-wrap input::placeholder { color: #94A3B8; }
+    .btn-send {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--accent); color: #fff; border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .2s; flex-shrink: 0;
+    }
+    .btn-send:hover { background: #4A33D4; }
+    .btn-attach {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); padding: 4px; transition: color .2s;
+    }
+    .btn-attach:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- ══ TOP NAV ══ -->
+  <nav class="topnav">
+    <a href="/" class="topnav-logo">
+      <div class="topnav-logo-icon">
+        <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="white"/>
+          <path d="M10 14L12.5 16.5L18 11" stroke="#5B3FF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="topnav-logo-text">
+        <span class="topnav-logo-name">Hyyryn</span>
+        <span class="topnav-logo-sub">— THE TRUST PROTOCOL —</span>
+      </div>
+    </a>
+
+    <div class="topnav-center">
+      <div class="protocol-pill">
+        <span class="protocol-dot"></span>
+        ACTIVE PROTOCOL
+      </div>
+    </div>
+
+    <div class="topnav-right">
+      <div class="msg-icon-btn active">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="msg-badge">3</span>
+      </div>
+      <a href="/pro-dashboard" class="portal-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        PORTAL
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ PAGE ══ -->
+  <div class="page">
+
+    <!-- Page header -->
+    <div class="page-header">
+      <div class="page-header-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <h1 class="page-title">Messages</h1>
+        <div class="page-sub">
+          <svg width="13" height="13" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="var(--muted)"/></svg>
+          Secure communication with buyers and sellers
+        </div>
+      </div>
+    </div>
+
+    <!-- On-platform banner -->
+    <div class="onplatform-banner">
+      <div class="onplatform-icon">
+        <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L4 7V14C4 19.55 8.42 24.74 14 26C19.58 24.74 24 19.55 24 14V7L14 2Z" fill="#3B82F6"/>
+          <path d="M10 14L12.5 16.5L18 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="onplatform-title">Keep Communication On-Platform</div>
+        <div class="onplatform-desc">All communications should remain on Hyyryn to maintain escrow protection and transaction security. Sharing contact details or arranging off-platform payments violates our terms and removes your protection.</div>
+      </div>
+    </div>
+
+    <!-- Messages panel -->
+    <div class="messages-panel">
+
+      <!-- LEFT: Conversation list -->
+      <div class="conv-list">
+        <div class="conv-search-wrap">
+          <div class="conv-search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search conversations..." />
+          </div>
+        </div>
+
+        <!-- Conv 1 - active -->
+        <div class="conv-item active" onclick="setActive(this)">
+          <div class="conv-avatar conv-avatar--jd">
+            JD
+            <span class="conv-online-dot"></span>
+          </div>
+          <div class="conv-body">
+            <div class="conv-top">
+              <div class="conv-name">
+                James Davidson
+                <span class="conv-pro">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
+                  PRO
+                </span>
+              </div>
+              <span class="conv-time">2 min ago</span>
+            </div>
+            <div class="conv-service">Mercedes S-Class Rental</div>
+            <div class="conv-preview-row">
+              <span class="conv-preview">The car is ready for pickup tomorrow at 9 AM</span>
+              <span class="conv-unread">2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conv 2 -->
+        <div class="conv-item" onclick="setActive(this)">
+          <div class="conv-avatar conv-avatar--sm">SM</div>
+          <div class="conv-body">
+            <div class="conv-top">
+              <div class="conv-name">Sarah Mitchell</div>
+              <span class="conv-time">1 hour ago</span>
+            </div>
+            <div class="conv-service">Photography Service</div>
+            <div class="conv-preview-row">
+              <span class="conv-preview">I've uploaded the final photos to the transaction</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conv 3 -->
+        <div class="conv-item" onclick="setActive(this)">
+          <div class="conv-avatar conv-avatar--cs">CS</div>
+          <div class="conv-body">
+            <div class="conv-top">
+              <div class="conv-name">
+                Clean &amp; Shine Ltd
+                <span class="conv-pro">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
+                  PRO
+                </span>
+              </div>
+              <span class="conv-time">3 hours ago</span>
+            </div>
+            <div class="conv-service">Property Cleaning</div>
+            <div class="conv-preview-row">
+              <span class="conv-preview">Service completed! Please review the evidence.</span>
+              <span class="conv-unread">1</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Chat panel -->
+      <div class="chat-panel">
+
+        <!-- Chat header -->
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="chat-avatar">
+              JD
+              <span class="chat-avatar-dot"></span>
+            </div>
+            <div>
+              <div class="chat-name">
+                James Davidson
+                <span class="conv-pro">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>
+                  PRO
+                </span>
+              </div>
+              <div class="chat-service-status">
+                Mercedes S-Class Rental
+                <span style="color:#CBD5E1">•</span>
+                <span class="online-label">Online</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-header-right">
+            <button class="btn-view-txn">View Transaction</button>
+            <button class="btn-more">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat body -->
+        <div class="chat-body" id="chatBody">
+
+          <!-- Message from JD -->
+          <div class="bubble-wrap bubble-wrap--left">
+            <div class="bubble bubble--left">
+              Hi! Thanks for booking. The Mercedes S-Class will be ready for you tomorrow.
+            </div>
+            <div class="bubble-time">10:30 AM</div>
+          </div>
+
+          <!-- Message from me (right) -->
+          <div class="bubble-wrap bubble-wrap--right">
+            <div class="quick-reply-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Quick Reply
+            </div>
+            <div class="bubble bubble--right">
+              What are your available dates?
+            </div>
+            <div class="bubble-time bubble-time--right">
+              10:32 AM
+              <span class="read-ticks">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/><polyline points="20 6 9 17 4 12" style="transform:translateX(4px)"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Quick reply from JD -->
+          <div class="bubble-wrap bubble-wrap--left">
+            <div class="quick-reply-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Quick Reply
+            </div>
+            <div class="bubble bubble--left">
+              I'm available for those dates. Let's proceed with booking.
+            </div>
+            <div class="bubble-time">10:35 AM</div>
+          </div>
+
+          <!-- New message from JD -->
+          <div class="bubble-wrap bubble-wrap--left">
+            <div class="bubble bubble--left">
+              The car is ready for pickup tomorrow at 9 AM.
+            </div>
+            <div class="bubble-time">Just now</div>
+          </div>
+
+        </div>
+
+        <!-- Chat input -->
+        <div class="chat-input-area">
+          <div class="chat-input-wrap">
+            <button class="btn-attach">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            </button>
+            <input type="text" placeholder="Type a message..." id="msgInput" />
+            <button class="btn-send" onclick="sendMsg()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /page -->
+
+  <script>
+    function setActive(el) {
+      document.querySelectorAll('.conv-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+      // Remove unread badge on click
+      const badge = el.querySelector('.conv-unread');
+      if (badge) badge.remove();
+    }
+
+    function sendMsg() {
+      const input = document.getElementById('msgInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const chatBody = document.getElementById('chatBody');
+      const wrap = document.createElement('div');
+      wrap.className = 'bubble-wrap bubble-wrap--right';
+      wrap.innerHTML = `<div class="bubble bubble--right">${text}</div><div class="bubble-time bubble-time--right">Just now</div>`;
+      chatBody.appendChild(wrap);
+      input.value = '';
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    document.getElementById('msgInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendMsg();
+    });
+  </script>
+</body>
+</html>
