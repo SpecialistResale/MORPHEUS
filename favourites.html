@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyyryn — Discovery Saved Ledger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0D0F1A;
+      --bg-card:  #111827;
+      --accent:   #5B3FF8;
+      --green:    #10B981;
+      --amber:    #F59E0B;
+      --blue:     #3B82F6;
+      --teal:     #14B8A6;
+      --red:      #EF4444;
+      --purple:   #8B5CF6;
+      --font:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --border:   rgba(255,255,255,0.07);
+      --radius:   12px;
+      --panel-bg: #F7F8FC;
+      --panel-border: #E8EBF2;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: #fff; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Sidebar ── */
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 220px;
+      background: #0A0C17;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0;
+      flex-shrink: 0;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .sidebar-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sidebar-logo-name { font-size: 14px; font-weight: 900; letter-spacing: 1.5px; color: #fff; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 20px;
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.45);
+      cursor: pointer;
+      transition: all .2s;
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover { color: rgba(255,255,255,.8); background: rgba(255,255,255,.04); }
+    .nav-item.active { color: #fff; background: rgba(91,63,248,.1); border-left-color: var(--accent); }
+    .nav-item svg { flex-shrink: 0; opacity: .7; }
+    .nav-item.active svg { opacity: 1; }
+    .nav-section { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); padding: 16px 20px 6px; }
+    .sidebar-bottom { margin-top: auto; padding: 20px; border-top: 1px solid var(--border); }
+    .sidebar-profile { display: flex; align-items: center; gap: 10px; }
+    .sidebar-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, #14B8A6, #3B82F6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    .sidebar-name { font-size: 12px; font-weight: 700; color: #fff; }
+    .sidebar-role { font-size: 10px; color: var(--teal); font-weight: 600; }
+
+    /* ── Main ── */
+    .main { flex: 1; margin-left: 220px; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── Discovery Header ── */
+    .disc-header {
+      background: linear-gradient(135deg, #0F1530 0%, #0F172A 60%, #161E35 100%);
+      padding: 32px 40px 30px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .disc-header::before {
+      content: '';
+      position: absolute; top: -80px; right: -50px;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(91,63,248,.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .disc-header-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      position: relative; z-index: 1;
+    }
+    .disc-header-left { display: flex; align-items: center; gap: 18px; }
+    .disc-icon-box {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: rgba(239,68,68,.2);
+      border: 1px solid rgba(239,68,68,.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .disc-title { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .disc-subtitle { font-size: 14px; color: rgba(255,255,255,.4); max-width: 480px; line-height: 1.5; }
+    .disc-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-export {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.7);
+      font-family: var(--font); font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 11px 20px; border-radius: 10px;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-export:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .btn-discovery {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #0D0F1A;
+      font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 11px 22px; border-radius: 10px;
+      cursor: pointer; transition: all .2s; border: none;
+    }
+    .btn-discovery:hover { background: #E8EBF2; }
+
+    /* ── Discovery body ── */
+    .disc-body {
+      flex: 1;
+      display: flex;
+      background: #F7F8FC;
+    }
+
+    /* ── Left nav clusters ── */
+    .clusters-nav {
+      width: 260px;
+      flex-shrink: 0;
+      padding: 28px 20px;
+      border-right: 1px solid var(--panel-border);
+      background: #fff;
+    }
+    .clusters-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 2px;
+      color: #9CA3AF;
+      margin-bottom: 12px;
+    }
+    .cluster-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px; font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 4px;
+    }
+    .cluster-item:hover { background: #F1F5F9; color: #0F172A; }
+    .cluster-item.active { background: #0F172A; color: #fff; }
+    .cluster-item svg { flex-shrink: 0; }
+    .cluster-badge {
+      margin-left: auto;
+      min-width: 22px; height: 22px;
+      border-radius: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800;
+      padding: 0 6px;
+    }
+    .cluster-item.active .cluster-badge { background: rgba(255,255,255,.15); color: #fff; }
+    .cluster-item:not(.active) .cluster-badge { background: #E2E8F0; color: #475569; }
+
+    .sync-box {
+      margin-top: 28px;
+      background: #EEF2FF;
+      border: 1px solid #C7D2FE;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .sync-box-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 800; letter-spacing: 1px;
+      color: #4F46E5; margin-bottom: 8px;
+    }
+    .sync-box-desc { font-size: 11px; color: #6366F1; line-height: 1.5; font-weight: 500; }
+
+    /* ── Content panel ── */
+    .disc-panel { flex: 1; padding: 28px 32px; }
+    .panel-tab { display: none; }
+    .panel-tab.active { display: block; }
+    .panel-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; }
+    .panel-title { font-size: 22px; font-weight: 900; color: #0F172A; margin-bottom: 4px; }
+    .panel-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #10B981;
+    }
+    .search-box {
+      display: flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid var(--panel-border);
+      border-radius: 10px; padding: 10px 14px;
+      min-width: 220px;
+    }
+    .search-box input {
+      border: none; outline: none; background: transparent;
+      font-family: var(--font); font-size: 13px; color: #374151;
+      width: 100%;
+    }
+    .search-box input::placeholder { color: #9CA3AF; }
+
+    /* ── Saved service card ── */
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      display: flex;
+      transition: box-shadow .2s;
+    }
+    .service-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .service-img {
+      width: 180px; flex-shrink: 0;
+      position: relative; overflow: hidden;
+    }
+    .service-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .service-img-placeholder {
+      width: 180px; height: 160px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; color: #94A3B8;
+      position: relative;
+    }
+    .tier-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: #0F172A; color: #fff;
+      font-size: 9px; font-weight: 800; letter-spacing: 1px;
+      padding: 5px 10px; border-radius: 6px;
+    }
+    .tier-badge--inst { background: var(--amber); color: #0F172A; }
+    .service-body { flex: 1; padding: 22px 24px; display: flex; flex-direction: column; }
+    .service-body-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .service-name { font-size: 17px; font-weight: 900; color: #0F172A; margin-bottom: 4px; }
+    .service-meta { display: flex; align-items: center; gap: 16px; }
+    .service-meta-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #64748B; font-weight: 500; }
+    .service-rating { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: #0F172A; }
+    .star { color: var(--amber); }
+    .btn-delete {
+      background: none; border: none; cursor: pointer;
+      color: #CBD5E1; transition: color .2s; padding: 4px;
+    }
+    .btn-delete:hover { color: var(--red); }
+    .service-price { font-size: 22px; font-weight: 900; color: #4F46E5; margin-top: auto; padding-top: 10px; }
+    .service-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+    .service-added { font-size: 11px; color: #94A3B8; font-weight: 500; }
+    .btn-deploy {
+      background: #0F172A; color: #fff;
+      border: none; border-radius: 8px;
+      font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 11px 22px; cursor: pointer; transition: background .2s;
+    }
+    .btn-deploy:hover { background: #1E293B; }
+
+    /* ── Protocol Nodes ── */
+    .nodes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .node-card {
+      background: #fff;
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: box-shadow .2s;
+    }
+    .node-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .node-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+    .node-left { display: flex; align-items: center; gap: 14px; }
+    .node-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; color: #475569;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .node-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .node-name { font-size: 16px; font-weight: 900; color: #0F172A; margin-bottom: 5px; }
+    .node-trust {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #ECFDF5; color: #059669;
+      border: 1px solid #A7F3D0;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .bolt-icon { color: var(--amber); }
+    .node-specialties-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #94A3B8; margin-bottom: 8px; }
+    .node-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+    .node-tag {
+      background: #F1F5F9; color: #475569;
+      font-size: 11px; font-weight: 600;
+      padding: 5px 12px; border-radius: 6px;
+    }
+    .node-footer { display: flex; align-items: center; justify-content: space-between; }
+    .node-completed-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #94A3B8; margin-bottom: 3px; }
+    .node-completed-value { font-size: 16px; font-weight: 900; color: #0F172A; }
+    .btn-access {
+      background: #fff; border: 2px solid #0F172A; color: #0F172A;
+      font-family: var(--font); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 10px 20px; border-radius: 8px;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-access:hover { background: #0F172A; color: #fff; }
+
+    /* ── Strategic Segments ── */
+    .segments-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .segment-card {
+      background: #fff;
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 28px 24px 24px;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+    }
+    .segment-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); transform: translateY(-2px); }
+    .segment-icon-wrap {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: #F1F5F9;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .seg-icon--blue   { color: var(--accent); }
+    .seg-icon--green  { color: var(--teal); }
+    .seg-icon--amber  { color: var(--amber); }
+    .segment-name { font-size: 16px; font-weight: 900; color: #0F172A; margin-bottom: 6px; letter-spacing: -0.3px; }
+    .segment-count { font-size: 12px; color: #64748B; font-weight: 600; margin-bottom: 16px; }
+    .segment-added { font-size: 11px; color: #94A3B8; font-weight: 500; }
+    .segment-arrow {
+      position: absolute; bottom: 22px; right: 22px;
+      color: #CBD5E1;
+    }
+    .segment-arrow:hover { color: #475569; }
+
+    /* ── Institutional Projects ── */
+    .projects-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .projects-section-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #94A3B8; }
+    .btn-init-hub {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid #E2E8F0; color: #0F172A;
+      font-family: var(--font); font-size: 12px; font-weight: 700;
+      padding: 10px 18px; border-radius: 8px;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-init-hub:hover { background: #F8FAFC; }
+    .project-card {
+      background: #fff;
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 26px 28px;
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 24px;
+      transition: box-shadow .2s;
+    }
+    .project-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .project-icon-wrap {
+      width: 70px; height: 70px; border-radius: 18px;
+      background: #0F172A;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .project-status-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--green);
+      border: 2px solid #fff;
+      position: absolute; top: -2px; right: -2px;
+    }
+    .project-body { flex: 1; }
+    .project-name { font-size: 18px; font-weight: 900; color: #0F172A; margin-bottom: 12px; line-height: 1.2; }
+    .project-id {
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      background: #F1F5F9; color: #64748B;
+      border: 1px solid #E2E8F0;
+      padding: 3px 8px; border-radius: 4px;
+      margin-left: 10px;
+    }
+    .project-stats { display: flex; align-items: center; gap: 28px; margin-bottom: 14px; }
+    .project-stat-item { }
+    .project-stat-label { font-size: 10px; font-weight: 600; color: #94A3B8; margin-bottom: 2px; }
+    .project-stat-value { font-size: 14px; font-weight: 800; color: #0F172A; }
+    .project-stat-value--amber { color: var(--amber); }
+    .project-progress-bg { height: 6px; background: #E2E8F0; border-radius: 100px; }
+    .project-progress-fill { height: 6px; background: var(--amber); border-radius: 100px; }
+    .project-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+    .consortium-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12px; font-weight: 700; color: #475569;
+      cursor: pointer;
+    }
+    .phase-info { text-align: right; }
+    .phase-label { font-size: 10px; color: #94A3B8; font-weight: 600; margin-bottom: 3px; }
+    .phase-value { font-size: 13px; font-weight: 800; color: #4F46E5; }
+    .btn-arrow {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; cursor: pointer; border: none;
+      transition: background .2s;
+    }
+    .btn-arrow:hover { background: #4A33D4; }
+
+    /* Hamburger panel */
+    .ham-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 999;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s;
+      backdrop-filter: blur(4px);
+    }
+    .ham-overlay.open { opacity: 1; pointer-events: all; }
+    .ham-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 300px;
+      background: #0F1525;
+      border-left: 1px solid rgba(255,255,255,.08);
+      z-index: 1000;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform .28s cubic-bezier(.4,0,.2,1);
+      overflow-y: auto;
+    }
+    .ham-panel.open { transform: translateX(0); }
+    .ham-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .ham-user { display: flex; align-items: center; gap: 12px; }
+    .ham-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, #14B8A6, #3B82F6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; font-weight: 800; color: #fff;
+      flex-shrink: 0;
+    }
+    .ham-uname { font-size: 14px; font-weight: 800; color: #fff; }
+    .ham-urole { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 1px; }
+    .ham-close {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.6);
+      transition: background .2s;
+    }
+    .ham-close:hover { background: rgba(255,255,255,.1); }
+    .ham-section { padding: 14px 20px 4px; }
+    .ham-section-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.2); }
+    .ham-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 20px;
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.65);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .ham-item:hover { background: rgba(255,255,255,.04); color: #fff; }
+    .ham-item--highlight { background: rgba(91,63,248,.12); color: var(--purple); }
+    .ham-item--highlight:hover { background: rgba(91,63,248,.18); color: var(--purple); }
+    .ham-item--red { color: rgba(239,68,68,.8); }
+    .ham-item--red:hover { background: rgba(239,68,68,.08); color: var(--red); }
+    .ham-badge {
+      margin-left: auto;
+      min-width: 20px; height: 20px;
+      background: var(--accent);
+      border-radius: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800; color: #fff;
+      padding: 0 5px;
+    }
+    .ham-badge--amber { background: var(--amber); }
+    .ham-footer {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      color: rgba(255,255,255,.25);
+    }
+    .ham-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      cursor: pointer;
+      color: rgba(255,255,255,.7);
+      transition: all .2s;
+    }
+    .ham-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- HAMBURGER -->
+<div class="ham-overlay" id="hamOverlay" onclick="closeHam()"></div>
+<div class="ham-panel" id="hamPanel">
+  <div class="ham-top">
+    <div class="ham-user">
+      <div class="ham-avatar">D</div>
+      <div>
+        <div class="ham-uname">David Clarke</div>
+        <div class="ham-urole">Buyer Account</div>
+      </div>
+    </div>
+    <button class="ham-close" onclick="closeHam()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="ham-section"><div class="ham-section-label">QUICK ACTIONS</div></div>
+  <div class="ham-item ham-item--highlight">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    Find Services
+  </div>
+  <div class="ham-section"><div class="ham-section-label">NAVIGATION</div></div>
+  <a href="/" class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </a>
+  <a href="/buyer-dashboard" class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Dashboard
+  </a>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    My Agreements
+    <span class="ham-badge" style="background:#14B8A6">03</span>
+  </div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    Saved Services
+    <span class="ham-badge ham-badge--amber">12</span>
+  </div>
+  <div class="ham-section"><div class="ham-section-label">COMMUNICATION</div></div>
+  <a href="/messages" class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Messages
+    <span class="ham-badge">3</span>
+  </a>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    Notifications
+    <span class="ham-badge">2</span>
+  </div>
+  <div class="ham-section"><div class="ham-section-label">TRUST & SAFETY</div></div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Resolution Center
+  </div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    Trust Protocol
+  </div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    Trust Tier
+  </div>
+  <div class="ham-section"><div class="ham-section-label">ACCOUNT</div></div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Settings
+  </div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    Billing
+  </div>
+  <div class="ham-item" style="color:#FBBF24">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Upgrade to Pro
+  </div>
+  <div class="ham-section"><div class="ham-section-label">HELP & SUPPORT</div></div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Help Center
+  </div>
+  <div class="ham-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    Documentation
+  </div>
+  <div class="ham-item ham-item--red" style="margin-top:4px">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    Log Out
+  </div>
+  <div class="ham-footer">
+    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Protected by Hyyryn Trust Protocol
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z" fill="#fff"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <span class="sidebar-logo-name">HYYRYN</span>
+    </div>
+    <div class="nav-section">OVERVIEW</div>
+    <a href="/buyer-dashboard" class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      My Agreements
+    </a>
+    <a class="nav-item" href="/messages">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Messages
+    </a>
+    <div class="nav-section">DISCOVERY</div>
+    <a href="/favourites" class="nav-item active">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Saved Ledger
+    </a>
+    <div class="nav-section">TRUST & SAFETY</div>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Trust Protocol
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+      Resolution Centre
+    </a>
+    <div class="sidebar-bottom">
+      <div class="sidebar-profile">
+        <div class="sidebar-avatar">D</div>
+        <div>
+          <div class="sidebar-name">David Clarke</div>
+          <div class="sidebar-role">Buyer</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HEADER -->
+    <div class="disc-header">
+      <div class="disc-header-row">
+        <div class="disc-header-left">
+          <div class="disc-icon-box">
+            <svg width="28" height="28" fill="none" stroke="#FCA5A5" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div>
+            <div class="disc-title">Discovery Saved Ledger</div>
+            <div class="disc-subtitle">A high-integrity repository of vetted services, elite protocol nodes, and strategic project clusters synchronised with your institutional goals.</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="btn-export">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            EXPORT MANIFEST
+          </button>
+          <button class="btn-discovery">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            INITIATE DISCOVERY
+          </button>
+          <button class="ham-btn" onclick="openHam()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="disc-body">
+
+      <!-- LEFT: Navigation Clusters -->
+      <div class="clusters-nav">
+        <div class="clusters-label">NAVIGATION CLUSTERS</div>
+
+        <div class="cluster-item active" onclick="switchCluster(this,'saved')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          Saved Services
+          <span class="cluster-badge">3</span>
+        </div>
+        <div class="cluster-item" onclick="switchCluster(this,'nodes')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Protocol Nodes
+          <span class="cluster-badge">2</span>
+        </div>
+        <div class="cluster-item" onclick="switchCluster(this,'segments')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Strategic Segments
+          <span class="cluster-badge">3</span>
+        </div>
+        <div class="cluster-item" onclick="switchCluster(this,'projects')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Institutional Projects
+          <span class="cluster-badge">3</span>
+        </div>
+
+        <div class="sync-box">
+          <div class="sync-box-title">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            PROTOCOL SYNC
+          </div>
+          <div class="sync-box-desc">All saved assets are automatically synced with your regional node for high-frequency access.</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Content panels -->
+      <div class="disc-panel">
+
+        <!-- SAVED SERVICES -->
+        <div class="panel-tab active" id="tab-saved">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Saved Services</div>
+              <div class="panel-status">
+                <svg width="8" height="8" fill="#10B981" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                STATUS: VAULT SYNCHRONIZED
+              </div>
+            </div>
+            <div class="search-box">
+              <svg width="15" height="15" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="text" placeholder="Search internal ledger..." />
+            </div>
+          </div>
+
+          <!-- Service 1 -->
+          <div class="service-card">
+            <div class="service-img-placeholder" style="background:linear-gradient(135deg,#C7D2FE,#A5B4FC)">
+              <span>🔧</span>
+              <div class="tier-badge">HIGH TRUST TIER</div>
+            </div>
+            <div class="service-body">
+              <div class="service-body-top">
+                <div>
+                  <div class="service-name">
+                    Emergency Boiler Repair &amp; Maintenance
+                    <svg width="16" height="16" fill="none" stroke="#10B981" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-left:6px"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div class="service-meta">
+                    <span class="service-meta-item">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                      Elite Plumbing Services Ltd
+                    </span>
+                    <span class="service-meta-item">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Manchester
+                    </span>
+                    <span class="service-rating">
+                      <svg width="12" height="12" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      4.9
+                    </span>
+                  </div>
+                </div>
+                <button class="btn-delete">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+              <div class="service-price">£85/hour</div>
+              <div class="service-footer">
+                <span class="service-added">Added 2 days ago</span>
+                <button class="btn-deploy">DEPLOY SERVICE</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="service-card">
+            <div class="service-img-placeholder" style="background:linear-gradient(135deg,#A7F3D0,#6EE7B7)">
+              <span>🚿</span>
+              <div class="tier-badge tier-badge--inst">INSTITUTIONAL TIER</div>
+            </div>
+            <div class="service-body">
+              <div class="service-body-top">
+                <div>
+                  <div class="service-name">
+                    Industrial Facility Sanitization
+                    <svg width="16" height="16" fill="none" stroke="#10B981" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-left:6px"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div class="service-meta">
+                    <span class="service-meta-item">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                      Bio-Shield Solutions
+                    </span>
+                    <span class="service-meta-item">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      London Hub
+                    </span>
+                    <span class="service-rating">
+                      <svg width="12" height="12" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      4.8
+                    </span>
+                  </div>
+                </div>
+                <button class="btn-delete">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+              <div class="service-price">£2,200/project</div>
+              <div class="service-footer">
+                <span class="service-added">Added 5 days ago</span>
+                <button class="btn-deploy">DEPLOY SERVICE</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="service-card">
+            <div class="service-img-placeholder" style="background:linear-gradient(135deg,#FDE68A,#FCD34D)">
+              <span>⚡</span>
+              <div class="tier-badge">HIGH TRUST TIER</div>
+            </div>
+            <div class="service-body">
+              <div class="service-body-top">
+                <div>
+                  <div class="service-name">
+                    Full Rewiring &amp; Smart Automation
+                    <svg width="16" height="16" fill="none" stroke="#10B981" stroke-width="2.5" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-left:6px"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div class="service-meta">
+                    <span class="service-meta-item">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                      Precision Electrical Ltd
+                    </span>
+                    <span class="service-meta-item">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Birmingham
+                    </span>
+                    <span class="service-rating">
+                      <svg width="12" height="12" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      4.7
+                    </span>
+                  </div>
+                </div>
+                <button class="btn-delete">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </button>
+              </div>
+              <div class="service-price">£3,500/project</div>
+              <div class="service-footer">
+                <span class="service-added">Added 1 week ago</span>
+                <button class="btn-deploy">DEPLOY SERVICE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROTOCOL NODES -->
+        <div class="panel-tab" id="tab-nodes">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Protocol Nodes</div>
+              <div class="panel-status">
+                <svg width="8" height="8" fill="#10B981" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                STATUS: VAULT SYNCHRONIZED
+              </div>
+            </div>
+            <div class="search-box">
+              <svg width="15" height="15" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="text" placeholder="Search internal ledger..." />
+            </div>
+          </div>
+          <div class="nodes-grid">
+            <!-- Node 1 -->
+            <div class="node-card">
+              <div class="node-top">
+                <div class="node-left">
+                  <div class="node-avatar">EP</div>
+                  <div>
+                    <div class="node-name">Elite Plumbing Services Ltd</div>
+                    <div class="node-trust">TRUST SCORE: 99%</div>
+                  </div>
+                </div>
+                <span class="bolt-icon">
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </span>
+              </div>
+              <div class="node-specialties-label">NODE SPECIALTIES</div>
+              <div class="node-tags">
+                <span class="node-tag">Plumbing</span>
+                <span class="node-tag">Heating</span>
+                <span class="node-tag">Emergency Repairs</span>
+              </div>
+              <div class="node-footer">
+                <div>
+                  <div class="node-completed-label">COMPLETED ACTIONS</div>
+                  <div class="node-completed-value">456 Protocols</div>
+                </div>
+                <button class="btn-access">ACCESS NODE</button>
+              </div>
+            </div>
+            <!-- Node 2 -->
+            <div class="node-card">
+              <div class="node-top">
+                <div class="node-left">
+                  <div class="node-avatar">PE</div>
+                  <div>
+                    <div class="node-name">Precision Electrical</div>
+                    <div class="node-trust">TRUST SCORE: 97%</div>
+                  </div>
+                </div>
+                <span class="bolt-icon">
+                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </span>
+              </div>
+              <div class="node-specialties-label">NODE SPECIALTIES</div>
+              <div class="node-tags">
+                <span class="node-tag">Electrical</span>
+                <span class="node-tag">Wiring</span>
+                <span class="node-tag">Installation</span>
+              </div>
+              <div class="node-footer">
+                <div>
+                  <div class="node-completed-label">COMPLETED ACTIONS</div>
+                  <div class="node-completed-value">134 Protocols</div>
+                </div>
+                <button class="btn-access">ACCESS NODE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STRATEGIC SEGMENTS -->
+        <div class="panel-tab" id="tab-segments">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Strategic Segments</div>
+              <div class="panel-status">
+                <svg width="8" height="8" fill="#10B981" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                STATUS: VAULT SYNCHRONIZED
+              </div>
+            </div>
+            <div class="search-box">
+              <svg width="15" height="15" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="text" placeholder="Search internal ledger..." />
+            </div>
+          </div>
+          <div class="segments-grid">
+            <div class="segment-card">
+              <div class="segment-icon-wrap">
+                <svg width="28" height="28" fill="none" stroke="var(--accent)" stroke-width="2" class="seg-icon--blue" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="segment-name">Infrastructure</div>
+              <div class="segment-count">12 ASSETS AVAILABLE</div>
+              <div class="segment-added">Added 1 week ago</div>
+              <div class="segment-arrow">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </div>
+            </div>
+            <div class="segment-card">
+              <div class="segment-icon-wrap">
+                <svg width="28" height="28" fill="none" stroke="var(--teal)" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <div class="segment-name">Professional Services</div>
+              <div class="segment-count">8 ASSETS AVAILABLE</div>
+              <div class="segment-added">Added 2 weeks ago</div>
+              <div class="segment-arrow">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </div>
+            </div>
+            <div class="segment-card">
+              <div class="segment-icon-wrap">
+                <svg width="28" height="28" fill="none" stroke="var(--amber)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg>
+              </div>
+              <div class="segment-name">Logistics Hub</div>
+              <div class="segment-count">15 ASSETS AVAILABLE</div>
+              <div class="segment-added">Added 3 days ago</div>
+              <div class="segment-arrow">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INSTITUTIONAL PROJECTS -->
+        <div class="panel-tab" id="tab-projects">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Institutional Projects</div>
+              <div class="panel-status">
+                <svg width="8" height="8" fill="#10B981" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg>
+                STATUS: VAULT SYNCHRONIZED
+              </div>
+            </div>
+            <div class="search-box">
+              <svg width="15" height="15" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="text" placeholder="Search internal ledger..." />
+            </div>
+          </div>
+          <div class="projects-header-row">
+            <div class="projects-section-label">ACTIVE PROJECT CLUSTERS</div>
+            <button class="btn-init-hub">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              INITIALIZE HUB
+            </button>
+          </div>
+          <!-- Project 1 -->
+          <div class="project-card">
+            <div class="project-icon-wrap">
+              <svg width="30" height="30" fill="none" stroke="#6366F1" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              <div class="project-status-dot"></div>
+            </div>
+            <div class="project-body">
+              <div style="display:flex;align-items:center;margin-bottom:12px">
+                <div class="project-name" style="margin-bottom:0">Executive Suite Renovation</div>
+                <span class="project-id">PROJ-INF-001</span>
+              </div>
+              <div class="project-stats">
+                <div class="project-stat-item">
+                  <div class="project-stat-label">PROTOCOL HEALTH</div>
+                  <div class="project-stat-value">98%</div>
+                </div>
+                <div class="project-stat-item">
+                  <div class="project-stat-label">SECURED NODES</div>
+                  <div class="project-stat-value">4</div>
+                </div>
+                <div class="project-stat-item">
+                  <div class="project-stat-label">VETTED</div>
+                  <div class="project-stat-value project-stat-value--amber">85%</div>
+                </div>
+              </div>
+              <div style="margin-bottom:4px">
+                <div class="project-stat-label" style="margin-bottom:6px">DEPLOYMENT READINESS</div>
+                <div class="project-progress-bg"><div class="project-progress-fill" style="width:85%"></div></div>
+              </div>
+            </div>
+            <div class="project-right">
+              <div class="consortium-btn">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Consortium Share
+              </div>
+              <div class="phase-info">
+                <div class="phase-label">CURRENT FINALITY PHASE</div>
+                <div class="phase-value">Discovery Phase</div>
+              </div>
+              <button class="btn-arrow">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Project 2 -->
+          <div class="project-card">
+            <div class="project-icon-wrap" style="background:#1E293B">
+              <svg width="30" height="30" fill="none" stroke="#14B8A6" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <div class="project-status-dot"></div>
+            </div>
+            <div class="project-body">
+              <div style="display:flex;align-items:center;margin-bottom:12px">
+                <div class="project-name" style="margin-bottom:0">Q1 Facility Logistics Hub</div>
+                <span class="project-id">PROJ-SUP-042</span>
+              </div>
+              <div class="project-stats">
+                <div class="project-stat-item">
+                  <div class="project-stat-label">PROTOCOL HEALTH</div>
+                  <div class="project-stat-value">91%</div>
+                </div>
+                <div class="project-stat-item">
+                  <div class="project-stat-label">SECURED NODES</div>
+                  <div class="project-stat-value">6</div>
+                </div>
+                <div class="project-stat-item">
+                  <div class="project-stat-label">VETTED</div>
+                  <div class="project-stat-value project-stat-value--amber">72%</div>
+                </div>
+              </div>
+              <div>
+                <div class="project-stat-label" style="margin-bottom:6px">DEPLOYMENT READINESS</div>
+                <div class="project-progress-bg"><div class="project-progress-fill" style="width:72%"></div></div>
+              </div>
+            </div>
+            <div class="project-right">
+              <div class="consortium-btn">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Consortium Share
+              </div>
+              <div class="phase-info">
+                <div class="phase-label">CURRENT FINALITY PHASE</div>
+                <div class="phase-value">Vetting Phase</div>
+              </div>
+              <button class="btn-arrow" style="background:#14B8A6">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /disc-panel -->
+    </div><!-- /disc-body -->
+  </main>
+</div>
+
+<script>
+  function switchCluster(el, tab) {
+    document.querySelectorAll('.cluster-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+  function openHam() {
+    document.getElementById('hamOverlay').classList.add('open');
+    document.getElementById('hamPanel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeHam() {
+    document.getElementById('hamOverlay').classList.remove('open');
+    document.getElementById('hamPanel').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHam(); });
+</script>
+</body>
+</html>
