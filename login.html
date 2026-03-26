@@ -656,7 +656,7 @@
             <label class="field-label">EMAIL HASH</label>
             <div class="field-wrap">
               <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <input type="email" placeholder="identity@protocol.io" autocomplete="email" />
+              <input type="email" id="signinEmail" placeholder="identity@protocol.io" autocomplete="email" />
             </div>
           </div>
           <!-- Password -->
@@ -670,7 +670,8 @@
               </button>
             </div>
           </div>
-          <button class="btn-execute">EXECUTE AUTHENTICATION</button>
+          <button class="btn-execute" id="signinBtn" onclick="authenticate()" type="button">EXECUTE AUTHENTICATION</button>
+          <div id="signinError" style="display:none;margin-top:12px;text-align:center;font-size:12px;font-weight:700;color:#EF4444;letter-spacing:0.5px;"></div>
         </div>
       </div>
     </div>
@@ -863,6 +864,9 @@
       });
     }
 
+    // Track current sign-in role (default: seller as per initial active state)
+    let signinRole = 'seller';
+
     // Role toggle
     function setRole(section, role) {
       const prefix = section === 'signin' ? 'signin' : 'create';
@@ -870,6 +874,46 @@
       const other  = role === 'buyer' ? 'Seller' : 'Buyer';
       document.getElementById(prefix + suffix).className = 'role-btn role-btn--active';
       document.getElementById(prefix + other).className  = 'role-btn role-btn--inactive';
+      if (section === 'signin') signinRole = role;
+      // Clear any error when role changes
+      const err = document.getElementById('signinError');
+      if (err) { err.style.display = 'none'; err.textContent = ''; }
+    }
+
+    // Authentication — redirect based on role
+    function authenticate() {
+      const email = (document.getElementById('signinEmail').value || '').trim();
+      const pass  = (document.getElementById('signinPass').value  || '').trim();
+      const btn   = document.getElementById('signinBtn');
+      const err   = document.getElementById('signinError');
+
+      err.style.display = 'none';
+
+      if (!email) {
+        err.textContent = '⚠ EMAIL HASH REQUIRED';
+        err.style.display = 'block';
+        document.getElementById('signinEmail').focus();
+        return;
+      }
+      if (!pass) {
+        err.textContent = '⚠ ACCESS KEY REQUIRED';
+        err.style.display = 'block';
+        document.getElementById('signinPass').focus();
+        return;
+      }
+
+      // Authenticating state
+      btn.textContent = 'AUTHENTICATING...';
+      btn.style.opacity = '0.7';
+      btn.style.pointerEvents = 'none';
+
+      setTimeout(function() {
+        if (signinRole === 'buyer') {
+          window.location.href = '/buyer-dashboard';
+        } else {
+          window.location.href = '/dashboard';
+        }
+      }, 900);
     }
 
     // Password eye toggle
