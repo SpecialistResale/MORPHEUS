@@ -57,7 +57,7 @@
           <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <input type="text" placeholder="Search secured services..." id="searchInput" />
         </div>
-        <button class="btn-search" id="searchBtn">Search</button>
+        <button class="btn-search" id="searchBtn" onclick="var q=document.getElementById('searchInput').value.trim();window.location=q?'/search?q='+encodeURIComponent(q):'/search'">Search</button>
       </div>
     </div>
   </section>
@@ -75,28 +75,28 @@
         </div>
       </div>
       <div class="categories-grid">
-        <div class="cat-card fade-in">
+        <div class="cat-card fade-in" onclick="window.location='/search?cat=plumbing'" style="cursor:pointer">
           <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80&auto=format&fit=crop" alt="Plumbing" loading="lazy" />
           <div class="cat-card-overlay">
             <span class="cat-card-type">— EMERGENCY &amp; REPAIRS</span>
             <span class="cat-card-name">Plumbing</span>
           </div>
         </div>
-        <div class="cat-card fade-in">
+        <div class="cat-card fade-in" onclick="window.location='/search?cat=electrical'" style="cursor:pointer">
           <img src="https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=600&q=80&auto=format&fit=crop" alt="Electrical" loading="lazy" />
           <div class="cat-card-overlay">
             <span class="cat-card-type">— INSTALLATION &amp; MAINTENANCE</span>
             <span class="cat-card-name">Electrical</span>
           </div>
         </div>
-        <div class="cat-card fade-in">
+        <div class="cat-card fade-in" onclick="window.location='/search?cat=painting'" style="cursor:pointer">
           <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&q=80&auto=format&fit=crop" alt="Painting" loading="lazy" />
           <div class="cat-card-overlay">
             <span class="cat-card-type">— INTERIOR DESIGN</span>
             <span class="cat-card-name">Painting</span>
           </div>
         </div>
-        <div class="cat-card fade-in">
+        <div class="cat-card fade-in" onclick="window.location='/search?cat=construction'" style="cursor:pointer">
           <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80&auto=format&fit=crop" alt="Construction" loading="lazy" />
           <div class="cat-card-overlay">
             <span class="cat-card-type">— BUILDING &amp; RENOVATION</span>
