@@ -715,7 +715,7 @@
             <label class="field-label">INSTITUTIONAL NAME</label>
             <div class="field-wrap">
               <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              <input type="text" placeholder="Full legal name" autocomplete="name" />
+              <input type="text" id="createName" placeholder="Full legal name" autocomplete="name" />
             </div>
           </div>
           <!-- Email alias -->
@@ -723,7 +723,7 @@
             <label class="field-label">EMAIL ALIAS</label>
             <div class="field-wrap">
               <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <input type="email" placeholder="you@example.com" autocomplete="email" />
+              <input type="email" id="createEmail" placeholder="you@example.com" autocomplete="email" />
             </div>
           </div>
           <!-- Password -->
@@ -737,7 +737,8 @@
               </button>
             </div>
           </div>
-          <button class="btn-deploy" onclick="window.location='/dashboard'">CREATE ACCOUNT</button>
+          <div class="error-msg" id="createError" style="display:none;color:#EF4444;font-size:12px;font-weight:600;letter-spacing:0.5px;margin-bottom:12px;text-align:center;"></div>
+          <button class="btn-deploy" onclick="createAccount()">CREATE ACCOUNT</button>
         </div>
       </div>
     </div>
@@ -850,7 +851,11 @@
     </div>
   </div><!-- /admin-overlay -->
 
+  <script src="/src/js/api.js"></script>
   <script>
+    // Redirect if already logged in
+    API.redirectIfLoggedIn();
+
     // Accordion toggle — only one open at a time
     function toggleAcc(id) {
       const cards = ['accSignin', 'accCreate'];
@@ -866,6 +871,7 @@
 
     // Track current sign-in role (default: seller as per initial active state)
     let signinRole = 'seller';
+    let createRole = 'seller';
 
     // Role toggle
     function setRole(section, role) {
@@ -875,13 +881,14 @@
       document.getElementById(prefix + suffix).className = 'role-btn role-btn--active';
       document.getElementById(prefix + other).className  = 'role-btn role-btn--inactive';
       if (section === 'signin') signinRole = role;
+      if (section === 'create') createRole = role;
       // Clear any error when role changes
       const err = document.getElementById('signinError');
       if (err) { err.style.display = 'none'; err.textContent = ''; }
     }
 
-    // Authentication — redirect based on role
-    function authenticate() {
+    // Authentication — call Workers API
+    async function authenticate() {
       const email = (document.getElementById('signinEmail').value || '').trim();
       const pass  = (document.getElementById('signinPass').value  || '').trim();
       const btn   = document.getElementById('signinBtn');
@@ -890,30 +897,76 @@
       err.style.display = 'none';
 
       if (!email) {
-        err.textContent = '⚠ EMAIL HASH REQUIRED';
+        err.textContent = 'Email is required';
         err.style.display = 'block';
         document.getElementById('signinEmail').focus();
         return;
       }
       if (!pass) {
-        err.textContent = '⚠ ACCESS KEY REQUIRED';
+        err.textContent = 'Password is required';
         err.style.display = 'block';
         document.getElementById('signinPass').focus();
         return;
       }
 
       // Authenticating state
-      btn.textContent = 'AUTHENTICATING...';
+      btn.textContent = 'SIGNING IN...';
       btn.style.opacity = '0.7';
       btn.style.pointerEvents = 'none';
 
-      setTimeout(function() {
-        if (signinRole === 'buyer') {
-          window.location.href = '/buyer-dashboard';
-        } else {
-          window.location.href = '/dashboard';
+      try {
+        const data = await API.login(email, pass);
+        if (data && data.user) {
+          if (data.user.role === 'pro') {
+            window.location.href = '/dashboard';
+          } else {
+            window.location.href = '/buyer-dashboard';
+          }
         }
-      }, 900);
+      } catch (e) {
+        err.textContent = e.message || 'Invalid email or password';
+        err.style.display = 'block';
+        btn.textContent = 'SIGN IN';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      }
+    }
+
+    // Create account — call Workers API
+    async function createAccount() {
+      const nameInput = document.getElementById('createName');
+      const emailInput = document.getElementById('createEmail');
+      const passInput = document.getElementById('createPass');
+      const err = document.getElementById('createError');
+
+      const name = (nameInput?.value || '').trim();
+      const email = (emailInput?.value || '').trim();
+      const password = (passInput?.value || '').trim();
+
+      if (err) { err.style.display = 'none'; }
+
+      if (!name || !email || !password) {
+        if (err) { err.textContent = 'All fields are required'; err.style.display = 'block'; }
+        return;
+      }
+      if (password.length < 8) {
+        if (err) { err.textContent = 'Password must be at least 8 characters'; err.style.display = 'block'; }
+        return;
+      }
+
+      try {
+        const role = createRole === 'seller' ? 'pro' : 'buyer';
+        const data = await API.register({ name, email, password, role });
+        if (data && data.user) {
+          if (data.user.role === 'pro') {
+            window.location.href = '/dashboard';
+          } else {
+            window.location.href = '/buyer-dashboard';
+          }
+        }
+      } catch (e) {
+        if (err) { err.textContent = e.message || 'Registration failed'; err.style.display = 'block'; }
+      }
     }
 
     // Password eye toggle

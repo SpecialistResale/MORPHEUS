@@ -1,5 +1,12 @@
-name = "morpheus"
-compatibility_date = "2024-01-01"
+name = "hyyryn"
+compatibility_date = "2024-12-01"
 
+# Static HTML pages served from root
 [assets]
 directory = "."
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "hyyryn-db"
+database_id = "7bf0787b-58d2-423f-84a5-abf11efb27f5"
